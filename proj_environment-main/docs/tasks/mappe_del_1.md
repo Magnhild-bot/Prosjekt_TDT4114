@@ -22,7 +22,10 @@ NB! Du kan også repoet som mal for ditt prosjekt.
 
 ### Oppgave 2: Datainnsamling
 
-I prosjektet for utvikling av en miljødataanalyseapplikasjon skal dere først identifisere relevante åpne datakilder, som f.eks. API-er fra meteorologiske institutter og miljøovervåkingsorganisasjoner. Deretter skal dere implementere funksjonalitet for å hente data fra disse kildene ved hjelp av Python-moduler (som eks. requests). For å integrere dataene i applikasjonen, bruker dere teknikker som håndtering av tekstfiler, CSV-filer, JSON-data, samt fil- og katalogadministrasjon. I tillegg skal dere benytte dere av list comprehensions, iteratorer og Pandas SQL (sqldf) for å utforske og forstå dataenes struktur og innhold før de forberedes for videre analyse.
+I prosjektet for utvikling av en miljødataanalyseapplikasjon skal dere først identifisere relevante åpne datakilder, som f.eks. API-er fra meteorologiske institutter og 
+miljøovervåkingsorganisasjoner. Deretter skal dere implementere funksjonalitet for å hente data fra disse kildene ved hjelp av Python-moduler (som eks. requests). 
+For å integrere dataene i applikasjonen, bruker dere teknikker som håndtering av tekstfiler, CSV-filer, JSON-data, samt fil- og katalogadministrasjon. 
+I tillegg skal dere benytte dere av list comprehensions, iteratorer og Pandas SQL (sqldf) for å utforske og forstå dataenes struktur og innhold før de forberedes for videre analyse.
 
 *Vurderingskriterier:*
 
@@ -32,7 +35,10 @@ I prosjektet for utvikling av en miljødataanalyseapplikasjon skal dere først i
 
 ### Oppgave 3: Databehandling
 
-Her skal dere fokusere på databehandling ved å utvikle funksjoner som renser og formaterer de innsamlede dataene, med særlig vekt på håndtering av manglende verdier og uregelmessigheter ved hjelp av Pandas. I tillegg skal dere benytte teknikker som list comprehensions, iteratorer, pandas og pandas sql (sqldf) for å manipulere dataene effektivt, noe som vil bidra til å forberede dataene for videre analyse.
+Her skal dere fokusere på databehandling ved å utvikle funksjoner som renser og formaterer de innsamlede dataene, 
+med særlig vekt på håndtering av manglende verdier og uregelmessigheter ved hjelp av Pandas. 
+I tillegg skal dere benytte teknikker som list comprehensions, iteratorer, pandas og pandas sql (sqldf) for å manipulere dataene effektivt, 
+noe som vil bidra til å forberede dataene for videre analyse.
 
 *Vurderingskriterier:*
 
