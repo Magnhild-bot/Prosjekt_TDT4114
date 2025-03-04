@@ -5,6 +5,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from retry_requests import retry
 import datetime
+import os
+
+
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = -1)
@@ -55,8 +58,12 @@ print(hourly_dataframe)
 hourly_dataframe['date'] = pd.to_datetime(hourly_dataframe['date'])
 hourly_dataframe.set_index('date', inplace=True)
 
-#Lagrer dataframen som en csv fil slik at det er enklere å bruke til senere
-hourly_dataframe.to_csv("2010_2020_rainfall.csv", index=True)
+#Lagrer dataframen som en csv fil slik at det er enklere å bruke til senere:
+script_dir = os.path.dirname(os.path.abspath(__file__))#Sikrer at csv lagres i samme mappe som dette scriptet
+folder_path = os.path.join(script_dir)
+csv_path = os.path.join(folder_path, "2010_2020_rainfall.csv")
+hourly_dataframe.to_csv(csv_path, index=True)
+
 
 # Aggregate the data by day (summing hourly values).
 daily_dataframe = hourly_dataframe.resample('D').sum()
