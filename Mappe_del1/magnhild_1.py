@@ -1,6 +1,5 @@
 
 import openmeteo_requests
-
 import requests_cache
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -56,6 +55,9 @@ print(hourly_dataframe)
 hourly_dataframe['date'] = pd.to_datetime(hourly_dataframe['date'])
 hourly_dataframe.set_index('date', inplace=True)
 
+#Lagrer dataframen som en csv fil slik at det er enklere å bruke til senere
+hourly_dataframe.to_csv("2010_2020_rainfall.csv", index=True)
+
 # Aggregate the data by day (summing hourly values).
 daily_dataframe = hourly_dataframe.resample('D').sum()
 
@@ -71,4 +73,13 @@ plt.title('Daily Rain and Snowfall')
 plt.legend()
 plt.tight_layout()
 plt.show()
+
+
+#En slags dummy klasse som egt bare sier at man skal skippe close() etter at close() allerede er brukt
+class Pass_instruction:
+    def close(self):
+        pass
+
+retry_session.close()  # Lukker sessionen for å spare databruk
+openmeteo.session = Pass_instruction()  #Hindrer at koden prøver å lukke en session som allerede er lukket
 
