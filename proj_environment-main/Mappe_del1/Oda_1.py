@@ -59,7 +59,7 @@ anomalies = data[data['obs_value'] > threshold]
 print("Anomalies:\n", anomalies)
 
 
-##Se data about Germany
+##Data about Germany
 file_name = "Grennhouse_gases.csv"
 data = pd.read_csv(file_name)
 
@@ -68,7 +68,7 @@ country_data = data[data['geo'] == country_code]
 
 print(country_data)
 
-##Liechenstein - have Nan
+##Liechenstein - have Nan!
 file_name = "Grennhouse_gases.csv"
 data = pd.read_csv(file_name)
 
