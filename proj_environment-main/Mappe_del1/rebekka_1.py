@@ -1,26 +1,83 @@
+from datetime import time
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import pandas as pd
 import sys
+import time
 
 """Fra forelesning: Så langt som mulig, er det lurt å forutse hvilke
 deler av programmet som kan feile, og prøve om
 vi kan få det til å kræsje der på en planlagt måte"""
 
-#Fil path
+#File path
 file_name = '2010_2020_rainfall.csv'
 
-# Skjekker om filen finnes i os pathen
-try:
-    data = pd.read_csv(file_name)
-    check_nan=data.isnull().sum()
-    print('Number of NaN values found: \n', check_nan)
-except FileNotFoundError:
-    print(f"Error: The file '{file_name}' was not found. Please ensure it exists in the directory.")
-    sys.exit()
+def data_reader(filename):
+    _, extension = os.path.splitext(filename)
 
+    # A test to check if the file exists in the directory.
+    try:
+        start_time = time.time()
+        if extension.lower()=='.csv':
+            data = pd.read_csv(filename)
+        elif extension.lower()=='.xlsx':
+            data = pd.read_excel(filename)
+        elif extension.lower()=='.json':
+            data = pd.read_json(filename)
+        elif extension.lower()=='.html':
+            data = pd.read_html(filename)
+        else:
+            print('Filetype not valid')
+            sys.exit()
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        print(f"The dataset took: {elapsed_time:.2f} seconds to read")
+        print('--------------------------------------------------------------')
+    except FileNotFoundError:
+        print(f"Error: The file '{filename}' was not found. Please ensure it exists in the directory.")
+        sys.exit()
+
+    try:
+        print(f'Following information about the dataset {filename} was found:')
+        print('--------------------------------------------------------------')
+
+        #Checks the size of the file
+        print('Memory information:')
+        file_size = os.path.getsize(filename)
+        print(f"Filesize: {file_size*10**(-3)} kB")
+        # Skriv ut minnebruk for DataFrame (i bytes)
+        mem_usage = data.memory_usage(deep=True).sum()
+        print(f"DataFrame size: {mem_usage*10**(-3)} kB")
+
+        print('-------------------------------------------------------------')
+
+        #Skriv ut kolonnenavn (headers)
+        print("The DataFrame has the following data avaiable:")
+        print(*map(lambda col: f"{col}, with {len(data[col])} objects", data.columns), sep="\n")
+
+
+        print('-------------------------------------------------------------')
+        #Checks the dataset for nan values
+        check_nan = data.isnull().sum()
+        print('Number of NaN values found:\n', check_nan)
+
+    except AttributeError:
+        print('AttributeError: Check if the dataset is converted correctly to a DataFrame')
+        sys.exit()
+
+    return data
+
+Data=data_reader(file_name)
+
+
+
+
+
+
+"""
 #laster inn 2010 data (bruker list comperhensive her)
 data_2010_rain = data[data['date'].str.startswith('2010')]['rain'].tolist()
 data_2010_snow= data[data['date'].str.startswith('2010')]['snowfall'].tolist()
@@ -55,7 +112,7 @@ def Nedbor_data(data_nedbor):
 
 Nedbor_data(Nedbor_sortert)
 
-
+"""
 
 
 
