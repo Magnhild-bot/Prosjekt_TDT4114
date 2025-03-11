@@ -31,7 +31,29 @@ Nedbor_sortert=sorted(data_2010_nedbor)
 print(type(Nedbor_sortert))
 print(type(data_2010_rain))
 
-plt.plot(Nedbor_sortert)
+plt.plot(Nedbor_sortert, linestyle='-')
+plt.xlabel("Time (År)")
+plt.ylabel("Nedbør [mm]")
+plt.title("Totalt nedbør for Ørsta i 2010")
+plt.grid(True)
+plt.show()
+
+def Nedbor_data(data_nedbor):
+    total_nedbor=sum(data_nedbor)
+    nedbor_med_max=max(data_nedbor)
+    nedbor_mengde=[]
+    for i in data_nedbor:
+        if i!=0:
+            nedbor_mengde.append(i)
+    nedbor_prosent=len(nedbor_mengde)/len(data_nedbor)*100
+    nedbor_snitt=total_nedbor/len(data_nedbor)
+    print('Tot nebørsmengde i 2010: ', round(total_nedbor,2), 'mm')
+    print('Max nedbørmengde per time: ', nedbor_med_max, 'mm')
+    print(f'Det regnet {round(nedbor_prosent,2)}% av hele året i 2010 i Ørsta')
+    print(f'Snittet på nedbørmengde i 2010 var: {round(nedbor_snitt,2)} mm/h')
+    return
+
+Nedbor_data(Nedbor_sortert)
 
 
 
