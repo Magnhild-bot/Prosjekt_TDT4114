@@ -41,11 +41,9 @@ file_name = "Grennhouse_gases.csv"
 try:
     data = pd.read_csv(file_name)
     
-    # Convert the 'time' column to integer and 'obs_value' to float (if necessary)
     data['time'] = data['time'].astype(int)
     data['obs_value'] = data['obs_value'].astype(float)
     
-    # Basic statistics
     print(data['obs_value'].describe())
 
 except FileNotFoundError:
