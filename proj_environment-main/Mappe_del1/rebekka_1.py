@@ -27,7 +27,15 @@ data_2010_snow= data[data['date'].str.startswith('2010')]['snowfall'].tolist()
 
 #Legger sammen regn og snøfalldata for å lage en nedbørsliste
 data_2010_nedbor=list(map(lambda x, y: x+y, data_2010_rain, data_2010_snow))
-print(data_2010_nedbor)
+Nedbor_sortert=sorted(data_2010_nedbor)
+print(type(Nedbor_sortert))
+print(type(data_2010_rain))
+
+plt.plot(Nedbor_sortert)
+
+
+
+
 
 
 
