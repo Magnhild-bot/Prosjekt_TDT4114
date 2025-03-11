@@ -43,7 +43,6 @@ try:
     
     data['time'] = data['time'].astype(int)
     data['obs_value'] = data['obs_value'].astype(float)
-    
     print(data['obs_value'].describe())
 
 except FileNotFoundError:
@@ -65,7 +64,6 @@ data = pd.read_csv(file_name)
 
 country_code = "DE"  # Change this to any country's geo code
 country_data = data[data['geo'] == country_code]
-
 print(country_data)
 
 ##Liechenstein - have Nan!
