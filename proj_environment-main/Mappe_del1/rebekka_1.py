@@ -67,6 +67,7 @@ def data_reader(filename, nanlimit):
             sys.exit()
         end_time = time.time()
         elapsed_time = end_time - start_time
+        print(' ')
         print(f"The dataset took: {elapsed_time:.2f} seconds to read")
         print(' ')
 
@@ -157,7 +158,7 @@ def data_reader(filename, nanlimit):
 test=1
                            ###TEST 1 AV FUNKSJONEN HER (der download_temp_file() funksjonen brukes først)###
 
-if test==1:
+if test==1:      #(test 1 bruka litt lang tid på å kjøre pga nedlastinga av csv gjennom url)
     # URL til filen
     csv_url = "https://sdi.eea.europa.eu/webdav/datastore/public/eea_t_national-emissions-reported_p_2024_v01_r00/CSV/UNFCCC_v27.csv"
 
