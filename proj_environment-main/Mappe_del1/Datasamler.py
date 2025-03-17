@@ -7,28 +7,28 @@ from retry_requests import retry
 import datetime
 import os
 import unittest
+from pandasql import sqldf
 
-# ----------------1 READING DATASET----------------------#
+# In[----------------------------1 READING DATASET-------------------------------]
 from Datareader import data_reader, download_temp_file
 
-# URL til filen
+     ## URL TO FILE ##
 csv_url = "https://sdi.eea.europa.eu/webdav/datastore/public/eea_t_national-emissions-reported_p_2024_v01_r00/CSV/UNFCCC_v27.csv"
 
-# Last ned filen lokalt midlertidig:
+     ## DOWNLOADING TEMPORARY FILE ##
 temp_file = download_temp_file(csv_url)
 print(f"Temporary file saved as: {temp_file}")
 
-#Leser informasjon om datasettet
-Data = data_reader(temp_file,10)
+     ## READING INFORMATION ABOUT THE FILE USING THE data_reader() FUNCTION
+Data = data_reader(temp_file,20)
 
-#Sletter den midlertidige filen:
+     ## DELETING THE TEMPRORARY FILE ##
 os.remove(temp_file)
 print(f"Temporary file {temp_file} deleted.")
 
-# --------------2 DATABEHANDLING -----------------#
+# In[----------------------------2 DATAHANDLING -----------------------------]
 
-##LIST COMPREHENSIONS??
-# Filtrer data (Behold kun rader der 'Emission' > 500)**
+                ## FILTERING DATA WITH EMISSIONS ABOVE 500 Mt CO2 ##
 print('    ')
 print('Data filtering starting.........')
 print(' ')
@@ -39,7 +39,8 @@ if "emissions" in Data.columns:
 else:
     print("The cloumn 'emissions' does not exist.")
 
-#Endre kolonne "Country" til store bokstaver
+
+              ## CHANGING ALL COUNTRY NAMES TO HAVE UPPERCASE LETTERS ##
 if "Country" in Data.columns:
     Data["Country"] = [val.upper() for val in Data["Country"]]
     print(' ')
@@ -48,7 +49,7 @@ else:
     print("Column 'Country' not found in dataset.")
 
 
-#Merke land med høyere utslipp enn 1000
+            ## MARKING COUNTRIES WITH EMISSIONS ABOVE 1000 Mt CO2 ##
 print(' ')
 print('Marking countries with high emissions (>1000 CO2 eq)')
 if "emissions" in Data.columns:
@@ -58,8 +59,21 @@ else:
     print("Column 'emissions' not found in dataset.")
 print(Data)
 
+            ## FINDS THE TOTAL EMISSION FOR EACH COUNTRY USING PANDAS SQL ##
+print('')
+print('Total CO2 emission [Mt] for all countries are:')
+print('-----------------------------------------')
+pysqldf = lambda q: sqldf(q, {"Data": Data})
+query = """
+SELECT Country, SUM(emissions)*0.000001 AS total_emission
+FROM Data
+GROUP BY Country
+"""
+tot_emissions = pysqldf(query)
+print(tot_emissions)
 
-########################################################################################################
+
+# In[---------Testing if the data comes as expected-------------]
 class TestDataProcessing(unittest.TestCase):
 
     def setUp(self):

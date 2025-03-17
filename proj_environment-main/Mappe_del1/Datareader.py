@@ -109,16 +109,6 @@ def data_reader(filename, nanlimit):
         print(columns_info.to_string(index=False)) #Prints the columns_info dataframe but as a string.
         print('   ')
 
-        print(' ')
-        print('The first 10 rows of the dataset looks like:')
-        print('--------------------------------------------')
-
-        #printing the first 10 rows of the dataset storted by the order of the first column using sqldf
-        first_col = data.columns[0]
-        query_preview = f'SELECT * FROM data ORDER BY "{first_col}" LIMIT 10'
-        preview_df = sqldf(query_preview, {"data": data})
-        print(preview_df.to_string(index=False))
-        print(' ')
 
         # Iterates through elements of type float64 and converts to float 32 to save memory usage
         for col in data.columns:
