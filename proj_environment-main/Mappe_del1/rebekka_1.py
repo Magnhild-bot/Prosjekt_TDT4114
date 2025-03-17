@@ -43,15 +43,17 @@ def data_reader(filename, nanlimit):
     Funksjonen printer:
     - Minne informasjon
     - Kolonne navn
-    - Antall verdier
+    - Antall verdier hei
     - Kolonne typer
     - Nan verdier
     - Nan prosent (om antall nanverdier overskrider nanlimit)
     """
 
+    #Useing .splittext to split the filename and the fyletype. The _, part is for ignoring the filname to only read the filetype
     _, extension = os.path.splitext(filename)
 
     # A test to check if the file exists in the directory.
+    # If it exists, the data will be downloaded to a pandas dataframe.
     try:
         start_time = time.time()
         if extension.lower()=='.csv':
