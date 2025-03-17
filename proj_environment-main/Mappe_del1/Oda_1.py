@@ -103,7 +103,7 @@ def data_reader(filename, nanlimit):
         print(columns_info.to_string(index=False))
         print('   ')
 
-        # Converts objects of type float64 to float 32 to save memory usage
+        #Converts objects of type float64 to float 32 to save memory usage
         for col in data.columns:
             if data[col].dtype == np.float64:
                 data[col] = data[col].astype(np.float32)
