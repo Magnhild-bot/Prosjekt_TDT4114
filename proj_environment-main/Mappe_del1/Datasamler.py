@@ -6,87 +6,81 @@ import matplotlib.pyplot as plt
 from retry_requests import retry
 import datetime
 import os
+import unittest
+
+# ----------------1 READING DATASET----------------------#
+from Datareader import data_reader, download_temp_file
+
+# URL til filen
+csv_url = "https://sdi.eea.europa.eu/webdav/datastore/public/eea_t_national-emissions-reported_p_2024_v01_r00/CSV/UNFCCC_v27.csv"
+
+# Last ned filen lokalt midlertidig:
+temp_file = download_temp_file(csv_url)
+print(f"Temporary file saved as: {temp_file}")
+
+#Leser informasjon om datasettet
+Data = data_reader(temp_file,10)
+
+#Sletter den midlertidige filen:
+os.remove(temp_file)
+print(f"Temporary file {temp_file} deleted.")
+
+# --------------2 DATABEHANDLING -----------------#
+
+##LIST COMPREHENSIONS??
+# Filtrer data (Behold kun rader der 'Emission' > 500)**
+print('    ')
+print('Data filtering starting.........')
+print(' ')
+print('Filtering dataset with emissions above 500 CO2 eq')
+if "emissions" in Data.columns:
+    filtered_data = Data[[x > 500 for x in Data["emissions"]]]
+    print(f"The filtered dataset ,filtered_data, has {filtered_data.shape[0]} rows.")
+else:
+    print("The cloumn 'emissions' does not exist.")
+
+#Endre kolonne "Country" til store bokstaver
+if "Country" in Data.columns:
+    Data["Country"] = [val.upper() for val in Data["Country"]]
+    print(' ')
+    print("Converted 'Country' column to uppercase.")
+else:
+    print("Column 'Country' not found in dataset.")
 
 
-
-# Setup the Open-Meteo API client with cache and retry on error
-cache_session = requests_cache.CachedSession('.cache', expire_after = -1)
-retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
-openmeteo = openmeteo_requests.Client(session = retry_session)
-
-# Make sure all required weather variables are listed here
-# The order of variables in hourly or daily is important to assign them correctly below
-url = "https://archive-api.open-meteo.com/v1/archive"
-params = {
-	"latitude": 62.520032,
-	"longitude": 6.15,
-	"start_date": "2010-01-01",
-	"end_date": "2019-12-31",
-	"hourly": ["rain", "snowfall"]
-}
-responses = openmeteo.weather_api(url, params=params)
-
-# Process first location. Add a for-loop for multiple locations or weather models
-response = responses[0]
-print(f"Coordinates {response.Latitude()}°N {response.Longitude()}°E")
-print(f"Elevation {response.Elevation()} m asl")
-print(f"Timezone {response.Timezone()} {response.TimezoneAbbreviation()}")
-print(f"Timezone difference to GMT+0 {response.UtcOffsetSeconds()} s")
-
-# Process hourly data. The order of variables needs to be the same as requested.
-hourly = response.Hourly()
-hourly_rain = hourly.Variables(0).ValuesAsNumpy()
-hourly_snowfall = hourly.Variables(1).ValuesAsNumpy()
-
-hourly_data = {"date": pd.date_range(
-	start = pd.to_datetime(hourly.Time(), unit = "s", utc = True),
-	end = pd.to_datetime(hourly.TimeEnd(), unit = "s", utc = True),
-	freq = pd.Timedelta(seconds = hourly.Interval()),
-	inclusive = "left"
-)}
-
-hourly_data["rain"] = hourly_rain
-hourly_data["snowfall"] = hourly_snowfall
-
-hourly_dataframe = pd.DataFrame(data = hourly_data)
-print(hourly_dataframe)
+#Merke land med høyere utslipp enn 1000
+print(' ')
+print('Marking countries with high emissions (>1000 CO2 eq)')
+if "emissions" in Data.columns:
+    Data["High_emissions"] = ["Yes" if x > 1000 else "No" for x in Data["emissions"]]
+    print("Added the column 'High_emissions' column based on emission values.")
+else:
+    print("Column 'emissions' not found in dataset.")
+print(Data)
 
 
+########################################################################################################
+class TestDataProcessing(unittest.TestCase):
 
-# Assume hourly_dataframe is already defined from your code.
-# Convert 'date' to datetime (if not already) and set as index.
-hourly_dataframe['date'] = pd.to_datetime(hourly_dataframe['date'])
-hourly_dataframe.set_index('date', inplace=True)
+    def setUp(self):
+        """Set up a sample DataFrame to test with."""
+        self.sample_data = pd.DataFrame({
+            "Country": ["Norway", "Sweden", "Denmark"],
+            "emissions": [1200, 800, 1500],
+            "GDP": [50000, 55000, None]  # Contains NaN
+        })
 
-#Lagrer dataframen som en csv fil slik at det er enklere å bruke til senere:
-script_dir = os.path.dirname(os.path.abspath(__file__))#Sikrer at csv lagres i samme mappe som dette scriptet
-folder_path = os.path.join(script_dir)
-csv_path = os.path.join(folder_path, "2010_2020_rainfall.csv")
-hourly_dataframe.to_csv(csv_path, index=True)
+    def test_uppercase_country(self):
+        """Test if country names are converted to uppercase."""
+        self.sample_data["Country"] = [val.upper() for val in self.sample_data["Country"]]
+        expected = ["NORWAY", "SWEDEN", "DENMARK"]
+        self.assertEqual(list(self.sample_data["Country"]), expected)
 
+    def test_categorize_emission(self):
+        """Test if emissions are correctly categorized as 'Yes' or 'No'."""
+        self.sample_data["High_Emission"] = ["Yes" if x > 1000 else "No" for x in self.sample_data["emissions"]]
+        expected = ["Yes", "No", "Yes"]
+        self.assertEqual(list(self.sample_data["High_Emission"]), expected)
 
-# Aggregate the data by day (summing hourly values).
-daily_dataframe = hourly_dataframe.resample('D').sum()
-
-# Create a stacked bar chart
-plt.figure(figsize=(12, 6))
-plt.bar(daily_dataframe.index, daily_dataframe['rain'], label='Rain')
-plt.bar(daily_dataframe.index, daily_dataframe['snowfall'], 
-        bottom=daily_dataframe['rain'], label='Snowfall')
-
-plt.xlabel('Date')
-plt.ylabel('Precipitation (mm)')
-plt.title('Daily Rain and Snowfall')
-plt.legend()
-plt.tight_layout()
-plt.show()
-
-
-#En slags dummy klasse som egt bare sier at man skal skippe close() etter at close() allerede er brukt
-class Pass_instruction:
-    def close(self):
-        pass
-
-retry_session.close()  # Lukker sessionen for å spare databruk
-openmeteo.session = Pass_instruction()  #Hindrer at koden prøver å lukke en session som allerede er lukket
-
+if __name__ == "__main__":
+    unittest.main()

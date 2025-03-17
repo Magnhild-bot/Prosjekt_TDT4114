@@ -202,7 +202,7 @@ elif test==2:
     Data = data_reader(file_name, 10)
 
 else:
-    print('No test runned')
+    print(' ')
 
 
 
