@@ -35,6 +35,7 @@ def download_temp_file(url):
 
 def data_reader(filename, nanlimit):
     startTime = time.time()
+    from pandasql import sqldf
     """Leser strukturen og informasjonen til en fil.
     Filen kan være av typen csv, xlsx, json, eller html.
     Dersom filen ikke er lagret lokalt må man bruke funksjonen download_temp_file
@@ -45,15 +46,20 @@ def data_reader(filename, nanlimit):
     - Kolonne navn
     - Antall verdier
     - Kolonne typer
+    - 10 første radene av datasettet
     - Nan verdier
     - Nan prosent (om antall nanverdier overskrider nanlimit)
     """
 
+    #Useing .splittext to split the filename and the filetype.
+    # The _, part is for ignoring the filname to only read the filetype
     _, extension = os.path.splitext(filename)
 
     # A test to check if the file exists in the directory.
+    # If it exists, the data will be downloaded to a pandas dataframe.
     try:
         start_time = time.time()
+        #Reads the filetype to download correctly:
         if extension.lower()=='.csv':
             data = pd.read_csv(filename)
         elif extension.lower()=='.xlsx':
@@ -65,6 +71,7 @@ def data_reader(filename, nanlimit):
         else:
             print('Filetype not valid')
             sys.exit()
+
         end_time = time.time()
         elapsed_time = end_time - start_time
         print(' ')
@@ -89,18 +96,31 @@ def data_reader(filename, nanlimit):
         print(f"DataFrame size: {mem_usage*10**(-3)} kB")
         print('  ')
 
+        #Finding an overview over the dataset
         columns_info = pd.DataFrame({
-            "Column": data.columns,
-            "Count": [len(data[col]) for col in data.columns],
-            "Type": [", ".join(data[col].dropna().apply(lambda x: type(x).__name__).unique()) if data[col].dtype == object else str(data[col].dtype)for col in data.columns],
-            "First element": [data[col].iloc[0] for col in data.columns]
+            "Column": data.columns, #reading the column names
+            "Count": [len(data[col]) for col in data.columns], #how many elements does each column contain
+            "Type": [", ".join(data[col].dropna().apply(lambda x: type(x).__name__).unique()) if data[col].dtype == object #Using list comperhension to go through each element in each column (except nan elements) and find the UNIQUE datatypes if dtype is object (just to specify which kind of object.
+                     else str(data[col].dtype)for col in data.columns], #if not dtype is object, just read the dtype.
+            "First element": [data[col].iloc[0] for col in data.columns] #Reads the first element of each object
         })
         print("Available data of the DataFrame:")
         print("-" * 40)
-        print(columns_info.to_string(index=False))
+        print(columns_info.to_string(index=False)) #Prints the columns_info dataframe but as a string.
         print('   ')
 
-        # Converts objects of type float64 to float 32 to save memory usage
+        print(' ')
+        print('The first 10 rows of the dataset looks like:')
+        print('--------------------------------------------')
+
+        #printing the first 10 rows of the dataset storted by the order of the first column using sqldf
+        first_col = data.columns[0]
+        query_preview = f'SELECT * FROM data ORDER BY "{first_col}" LIMIT 10'
+        preview_df = sqldf(query_preview, {"data": data})
+        print(preview_df.to_string(index=False))
+        print(' ')
+
+        # Iterates through elements of type float64 and converts to float 32 to save memory usage
         for col in data.columns:
             if data[col].dtype == np.float64:
                 data[col] = data[col].astype(np.float32)
@@ -120,12 +140,10 @@ def data_reader(filename, nanlimit):
                     data[col] = converted
                     print(f"Column '{col}' successfully converted to {data[col].dtype}")
 
-                except Exception as e:
-                    #if it doesnt work, convert all elements to strings
+                except Exception as e: #if it doesnt work, convert all elements to strings
                     print('  ')
                     print(f"Could not convert '{col}' elements to numeric : {e}")
-                    # Dersom konvertering til numerisk ikke fungerer, konverter alle verdier til string
-                    data[col] = data[col].astype(str)
+                    data[col] = data[col].astype(str) #If error e occurs, try to rather convert all elements to dtype string
                     print(f"All elements in '{col}' converted to string")
                     print('   ')
 
@@ -155,7 +173,7 @@ def data_reader(filename, nanlimit):
     return data
 
 
-test=1
+test=0
                            ###TEST 1 AV FUNKSJONEN HER (der download_temp_file() funksjonen brukes først)###
 
 if test==1:      #(test 1 bruka litt lang tid på å kjøre pga nedlastinga av csv gjennom url)
@@ -174,7 +192,7 @@ if test==1:      #(test 1 bruka litt lang tid på å kjøre pga nedlastinga av c
     print(f"Temporary file {temp_file} deleted.")
 
 
-                            ### TEST 2 AV FUNKSJONEN HER (MED ALLEREDE NEDLASTET CSV FIL)
+    ### TEST 2 AV FUNKSJONEN HER (MED ALLEREDE NEDLASTET CSV FIL)
 elif test==2:
 
     #File path
@@ -184,7 +202,7 @@ elif test==2:
     Data = data_reader(file_name, 10)
 
 else:
-    print('Test doesnt exist')
+    print('No test runned')
 
 
 
