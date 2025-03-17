@@ -173,7 +173,7 @@ def data_reader(filename, nanlimit):
     return data
 
 
-test=2
+test=0
                            ###TEST 1 AV FUNKSJONEN HER (der download_temp_file() funksjonen brukes først)###
 
 if test==1:      #(test 1 bruka litt lang tid på å kjøre pga nedlastinga av csv gjennom url)
@@ -202,7 +202,7 @@ elif test==2:
     Data = data_reader(file_name, 10)
 
 else:
-    print('Test doesnt exist')
+    print('No test runned')
 
 
 
