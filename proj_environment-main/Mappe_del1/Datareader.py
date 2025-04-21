@@ -1,15 +1,13 @@
 from datetime import time
-
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import os
 import pandas as pd
 import sys
 import time
 import requests
 import tempfile
-import shutil
+
 
 
 def download_temp_file(url):
