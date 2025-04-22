@@ -5,30 +5,7 @@ import os
 import pandas as pd
 import sys
 import time
-import requests
-import tempfile
 
-
-
-def download_temp_file(url):
-    """
-    Laster ned en fil fra URL og lagrer den midlertidig.
-    Returnerer banen til den midlertidige filen.
-    """
-    startTime = time.time()
-    tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(url)[1])
-    try:
-        with requests.get(url, stream=True) as r:
-            r.raise_for_status()
-            # Skriv data i biter for å håndtere store filer
-            for chunk in r.iter_content(chunk_size=8192):
-                tmp_file.write(chunk)
-    finally:
-        tmp_file.close()
-    endTime = time.time()
-    tot_time = endTime - startTime
-    print('The download_temp_file code took ', tot_time, ' seconds to run')
-    return tmp_file.name
 
 
 def data_reader(filename, nanlimit):
