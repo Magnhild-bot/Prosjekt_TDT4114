@@ -6,6 +6,7 @@ import zipfile
 import io
 import pandas as pd
 from collections import defaultdict
+from datetime import datetime
 
 
 def download_temp_file(url):
@@ -29,11 +30,15 @@ def download_temp_file(url):
     return tmp_file.name
 
 
+
+
+
 def EU_AirPollutantsData(
-    startdate: str,
-    enddate:   str,
-    pollutants: list[str]
+        startdate: str,
+        enddate: str,
+        pollutants: list[str]
 ) -> dict[str, pd.DataFrame]:
+
     """
     Henter EEA‑luftkvalitetsdata for angitte *pollutant‑navn* og returnerer
     et dict der nøkkelen er "<Stasjon>_<Pollutant>" og verdien er DataFrame‑en.
@@ -51,49 +56,71 @@ def EU_AirPollutantsData(
 
     # API request filteret. Bygd opp slik som nettsiden forklarte (skriv en bedre kommentar her, kanskje vi bør legge inn kilde)
     body = {
-        "countries":      ["NO"],
-        "cities":         ["Oslo"],
-        "pollutants":     pollutants,
-        "dataset":        1,
-        "dateTimeStart":  startdate,
-        "dateTimeEnd":    enddate,
-        "aggregationType":"hour",
+        "countries": ["NO"],
+        "cities": ["Oslo"],
+        "pollutants": pollutants,
+        "dataset": 1,
+        "dateTimeStart": startdate,
+        "dateTimeEnd": enddate,
+        "aggregationType": "hour",
     }
 
-    r = requests.post(
-        "https://eeadmz1-downloads-api-appservice.azurewebsites.net/ParquetFile",
-        json=body,
-        timeout=300
-    )
-    r.raise_for_status()
+    print('  ')
+    print('Laster ned data med API request....')
+    print(' ')
 
-    # --- Les ZIP‑en direkte i minnet og bygg et dict med nøkler basert på type pollutant og stasjonsnavn ---
-    dfs: dict[str, pd.DataFrame] = {}
+    # ----------------- Splitt historikk (E1a) og UTD (E2a) -----------------#
+    fmt = "%Y-%m-%dT%H:%M:%SZ"
+    start_d = datetime.strptime(startdate, fmt)
+    end_d = datetime.strptime(enddate, fmt)
+    date_stop = datetime(2023, 1, 1)
 
-    with zipfile.ZipFile(io.BytesIO(r.content)) as z:
-        for name in z.namelist():          # ett parquet‑fil per stasjon - pollutant
-            with z.open(name) as fp:
-                df = pd.read_parquet(fp)
+    all_dfs: dict[str, pd.DataFrame] = {}
+
+    # To runder: først dataset=2 (verifiserte 2013-2022), deretter dataset=1 (UTD 2023→)
+    for dataset, seg_start, seg_end in [
+        (2, start_d, min(end_d, datetime(2022, 12, 31, 23, 59, 59))),
+        (1, max(start_d, date_stop), end_d)
+    ]:
+        if seg_start > seg_end:
+            continue
+
+        # Oppdater body for riktig dataset og tidsrom
+        body["dataset"] = dataset
+        body["dateTimeStart"] = seg_start.strftime(fmt)
+        body["dateTimeEnd"] = seg_end.strftime(fmt)
+        print(f"Laster ned dataset {dataset} fra {body['dateTimeStart']} til {body['dateTimeEnd']}")
+
+        r = requests.post(
+            "https://eeadmz1-downloads-api-appservice.azurewebsites.net/ParquetFile",
+            json=body,
+            timeout=300
+        )
+        r.raise_for_status()
+
+        with zipfile.ZipFile(io.BytesIO(r.content)) as z:
+            for name in z.namelist():
+                with z.open(name) as fp:
+                    df = pd.read_parquet(fp)
+
+                # Finner stasjonsnavn og type pollutant fra filnavnet
+                parts = name.split('_')
+                station       = parts[1] if len(parts) > 1 else "UnknownStation"
+                pollutant_code = parts[2] if len(parts) > 2 else "unknown"
+                pollutant     = (
+                    CODE_TO_NAME.get(pollutant_code, pollutant_code)
+                    if pollutant_code.isdigit() else pollutant_code
+                )
+                key = f"{station}_{pollutant}"
+
+                # Hvis nøkkel finnes fra før --> legg til ny data bak eksisterende
+                if key in all_dfs:
+                    all_dfs[key] = pd.concat([all_dfs[key], df], ignore_index=True)
+                else:
+                    all_dfs[key] = df
 
 
-            #Finner stasjonsnavn og type pollutant fra dataen som ble lastet ned
-            parts = name.split('_')
-            station     = parts[1] if len(parts) > 1 else "UnknownStation" 
-            pollutant_type = parts[2] if len(parts) > 2 else "unknown"
-
-           #Hvis pullutant type er beskrevet med tall, erstatt tallet med riktig navn:
-            pollutant = (
-                CODE_TO_NAME.get(pollutant_type, pollutant_type)
-                if pollutant_type.isdigit() else pollutant_type
-            )
-
-            key = f"{station}_{pollutant}"
-
-            df.attrs.update(station=station, pollutant=pollutant)
-
-            dfs[key] = df
-
-    return dfs
+    return all_dfs
 
 
 def write_to_excel_by_pollutant(AirData, out_dir="airdata_excel"):
