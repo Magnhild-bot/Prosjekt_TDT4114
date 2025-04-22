@@ -2,13 +2,11 @@ import pandas as pd
 import os
 import sys
 import numpy as np
-import matplotlib.pyplot as plt
 import pickle
+from Functions_FetchData import data_reader
 
 script_dir= os.path.dirname(os.path.abspath(__file__)) #dir til dette scriptet
 project_dir=os.path.dirname(script_dir)#dir til hele prosjektmappen
-sys.path.insert(0, project_dir)
-from Mappe_del1.Datareader import data_reader
 data_dir=os.path.join(script_dir,'airdata_excel')
 
 
