@@ -16,6 +16,7 @@ def data_reader(filename, nanlimit):
     før denne funksjonen kan brukes. Bruk isåfall da tmp_file som filename for denne funksjonen.
     
     Funksjonen printer:
+    - Antall ark dersom excel fil
     - Minne informasjon
     - Kolonne navn
     - Antall verdier
@@ -25,18 +26,28 @@ def data_reader(filename, nanlimit):
     - Nan prosent (om antall nanverdier overskrider nanlimit)
     """
 
-    #Useing .splittext to split the filename and the filetype.
-    # The _, part is for ignoring the filname to only read the filetype
-    _, extension = os.path.splitext(filename)
+    filename_only = os.path.basename(filename)
 
-    # A test to check if the file exists in the directory.
-    # If it exists, the data will be downloaded to a pandas dataframe.
+    print(' ')
+    print(f'Following information about the dataset {filename_only} was found:')
+    print('--------------------------------------------------------------------------')
+
+
+
+    _, extension = os.path.splitext(filename) #Splits filename and filetype to read in the data correctly
+
+    # A test to check if the file exists in the directory. If it exists, the data will be downloaded to a pandas dataframe.
     try:
         start_time = time.time()
-        #Reads the filetype to download correctly:
         if extension.lower()=='.csv':
             data = pd.read_csv(filename)
         elif extension.lower()=='.xlsx':
+            xls = pd.ExcelFile(filename)
+            ark_liste = xls.sheet_names  # Leser hvilke ark excel filen innholder
+            print(f'The xlsx file contains {len(ark_liste)} sheets')
+            print(f'The sheetnames are {ark_liste}')
+            print(' ')
+            print('Reading the first sheet...... ')
             data = pd.read_excel(filename)
         elif extension.lower()=='.json':
             data = pd.read_json(filename)
@@ -56,16 +67,16 @@ def data_reader(filename, nanlimit):
         print(f"Error: The file '{filename}' was not found. Please ensure it exists in the directory.")
         sys.exit()
 
+
     #Reading the datastructure:
     try:
-        print(f'Following information about the dataset {filename} was found:')
-        print('--------------------------------------------------------------------------')
-
         #Checks the size of the file in kB
         print('Memory information:')
         print('-------------------')
+
         file_size = os.path.getsize(filename)
         print(f"Filesize: {file_size*10**(-3)} kB")
+
         mem_usage = data.memory_usage(deep=True).sum()
         print(f"DataFrame size: {mem_usage*10**(-3)} kB")
         print('  ')
@@ -125,6 +136,22 @@ def data_reader(filename, nanlimit):
             print(round(nan_prosent[nan_prosent > nanlimit],2))
             print('WARNING! Please check the quality of your datasource')
 
+
+        #Checks the dataset for any negative values
+
+        negative_values: dict[str, int] = {}
+        for col in data.columns:
+            if pd.api.types.is_float_dtype(data[col]):
+                count = 0
+                for val in data[col]:
+                    if val < 0:
+                        count += 1
+                if count > 0:
+                    negative_values[col] = count
+        print('-----------------------------------------')
+        print('Negative values was found in the columns:')
+        print(negative_values)
+        print('Check if the values of your data is allowed to be negative')
 
     except Exception as e:
         raise Exception(f"An error occurred while processing the data: {e}")
