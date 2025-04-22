@@ -9,17 +9,6 @@ sys.path.insert(0, project_dir)
 
 from Mappe_del1.Datareader import data_reader
 
-
-"""
-           ## URL TO FILE ##
-csv_url = "https://sdi.eea.europa.eu/webdav/datastore/public/eea_t_national-emissions-reported_p_2024_v01_r00/CSV/UNFCCC_v27.csv"
-
-     ## DOWNLOADING TEMPORARY FILE ##
-temp_file = download_temp_file(csv_url)
-print(f"Temporary file saved as: {temp_file}")
-"""
-
-
 AirData = FF.EU_AirPollutantsData(
     startdate="2020-01-01T00:00:00Z",
     enddate  ="2024-12-31T00:00:00Z",
@@ -27,8 +16,9 @@ AirData = FF.EU_AirPollutantsData(
 )
 
 FF.write_to_excel_by_pollutant(AirData, out_dir="airdata_excel")
-file=os.path.join(airdata_dir,'NO2.xlsx')
-data_reader(file,20)
+
+
+
 
 
 
