@@ -1,30 +1,15 @@
 
-import openmeteo_requests
-import requests_cache
 import pandas as pd
-import matplotlib.pyplot as plt
-from retry_requests import retry
-import datetime
 import os
 import unittest
-from pandasql import sqldf
 
-# In[----------------------------1 READING DATASET-------------------------------]
-from Datareader import data_reader, download_temp_file
+"""DENNE KODEN ER IKKE HELT FERDIG! Skal bytte ut dataen fra csv_url en med dataen i pickle filen i data mappen.
+Koden her skal tilpasses deretter og scriptet skal flyttes til data mappen. Testene skal flyttes til en egen testmappe som ikke
+er opprettet enda."""
 
-     ## URL TO FILE ##
+
 csv_url = "https://sdi.eea.europa.eu/webdav/datastore/public/eea_t_national-emissions-reported_p_2024_v01_r00/CSV/UNFCCC_v27.csv"
-
-     ## DOWNLOADING TEMPORARY FILE ##
-temp_file = download_temp_file(csv_url)
-print(f"Temporary file saved as: {temp_file}")
-
-     ## READING INFORMATION ABOUT THE FILE USING THE data_reader() FUNCTION
-Data = data_reader(temp_file,20)
-
-     ## DELETING THE TEMPRORARY FILE ##
-os.remove(temp_file)
-print(f"Temporary file {temp_file} deleted.")
+Data = pd.read_csv(csv_url) #fra test_filbehandling
 
 # In[----------------------------2 DATAHANDLING -----------------------------]
 
