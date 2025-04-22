@@ -10,7 +10,6 @@ import time
 
 def data_reader(filename, nanlimit):
     startTime = time.time()
-    from pandasql import sqldf
     """Leser strukturen og informasjonen til en fil.
     Filen kan være av typen csv, xlsx, json, eller html.
     Dersom filen ikke er lagret lokalt må man bruke funksjonen download_temp_file
@@ -138,36 +137,7 @@ def data_reader(filename, nanlimit):
     return data
 
 
-test=0
-                           ###TEST 1 AV FUNKSJONEN HER (der download_temp_file() funksjonen brukes først)###
 
-if test==1:      #(test 1 bruka litt lang tid på å kjøre pga nedlastinga av csv gjennom url)
-    # URL til filen
-    csv_url = "https://sdi.eea.europa.eu/webdav/datastore/public/eea_t_national-emissions-reported_p_2024_v01_r00/CSV/UNFCCC_v27.csv"
-
-    # Last ned filen lokalt midlertidig:
-    temp_file = download_temp_file(csv_url)
-    print(f"Temporary file saved as: {temp_file}")
-
-    #Leser informasjon om datasettet
-    Data = data_reader(temp_file,10)
-
-    #Sletter den midlertidige filen:
-    os.remove(temp_file)
-    print(f"Temporary file {temp_file} deleted.")
-
-
-    ### TEST 2 AV FUNKSJONEN HER (MED ALLEREDE NEDLASTET CSV FIL)
-elif test==2:
-
-    #File path
-    file_name = '2010_2020_rainfall.csv'
-
-    # Leser informasjon om datasettet
-    Data = data_reader(file_name, 10)
-
-else:
-    print(' ')
 
 
 
