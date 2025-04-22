@@ -5,6 +5,8 @@ import os
 import zipfile
 import io
 import pandas as pd
+from collections import defaultdict
+
 
 def download_temp_file(url):
     """
@@ -37,13 +39,12 @@ def EU_AirPollutantsData(
     et dict der nøkkelen er "<Stasjon>_<Pollutant>" og verdien er DataFrame‑en.
     """
 
-    # Oppslagstabell:      kode: luftforurensnings‑navn
-    # -----------------------------------------------------------
+    # Oppslagstabell for tallkodekode--> airpollutant type.
     CODE_TO_NAME = {
         "5": "PM10",
         "8": "PM2.5",
         "6001": "NO2",
-        "14": "O3",
+        "10": "O3",
         "1": "SO2",
         "7": "CO",
     }
@@ -51,7 +52,7 @@ def EU_AirPollutantsData(
     # API request filteret. Bygd opp slik som nettsiden forklarte (skriv en bedre kommentar her, kanskje vi bør legge inn kilde)
     body = {
         "countries":      ["NO"],
-        "cities":         ["Trondheim"],
+        "cities":         ["Oslo"],
         "pollutants":     pollutants,
         "dataset":        1,
         "dateTimeStart":  startdate,
@@ -74,14 +75,16 @@ def EU_AirPollutantsData(
             with z.open(name) as fp:
                 df = pd.read_parquet(fp)
 
-            parts = name.split('_')
-            station     = parts[1] if len(parts) > 1 else "UnknownStation"
-            code_or_txt = parts[2] if len(parts) > 2 else "unknown"
 
-            # Hvis tredje felt er numerisk → slå opp i CODE_TO_NAME, ellers bruk som er
+            #Finner stasjonsnavn og type pollutant fra dataen som ble lastet ned
+            parts = name.split('_')
+            station     = parts[1] if len(parts) > 1 else "UnknownStation" 
+            pollutant_type = parts[2] if len(parts) > 2 else "unknown"
+
+           #Hvis pullutant type er beskrevet med tall, erstatt tallet med riktig navn:
             pollutant = (
-                CODE_TO_NAME.get(code_or_txt, code_or_txt)
-                if code_or_txt.isdigit() else code_or_txt
+                CODE_TO_NAME.get(pollutant_type, pollutant_type)
+                if pollutant_type.isdigit() else pollutant_type
             )
 
             key = f"{station}_{pollutant}"
@@ -91,6 +94,43 @@ def EU_AirPollutantsData(
             dfs[key] = df
 
     return dfs
+
+
+def write_to_excel_by_pollutant(AirData, out_dir="airdata_excel"):
+    """
+    Skriver Dataframsene i dictionarien til ark i ulike excelfiler basert på type pollutant 
+    """
+
+    os.makedirs(out_dir, exist_ok=True) #Lager en mappe med pathen C:.......\proj_environment-main\data\airdata_excel
+
+    #-----------Oppretter en excel fil for hver pollutant--------------#
+    print('Oppretter excel filer for alle air pollutants')
+    print('----------------------------------------------')
+    print('  ')
+    grouped = defaultdict(dict) #Lager en tom dict, som skal fylles.
+    for key, df in AirData.items():
+        try:
+            station, pollutant = key.split("_") #Henter ut Air pollutant type og stasjonsnavn.
+
+        except ValueError:
+            print(ValueError)
+            continue
+        grouped[pollutant][station] = df
+
+    print('Skriver inn Dataframes i ark i excelfilene')
+    print('------------------------------------------')
+    print(' ')
+    #------------Skriver Dataframene til ulike ark i excelfilene---------#
+    for pollutant, station_nr in grouped.items():
+
+        file_path = os.path.join(out_dir, f"{pollutant}.xlsx")
+
+        with pd.ExcelWriter(file_path, engine="xlsxwriter") as writer:
+            for station, df in station_nr.items():
+                sheet_name = station
+                df.to_excel(writer, sheet_name=sheet_name, index=False)
+
+        print(f"Lagret {file_path}")
 
 
 
