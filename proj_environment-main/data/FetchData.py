@@ -7,7 +7,7 @@ project_dir=os.path.dirname(script_dir)#dir til hele prosjektmappen
 airdata_dir=os.path.join(script_dir,'airdata_excel') #dir til excelarkene
 sys.path.insert(0, project_dir)
 
-from Mappe_del1.Datareader import data_reader
+
 
 AirData = FF.EU_AirPollutantsData(
     startdate="2020-01-01T00:00:00Z",
