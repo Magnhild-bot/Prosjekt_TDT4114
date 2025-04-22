@@ -8,3 +8,5 @@ openmeteo_requests
 requests_cache
 pandasql
 pyarrow
+xlsxwriter
+openpyxl
