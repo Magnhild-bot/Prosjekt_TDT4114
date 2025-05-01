@@ -4,9 +4,6 @@ import matplotlib.pyplot as plt
 #from retry_requests import retry
 
 
-csv_url = "https://sdi.eea.europa.eu/webdav/datastore/public/eea_t_national-emissions-reported_p_2024_v01_r00/CSV/UNFCCC_v27.csv"
-
-data = pd.read_csv(csv_url) #fra test_filbehandling
 
 #1) Statistikk
 
