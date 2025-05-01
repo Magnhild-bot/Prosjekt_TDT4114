@@ -32,9 +32,6 @@ def download_temp_file(url):
     return tmp_file.name
 
 
-
-
-
 def EU_AirPollutantsData(
         startdate: str,
         enddate: str,

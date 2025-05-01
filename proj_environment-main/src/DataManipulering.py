@@ -1,13 +1,12 @@
 import pandas as pd
 import os
-import sys
 import numpy as np
 import pickle
 from Functions_FetchData import data_reader
 
 script_dir= os.path.dirname(os.path.abspath(__file__)) #dir til dette scriptet
 project_dir=os.path.dirname(script_dir)#dir til hele prosjektmappen
-data_dir=os.path.join(script_dir,'airdata_excel')
+data_dir=os.path.join(project_dir,'data')
 
 
 #Cheks what information the file contains by using the data_reader function
@@ -102,7 +101,7 @@ for key,datadict in Pullutant_dict.items():
 
 print(f'Storing the data of {mean_results.keys()} in pickle file mean_air_pollutants.pkl')
 #Storing da manipulated data as a pickle for later use
-out_path   = os.path.join(script_dir, "mean_air_pollutants.pkl")
+out_path   = os.path.join(data_dir, "mean_air_pollutants.pkl")
 with open(out_path, "wb") as f:
     pickle.dump(mean_results, f)
 
