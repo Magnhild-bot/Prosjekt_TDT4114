@@ -8,42 +8,37 @@ script_dir= os.path.dirname(os.path.abspath(__file__)) #dir til dette scriptet
 project_dir=os.path.dirname(script_dir)#dir til hele prosjektmappen
 data_dir=os.path.join(project_dir,'data')
 
-
-#Cheks what information the file contains by using the data_reader function
-file=(os.path.join(data_dir, 'PM10.xlsx'))
-data_reader(file,20)
-
-
 #Downloading columns of interest from the dataset
 print('     ')
 print('-------------------------------------')
 print('Reading air pollutant data...........')
-CO_data = pd.read_excel((os.path.join(data_dir, 'CO.xlsx')),sheet_name=None,usecols=['Value', 'Start', 'End','Pollutant'])
+#CO_data = pd.read_excel((os.path.join(data_dir, 'CO.xlsx')),sheet_name=None,usecols=['Value', 'Start', 'End','Pollutant'])
 NO2_data = pd.read_excel((os.path.join(data_dir, 'NO2.xlsx')),sheet_name=None,usecols=['Value', 'Start', 'End','Pollutant'])
 O3_data= pd.read_excel((os.path.join(data_dir, 'O3.xlsx')),sheet_name=None,usecols=['Value', 'Start', 'End','Pollutant'])
 PM25_data= pd.read_excel((os.path.join(data_dir, 'PM2.5.xlsx')),sheet_name=None,usecols=['Value', 'Start', 'End','Pollutant'])
 PM10_data=pd.read_excel((os.path.join(data_dir, 'PM10.xlsx')),sheet_name=None,usecols=['Value', 'Start','Pollutant'])
-SO2_data=pd.read_excel((os.path.join(data_dir, 'SO2.xlsx')),sheet_name=None,usecols=['Value', 'Start', 'End','Pollutant'])
+#SO2_data=pd.read_excel((os.path.join(data_dir, 'SO2.xlsx')),sheet_name=None,usecols=['Value', 'Start', 'End','Pollutant'])
 
 Pullutant_dict= {
-    "CO":   CO_data,
+    #"CO":   CO_data,
     "NO2":  NO2_data,
     "O3":   O3_data,
     "PM2.5":PM25_data,
-    "PM10": PM10_data,
-    "SO2":  SO2_data,
+    "PM10": PM10_data
+    #"SO2":  SO2_data,
 }
 
 # In[] Replacing negative numbers with NaN
 
 def negative_to_nan(dict_file):
     print(' ')
-    print('Replacing negative values with Nan')
+    print('Replacing negative values and outliers with Nan')
 
     """Itererer gjennom Value kolonnene i alle arkene i excel fila.
         Bytter ut negative verdier med NaN verdier."""
     for sheet,df in dict_file.items():
         df.loc[df["Value"] < 0, "Value"] = np.nan
+        df.loc[df['Value'] > 748, 'Value']=np.nan #Høyeste O3 verdi på air quality skalaen
 
 
 # In[] Making a standarised time interval column
@@ -59,16 +54,15 @@ def lenght_test(dict_file):
     print('---------------------')
     for sheet, size in Size.items():
         print(f' {sheet}: {size}')
-        if size[0] < 35060: #Expected size is 35063
+        if size[0] < 78000: #Expected size is 78887
             print(f'Unvalid data size found. Removing {sheet} from dict file. ')
             dict_file.pop(sheet) #Removing sheet from dict
-
-
 
 
 def mean_value_pollutant(dict_file):
     print(' ')
     print('Finding the mean pollutants measure of Oslo')
+    print('Nan values replaced with interpolated value')
 
     pollutant_data = [df['Value'] for df in dict_file.values()] #Fetching the pollutant measure from all stations
     pollutant_concat = pd.concat(pollutant_data, axis=1)
@@ -82,6 +76,8 @@ def mean_value_pollutant(dict_file):
         'Time Interval': time_intervals,
         'Value': mean_pollutant.values
     })
+
+    result['Value'] = result['Value'].interpolate() #Linær interpolerer nan verdier
 
     return result
 
