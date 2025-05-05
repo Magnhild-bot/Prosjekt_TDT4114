@@ -42,7 +42,7 @@ def EU_AirPollutantsData(
     Henter EEA‑luftkvalitetsdata for angitte *pollutant‑navn* og returnerer
     et dict der nøkkelen er "<Stasjon>_<Pollutant>" og verdien er DataFrame‑en.
     """
-
+    print('Du bruker den nye koden')
     # Oppslagstabell for tallkodekode--> airpollutant type.
     CODE_TO_NAME = {
         "5": "PM10",
@@ -72,13 +72,13 @@ def EU_AirPollutantsData(
     fmt = "%Y-%m-%dT%H:%M:%SZ"
     start_d = datetime.strptime(startdate, fmt)
     end_d = datetime.strptime(enddate, fmt)
-    date_stop = datetime(2023, 1, 1)
+    date_stop = datetime(2024, 1, 1)
 
     all_dfs: dict[str, pd.DataFrame] = {}
 
     # To runder: først dataset=2 (verifiserte 2013-2022), deretter dataset=1 (UTD 2023→)
     for dataset, seg_start, seg_end in [
-        (2, start_d, min(end_d, datetime(2022, 12, 31, 23, 59, 59))),
+        (2, start_d, min(end_d, datetime(2023, 12, 31, 23, 59, 59))),
         (1, max(start_d, date_stop), end_d)
     ]:
         if seg_start > seg_end:
@@ -117,8 +117,6 @@ def EU_AirPollutantsData(
                     all_dfs[key] = pd.concat([all_dfs[key], df], ignore_index=True)
                 else:
                     all_dfs[key] = df
-
-
     return all_dfs
 
 
@@ -199,7 +197,7 @@ def data_reader(filename, nanlimit):
             print('Reading the first sheet...... ')
             data = pd.read_excel(filename)
         elif extension.lower() == '.json':
-            data = pd.read_json(filename)
+            data = pd.read_json(filename,orient='records')
         elif extension.lower() == '.html':
             data = pd.read_html(filename)[0]  # Dersom html filen bare har en tabell
         else:

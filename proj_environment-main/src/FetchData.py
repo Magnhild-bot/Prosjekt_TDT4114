@@ -10,7 +10,7 @@ sys.path.insert(0, str(project_dir))
 
 
 AirData = FF.EU_AirPollutantsData(
-    startdate="2020-01-01T00:00:00Z",
+    startdate="2016-01-01T00:00:00Z",
     enddate  ="2024-12-31T00:00:00Z",
     pollutants=["PM10", "NO2", "PM2.5","O3","SO2","CO"]
 )
