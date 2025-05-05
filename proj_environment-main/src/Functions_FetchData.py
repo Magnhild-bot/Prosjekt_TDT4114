@@ -157,7 +157,7 @@ def write_to_excel_by_pollutant(AirData, out_dir="airdata_excel"):
         print(f"Lagret {file_path}")
 
 
-def data_reader(filename, nanlimit):
+def data_reader(filename, nanlimit,skiprows=None,usecols=None,nrows=None):
     startTime = time.time()
     """Leser strukturen og informasjonen til en fil.
     Filen kan være av typen csv, xlsx, json, eller html.
@@ -195,7 +195,10 @@ def data_reader(filename, nanlimit):
             print(f'The sheetnames are {ark_liste}')
             print(' ')
             print('Reading the first sheet...... ')
-            data = pd.read_excel(filename)
+            if skiprows is not None:
+                data=pd.read_excel(filename, skiprows=skiprows, usecols=usecols,nrows=nrows)
+            else:
+                data = pd.read_excel(filename)
         elif extension.lower() == '.json':
             data = pd.read_json(filename,orient='records')
         elif extension.lower() == '.html':
@@ -293,10 +296,10 @@ def data_reader(filename, nanlimit):
                         count += 1
                 if count > 0:
                     negative_values[col] = count
-        print('-----------------------------------------')
-        print('Negative values was found in the columns:')
-        print(negative_values)
-        print('Check if the values of your data is allowed to be negative')
+                    print('-----------------------------------------')
+                    print('Negative values was found in the columns:')
+                    print(negative_values)
+                    print('Check if the values of your data is allowed to be negative')
 
     except Exception as e:
         raise Exception(f"An error occurred while processing the data: {e}")
