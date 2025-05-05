@@ -3,7 +3,9 @@ Datasets
 This folder contains the code where datasets has been downloaded ready to be analyzed.
 The goal of this project is to make a program that calculates and shows forecasts of the air quality. 
 The user can put in any health conditions as Astma or Allergies, so the program can give the user relevant warnings.
-To analyze tha air quality, data about the pollutants O3, NO2, CO, SO2, PM10, PM2.5 needs to be fetched. EEA is chosen as the source of this data.
+To analyze tha air quality, data about the pollutants O3, NO2, PM10, PM2.5 needs to be fetched. 
+Accoring to FHI, these are the poullutants that causes the most illness and death. https://www.fhi.no/he/folkehelserapporten/miljo/luftforureining--i-noreg/?term=#om-luftforurensning
+EEA is chosen as the source to fetch these data.
 
 The python file Functions_FetchData.py contains the selfmade functions for downloading data, as well as the data_reader() function.
 The function EU_AirPollutantsData() is made with help of the documentation given by EEA (https://eeadmz1-downloads-webapp.azurewebsites.net/content/documentation/How_To_Downloads.pdf)
