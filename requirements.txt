@@ -10,3 +10,5 @@ pandasql
 pyarrow
 xlsxwriter
 openpyxl
+statsmodels
+seaborn
