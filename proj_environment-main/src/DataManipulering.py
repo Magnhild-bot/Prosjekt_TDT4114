@@ -12,20 +12,16 @@ data_dir=os.path.join(project_dir,'data')
 print('     ')
 print('-------------------------------------')
 print('Reading air pollutant data...........')
-#CO_data = pd.read_excel((os.path.join(data_dir, 'CO.xlsx')),sheet_name=None,usecols=['Value', 'Start', 'End','Pollutant'])
 NO2_data = pd.read_excel((os.path.join(data_dir, 'NO2.xlsx')),sheet_name=None,usecols=['Value', 'Start', 'End','Pollutant'])
 O3_data= pd.read_excel((os.path.join(data_dir, 'O3.xlsx')),sheet_name=None,usecols=['Value', 'Start', 'End','Pollutant'])
 PM25_data= pd.read_excel((os.path.join(data_dir, 'PM2.5.xlsx')),sheet_name=None,usecols=['Value', 'Start', 'End','Pollutant'])
 PM10_data=pd.read_excel((os.path.join(data_dir, 'PM10.xlsx')),sheet_name=None,usecols=['Value', 'Start','Pollutant'])
-#SO2_data=pd.read_excel((os.path.join(data_dir, 'SO2.xlsx')),sheet_name=None,usecols=['Value', 'Start', 'End','Pollutant'])
 
 Pullutant_dict= {
-    #"CO":   CO_data,
     "NO2":  NO2_data,
     "O3":   O3_data,
     "PM2.5":PM25_data,
     "PM10": PM10_data
-    #"SO2":  SO2_data,
 }
 
 # In[] Replacing negative numbers with NaN
