@@ -42,35 +42,35 @@ def cap_outliers(data, column):
         return df
 
     NO2=quartiles(data['NO2'])
-    O3=quartiles(data['O3'])
+    #O3=quartiles(data['O3'])
     PM25=quartiles(data['PM2.5'])
     PM10=quartiles(data['PM10'])
 
-    data_w_outliars = [data['NO2']['Value'].values,data['O3']['Value'].values,
+    data_w_outliars = [data['NO2']['Value'].values,               #data['O3']['Value'].values,
         data['PM2.5']['Value'].values, data['PM10']['Value'].values]
 
-    data_wo_outliars=[NO2['Value'].values, O3['Value'].values,
+    data_wo_outliars=[NO2['Value'].values, #O3['Value'].values,
                       PM25['Value'].values, PM10['Value'].values]
 
-    colors=['orange','teal','darkgrey','plum']
+    colors=['orange','teal','darkgrey'] #,'plum'
 
     plt.figure(figsize=(8, 4))
     sns.boxplot(data=data_w_outliars,palette=colors)
-    plt.xticks([0, 1, 2, 3],['NO₂', 'O₃', 'PM₂.₅', 'PM₁₀'])
+    plt.xticks([0, 1, 2],['NO₂',  'PM₂.₅', 'PM₁₀']) #'O₃',
     plt.ylabel("Measure [µg/m^3]")
     plt.title("Deviation of the pollutant measurements")
     plt.show()
 
     plt.figure(figsize=(8, 4))
     sns.boxplot(data=data_wo_outliars,palette=colors)
-    plt.xticks([0, 1, 2, 3], ['NO₂', 'O₃', 'PM₂.₅', 'PM₁₀'])
+    plt.xticks([0, 1, 2], ['NO₂',  'PM₂.₅', 'PM₁₀']) #'O₃',
     plt.ylabel("Pollutant measure [µg/m^3]")
     plt.title("Deviation of the pollutant measurements with outliars removed")
     plt.show()
 
-    return NO2, O3, PM25, PM10
+    return NO2,  PM25, PM10 #O3
 
-NO2,O3,PM25,PM10=cap_outliers(data, 'Value')
+NO2,PM25,PM10=cap_outliers(data, 'Value') #O3,
 
 #-------------------------Statistics--------------------------------#
 
@@ -84,7 +84,7 @@ def plot_histogram(df,color,title):
     plt.show()
 
 plot_histogram(NO2,'orange','NO2')
-plot_histogram(O3,'teal','O3')
+#plot_histogram(O3,'teal','O3')
 plot_histogram(PM25,'darkgrey','PM2.5')
 plot_histogram(PM10,'plum','PM10')
 
@@ -117,7 +117,7 @@ def mean_std_meadin_corr(df):
     dict_stats={'Meadian':median_emission,
                 'Standard deviation':std_emission,
                 'Mean':mean_emission,
-                'NO2rrelation':correlation}
+                'Correlation':correlation}
 
     return dict_stats
 
@@ -175,7 +175,7 @@ def reggresion_analysis(df,name,color):
     plt.show()
 
 reggresion_analysis(NO2,'NO2','orange')
-reggresion_analysis(O3,'O3','teal')
+#reggresion_analysis(O3,'O3','teal')
 reggresion_analysis(PM25,'PM25','darkgrey')
 reggresion_analysis(PM10,'PM10','plum')
 
