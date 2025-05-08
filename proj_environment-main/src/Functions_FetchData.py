@@ -46,11 +46,9 @@ def EU_AirPollutantsData(
     # Oppslagstabell for tallkodekode--> airpollutant type.
     CODE_TO_NAME = {
         "5": "PM10",
-        "8": "PM2.5",
-        "6001": "NO2",
-        "10": "O3",
-        "1": "SO2",
-        "7": "CO",
+        "6001": "PM2.5",
+        "8": "NO2",
+        "7": "O3",
     }
 
     # API request filteret. Bygd opp slik som nettsiden forklarte (skriv en bedre kommentar her, kanskje vi bør legge inn kilde)
