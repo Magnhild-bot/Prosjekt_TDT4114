@@ -230,7 +230,7 @@ df = data_reader(CO2_data, 30)
  #Query using pandasql - se på CO2
 print('\n--- SQL Query Example: Top 10 rows where Year = 2020 ---')
 query = """
-SELECT *
+SELECT * 
 FROM df
 WHERE Year = 2020
   AND Pollutant_name = 'CO2'
