@@ -10,8 +10,8 @@ from matplotlib.colors import LinearSegmentedColormap
 # Load the pickle file
 pollutant_path = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(pollutant_path))
-pkl_path = os.path.join(project_root, 'data', 'mean_air_pollutants.pkl')
-data = pd.read_pickle(pkl_path)
+#pkl_path = os.path.join(project_root, 'data', 'mean_air_pollutants.pkl')
+#data = pd.read_pickle(pkl_path)
 
 
 
