@@ -234,7 +234,7 @@ SELECT *
 FROM df
 WHERE Year = 2020
   AND Pollutant_name = 'CO2'
-LIMIT 10
+LIMIT 10 
 """
 result = psql.sqldf(query, locals())
 print(result)
