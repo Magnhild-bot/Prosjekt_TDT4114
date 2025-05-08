@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import numpy as np
 import pickle
-from Functions_FetchData import data_reader
+from Functions_FetchData import data_readerrr
 
 script_dir= os.path.dirname(os.path.abspath(__file__)) #dir til dette scriptet
 project_dir=os.path.dirname(script_dir)#dir til hele prosjektmappen
