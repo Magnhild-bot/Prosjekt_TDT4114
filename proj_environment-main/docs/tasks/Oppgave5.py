@@ -11,8 +11,8 @@ from matplotlib.colors import LinearSegmentedColormap
 # Load the pickle file
 pollutant_path = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(pollutant_path))
-pkl_path = os.path.join(project_root, 'data', 'mean_air_pollutants.pkl')
-data = pd.read_pickle(pkl_path)
+#pkl_path = os.path.join(project_root, 'data', 'mean_air_pollutants.pkl')
+#data = pd.read_pickle(pkl_path)
 
 
 ######### Plotting of AQI values for NO2, PM10, PM2.5 ###
@@ -102,7 +102,7 @@ for ax, (pollutant, df) in zip(axes, data.items()):
     ax.grid(True, linestyle='--', alpha=0.5)
     ax.set_ylim(0,500)
 
-handles = [Patch(facecolor=color, label=label) for label, color, *_ in aqi_colors] # Making ledgend showing the meaning of the AQI colors/intervals
+handles = [Patch(facecolor=color, label=label) for label, color, *_ in aqi_colors] # Making legend showing the meaning of the AQI colors/intervals
 legend_ax.legend(
     handles,
     [h.get_label() for h in handles],
