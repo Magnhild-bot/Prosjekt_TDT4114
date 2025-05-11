@@ -4,27 +4,51 @@ import pickle
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from matplotlib.patches import Patch
-import numpy as np
 import pandas as pd
-import sys, os
-from matplotlib.colors import LinearSegmentedColormap
+import os
+
 
 opg5 = os.path.dirname(__file__)
+
 pkl_path = os.path.abspath(
-    os.path.join(opg5, os.pardir, 'data', 'mean_air_pollutants.pkl')
+    os.path.join(opg5, os.pardir, 'data', 'mean_air_pollutants.pkl') # load mean_air_pollutants pickle file
 )
 
+project_dir = os.path.abspath(
+    os.path.join(opg5, os.pardir)
+)
+images_dir = os.path.join(project_dir, 'resources', 'images')
+out_png = os.path.join(images_dir, 'aqi_levels.png')
+
+aqi_path = os.path.join(project_dir, 'data') # defines path of aqi data in the data folder
+
 with open(pkl_path, 'rb') as f:
-    data = pickle.load(f)
+    data = pickle.load(f) # loading in mean_pollutant data from data folder
 
+breakpoints_path = os.path.join(aqi_path, 'aqi_breakpoints.xlsx') # loads aqi breakpoints
+colors_path = os.path.join(aqi_path, 'aqi_colors.xlsx') # loads aqi colors
 
-######### Plotting of AQI values for NO2, PM10, PM2.5 ###
+df_breakpoints = pd.read_excel(breakpoints_path)
+df_colors = pd.read_excel(colors_path)
 
 # AQI breakpoints for different pollutants (in µg/m³)
 # Source for AQI breakpoints: https://www.pranaair.com/blog/what-is-air-quality-index-aqi-and-its-calculation/
 
+aqi_breakpoints = {}
+for _, row in df_breakpoints.iterrows():
+    pollutant = row['Pollutant']
+    tup = (
+        row['Low Concentration'],
+        row['High Concentration'],
+        row['Low AQI'],
+        row['High AQI']
+    )
+    aqi_breakpoints.setdefault(pollutant, []).append(tup)
 
-
+aqi_colors = [
+    (row['Category'], row['Color'], row['Low'], row['High'])
+    for _, row in df_colors.iterrows()
+]
 
 
 
@@ -85,6 +109,7 @@ legend_ax.legend(
     handletextpad=0.5
 )
 
+fig.savefig(out_png, dpi=300, bbox_inches='tight')
 plt.show()
 
 
