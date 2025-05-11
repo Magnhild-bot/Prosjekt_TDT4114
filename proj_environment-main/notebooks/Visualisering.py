@@ -6,7 +6,7 @@ import matplotlib.gridspec as gridspec
 from matplotlib.patches import Patch
 import pandas as pd
 import os
-
+import plotly.express as px
 
 opg5 = os.path.dirname(__file__)
 
@@ -18,7 +18,7 @@ project_dir = os.path.abspath(
     os.path.join(opg5, os.pardir)
 )
 images_dir = os.path.join(project_dir, 'resources', 'images')
-out_png = os.path.join(images_dir, 'aqi_levels.png')
+out_png = os.path.join(images_dir, 'aqi_levels.png') # path to images, and name of image
 
 aqi_path = os.path.join(project_dir, 'data') # defines path of aqi data in the data folder
 
@@ -59,8 +59,7 @@ def calculate_aqi(value, breakpoints): # function to calculate AQI for the diffe
             return aqi
 
 
-
-
+###### Plotting the AQI for each pollutant from 2016-2025
 fig = plt.figure(figsize=(14, 12))
 gs  = gridspec.GridSpec( # divides the figure into a grid
     nrows=3, ncols=2,
@@ -110,6 +109,52 @@ legend_ax.legend(
 )
 
 fig.savefig(out_png, dpi=300, bbox_inches='tight')
-plt.show()
+#plt.show()
 
+####################################
 
+### Plotting the daily average mean of pollution for each pollutant in one plot with interactive tool to show AQI
+
+# 1) Turn each pollutant’s hourly DF into a daily‐mean Series
+daily_series = []
+for pollutant, df in data.items():
+    tmp = df.copy()
+    # a) ensure datetime index
+    tmp['Time Interval'] = pd.to_datetime(tmp['Time Interval'])
+    tmp = tmp.set_index('Time Interval')
+    # b) resample Value to daily mean, name the Series by pollutant
+    s = tmp['Value'].resample('D').mean().rename(pollutant)
+    daily_series.append(s)
+
+# 2) Combine all pollutants into one wide DataFrame
+daily_df = pd.concat(daily_series, axis=1)
+#    index = Date, columns = pollutants
+
+# 3) Melt into long form for Plotly
+df_long = daily_df.reset_index().melt(
+    id_vars='Time Interval',
+    var_name='Pollutant',
+    value_name='Concentration'
+)
+
+# 4) Compute AQI for each daily mean
+df_long['AQI'] = df_long.apply(
+    lambda r: calculate_aqi(r['Concentration'], aqi_breakpoints[r['Pollutant']]),
+    axis=1
+)
+
+# 5) Interactive Plotly line plot of daily means
+fig = px.line(
+    df_long,
+    x='Time Interval',
+    y='Concentration',
+    color='Pollutant',
+    hover_data=['AQI'],            # show AQI in the tooltip
+    labels={
+      'Time Interval': 'Date',
+      'Concentration': 'µg/m³'
+    },
+    title='Daily Mean Concentration & AQI by Pollutant'
+)
+fig.update_layout(hovermode='x unified')
+fig.show()

@@ -12,3 +12,4 @@ xlsxwriter
 openpyxl
 statsmodels
 seaborn
+ploty >= 6.0.1
