@@ -5,3 +5,8 @@ __pycache__/
 # Virtuelt miljø (hvis du har det inne i repoet)
 venv/
 
+# PyCharm‐konfig
+.idea/
+
+# Store datafiler – legg til flere etter behov
+proj_environment-main/data/
