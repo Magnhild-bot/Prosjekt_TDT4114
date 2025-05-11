@@ -1,0 +1,7 @@
+# Kompilerte pythonfiler
+*.pyc
+__pycache__/
+
+# Virtuelt miljø (hvis du har det inne i repoet)
+venv/
+
