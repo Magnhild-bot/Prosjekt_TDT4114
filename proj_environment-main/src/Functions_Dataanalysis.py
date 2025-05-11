@@ -234,7 +234,7 @@ def reggresion_analysis(df,name,color):
     plt.legend()
     plt.show()
 
-    return x_sorted, y_fit_sorted
+    return x_sorted, y_fit_sorted,seasonal
 
 
 
