@@ -30,8 +30,12 @@ csv_url = "https://sdi.eea.europa.eu/webdav/datastore/public/eea_t_national-emis
 CO2_data = download_temp_file(csv_url) #fra test_filbehandling
 data_reader(CO2_data, 30)
 
+#3:
+Temprature_Oslo=(os.path.join(data_dir, 'Temp_oslo_2016_2024.csv'))
+data_reader(Temprature_Oslo, 30,sep=';')
 
-#3
+
+#4:
 
 data_json = {
     "dataset": {
