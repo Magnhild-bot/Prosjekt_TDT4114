@@ -153,9 +153,9 @@ def cap_outliers(data, column,plot=True):
 
     return NO2,  PM25, PM10
 
-def plot_histogram(df,color,title):
+def plot_histogram(df,color,title,bins):
     plt.figure(figsize=(8, 4))
-    sns.histplot(data=df, x="Value", bins=20,kde=True,color=color,edgecolor=None,alpha=0.5,shrink=0.8)
+    sns.histplot(data=df, x="Value", bins=bins,kde=True,color=color,edgecolor=None,alpha=0.5,shrink=0.8)
     plt.ylabel("Count")
     plt.xlabel("Pollutant measure [µg/m^3] ")
     plt.title(f'Histogram of {title} pollutant measurements')

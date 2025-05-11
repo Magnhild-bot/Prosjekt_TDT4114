@@ -1,16 +1,5 @@
 # Oppgave 4 -Dataanalyse
 
-I denne delen av prosjektet skal dere bruke verktøy som NumPy, Pandas, Matplotlib osv. til å beregne statistiske mål som gjennomsnitt, median og standardavvik, som er essensielle for å forstå datakvaliteten og identifisere trender. 
-Videre vil dere implementere enkle statistiske analyser for å avdekke mønstre i dataene, noe som kan gi innsikt i miljøforholdene over tid. 
-Denne analysen vil danne grunnlaget for videre visualisering og prediktiv analyse, og bidra til en dypere forståelse av de miljømessige faktorene som påvirker samfunnet.
-
-*Vurderingskriterier:*
-
-1. Hvordan kan du bruke NumPy og Pandas til å beregne gjennomsnitt, median og standardavvik for de innsamlede dataene, og hvorfor er disse statistiske målene viktige?
-2. Kan du gi et eksempel på hvordan du vil implementere en enkel statistisk analyse for å undersøke sammenhengen mellom to variabler i datasettet?
-3. Hvordan planlegger du å håndtere eventuelle skjevheter i dataene under analysen, og hvilke metoder vil du bruke for å sikre at analysen er pålitelig?
-4. Hvilke visualiseringer vil du lage for å støtte analysen din, og hvordan vil disse visualiseringene hjelpe deg med å formidle funnene dine?
-
 ## Kode funksjon
 
 Denne oppgaven er løst i scriptet Dataanalyse.py. Dataen som er analysert er den manipulerte Air Pollutants dataen lagret i mean_air_pollutants.pkl fra oppgave 3 (Databehandling.py).
@@ -43,7 +32,7 @@ Datasettet uten uteliggere er det som blir videre analysert i respen av oppgave 
 ### 2. plot_histogram
 
 For å visualisere frekvensfordelingen av de ulike målte luftkvalitet verdiene i datasettene NO2, PM25 og PM10
-ble seaborn sin histogram funksjon (seaborn.histplot()) brukt. Datamålingene ble fordelt i 20 bins, da gruppen vurderte dette som en god nok illustrering av frekvensfordelingen.
+ble seaborn sin histogram funksjon (seaborn.histplot()) brukt. 
 Histogrammene til de ulike luft kvalitet målingene skal ha lik farge som ble brukt i boxplottet respektivt.
 
 ### 3. mean_std_meadin_corr
@@ -70,7 +59,53 @@ Funksjonen .fit() finner både seasonal, trend og resid:
 2. .seasonal beskriver den årlige syklusen, som her blir variasjonen fra måned til måned.
 3. .resid beskriver på et vis uteliggerene av dataen, eller den delen av dataen som ikke kan forklares med en spesifikk trend.
 
+Videre ble det gjort en reggresjonsanalyse ved å bruke .polyfit() funksjonen fra numpy miljøet.
 
 ## Analyse funn
 
-![Visualisering av dataspredning](../resources/images/aqi_levels.png)
+### 1. Uteliggere
+Figuren under viser en visualisering av dataspredningen for de ulike utslippene, samt uteliggere i datasettene. Ved første øyekast ser en at alle tre datasettene innholder store mengder med uteliggere. Det er vanskelig å si noe om hvor sannsynlige disse uteliggerene er, altså om det faktisk er feilmålinger eller om det bare er uvanlige funn.
+I følge (https://swachhindia.ndtv.com/air-pollution-what-is-air-quality-index-how-is-it-measured-and-its-health-impact-40387/) er en PM10 måling på 300 rangert som "Poor", en PM2.5 måling på 225 som "Very Poor" og en NO2 måling på 200 rangert som "Poor". Altså er ikke uteliggerene helt usannsynlige, men heller sjeldne målinger.
+Å klippe vekk uteliggerene til senere analyser i oppgave 5 og 6 som først tenkt er derfor kanskje ikke den beste avgjørelsen, men for denne oppgaven kan det å klippe vekk uteliggerene utelate være lurt for å få en best mulig indikasjon på trender og utelate "støy".
+![Visualisering av dataspredning](../resources/images/outliars.png)
+
+Figuren under viser dataspredningen når uteliggerene er fjernet og erstattet med whiskers grensene:
+![Visualisering av dataspredning](../resources/images/outliars_removed.png)
+
+### 2. Frekvensfordeling av data (histogram)
+Histogram plotting ble gjort for datasettet både med og uten uteliggerene for å vurdere om hvilket datasett som skal brukes videre for analyser i prosjektet.
+Figuren under viser histogrammet for datasettet med uteliggere for NO2. For NO2 ser vi fra boxplottet i forrige deloppgave at uteliggerene forekommer etter øvre whiskers som er på rundt 70 µg/m^3.
+Histogrammet illustrerer tydligere frekvensen av forekomstem for disse uteliggerene, som er ganske lav. Det vurderes derfor at videre for trend analyser brukes datasettet der uteliggerene er klippet bort.
+![Visualisering av dataspredning](../resources/images/HistNO2_w_u.png)
+
+Figuren under viser histogrammet for datasettet etter uteliggerene er fjernet og erstattet med whiskersene.
+Plottet illustreret godt hvordan datasettet ikke er normalfordelt, men heller venstrefordelt (nærmest første kvartil).
+Utifra figuren ser en også at det å sette uteliggerene til whiskersgrensene ikke var den beste løsningen, og blir notert for videre forbedringer til utviklere.
+![Visualisering av dataspredning](../resources/images/HistNO2_wo_u.png)
+
+### 3. Statistisk oppsummering av dataen
+
+Slik som nevnt og illustrert i forrige deloppgave ser det ut til at datasettet er venstrefordelt og ikke normalfordelt. Dette bekreftes også av å kjøre mean_std_meadin_corr(),
+da outputtet forteller at gjennomsnittsverdien og medianen er ulik for alle tre datasettene. En kan bekrefte venstrefordelingen illustrert i histogrammet ved å se at medianen ligger nærmere første kvartil for alle datasettene.
+Da standardavviket gir best beskrivelse av spredningen dersom datasettet er normalfordelt, er ikke standardavviket funnet i dette tilfellet den beste beskrivelsen på spredningen av dataen. Første og tredje kvartil beskriver her bedre hva spredningen av dataene for de ulike utslippene er.
+
+Videre gir alle korrelasjonsfaktorene en lavere absolutt verdi enn 0.6. I følge __ er en robust korrelasjonsfaktor ofte større enn 0.6. Likevel kan dette varriere fra type data en ser på.
+NO2 får en korrelasjonsfaktor mellom tid og utslipp på -0.4, som vil si at det er en moderat sammenheng mellom dataene. Altså kan omtrent 16% av den linære nedgangen i NO2 målinger ses i sammenheng med tiden.
+De to andre målingene har en svært lav korrelasjonsfaktor (nærme 0), og det blir vanskelig å skulle trekke en direkte linær sammenheng mellom tiden og nedgangen i utslippsmåling.
+
+### 4. STL og reggresjonsanalyse
+
+STL analysen fra denne oppgaven viste i seasonal grafen en tydelig sesongbasert trend fra måned til måned for de ulike utslippsdataene NO2,PM2.5 og PM10.
+Figuren under viser eksempelvis plottet av STL analysen for NO2 dataen, samt plottet for den linære reggresjonsanalysen sammenlignet med trend-dataen.
+Utifra sen sesongbaserte trenden (den blå grafen) vurderte gruppen at det kan være interessant i oppgave 5 å se om en finner en sammenheng mellom temperatur og utslippsnivå dat det ser ut til at peaken på utslipp topper seg i vintermånedene for alle årene.
+![Visualisering av dataspredning](../resources/images/STL_NO2.png)
+
+NO2 viste seg å ha en mer synkende trend fra år til år enn de to andre (PM10 og PM2.5). 
+I følge FHI er den største årsaken til foreomsten av NO2 vegtrafikk med disel og bensin biler(https://www.fhi.no/kl/luftforurensninger/luftkvalitet/temakapitler/nitrogendioksid2/?term=#kilder-og-luftforurensningsniver-av-nitrogendioksid).
+Denne sammenhengen vil derfor bli videre undersøkt i oppgave 5.
+
+Også er trenden for PM2.5 synkende over tid, men i lavere grad enn NO2. PM10 derimot har en svak vekst i utslipp, men da denne trenden har en linær økning på omtrent 1.45% per år er dette såpass lavt at gruppen konkluderer med at datasettet burde inkludert flere år for å kunne si noe sikkert om trenden faktisk er voksende.
+En linær trend fra år til år for verken PM2.5 eller PM10 kan ikke konkluderes med utifra denne analysen, da trend-dataen fra STL analysen er også ganske flukterende sammenlignet med NO2.
+
+
+
