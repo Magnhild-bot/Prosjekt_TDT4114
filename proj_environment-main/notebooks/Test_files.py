@@ -215,7 +215,7 @@ data_json = {
     }
 }
 
-with open("ekvivalenter_data.json", "w", encoding="utf-8") as f:
+with open("../src/ekvivalenter_data.json", "w", encoding="utf-8") as f:
     json.dump(data_json, f, ensure_ascii=False, indent=4)
 
 data_ekvivalenter = data_reader("ekvivalenter_data.json", 20)
