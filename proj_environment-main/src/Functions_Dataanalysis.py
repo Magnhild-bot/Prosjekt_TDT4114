@@ -100,7 +100,7 @@ class Tempdata_manipulering:
 
 #---------------------------Dataanalyse functions-------------------------------#
 
-def cap_outliers(data, column):
+def cap_outliers(data, column,plot=True):
     """
     Identifiserer tydlige uteliggere, og bytter dem ut med øvre eller nedre kvartil.
     Q1: snittet av de nederste 25% målingene (25% precentile).
@@ -130,19 +130,20 @@ def cap_outliers(data, column):
 
     colors=['orange','teal','darkgrey']
 
-    plt.figure(figsize=(8, 4))
-    sns.boxplot(data=data_w_outliars,palette=colors)
-    plt.xticks([0, 1, 2],['NO₂',  'PM₂.₅', 'PM₁₀'])
-    plt.ylabel("Measure [µg/m^3]")
-    plt.title("Deviation of the pollutant measurements")
-    plt.show()
+    if plot:
+        plt.figure(figsize=(8, 4))
+        sns.boxplot(data=data_w_outliars,palette=colors)
+        plt.xticks([0, 1, 2],['NO₂',  'PM₂.₅', 'PM₁₀'])
+        plt.ylabel("Measure [µg/m^3]")
+        plt.title("Deviation of the pollutant measurements")
+        plt.show()
 
-    plt.figure(figsize=(8, 4))
-    sns.boxplot(data=data_wo_outliars,palette=colors)
-    plt.xticks([0, 1, 2], ['NO₂',  'PM₂.₅', 'PM₁₀'])
-    plt.ylabel("Pollutant measure [µg/m^3]")
-    plt.title("Deviation of the pollutant measurements with outliars removed")
-    plt.show()
+        plt.figure(figsize=(8, 4))
+        sns.boxplot(data=data_wo_outliars,palette=colors)
+        plt.xticks([0, 1, 2], ['NO₂',  'PM₂.₅', 'PM₁₀'])
+        plt.ylabel("Pollutant measure [µg/m^3]")
+        plt.title("Deviation of the pollutant measurements with outliars removed")
+        plt.show()
 
     return NO2,  PM25, PM10
 
