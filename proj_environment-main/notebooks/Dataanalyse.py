@@ -24,9 +24,13 @@ if __name__ == "__main__": #Koden kjøres bare i dette skriptet
 
     stats_NO2=mean_std_meadin_corr(NO2) #Finding mean, meadian, standard deviation and correlation.
 
-    NO2_trend_year,NO2_trend,NO2_seasonal=reggresion_analysis(NO2,'NO2','orange') #Regression analysis NO2
-    PM25_trend_year,PM25_trend,PM25_seasonal=reggresion_analysis(PM25,'PM25','darkgrey') #Regression analysis PM25
-    PM10_trend_year,PM10_trend,PM10_seasonal=reggresion_analysis(PM10,'PM10','plum') ##Regression analysis PM10
+NO2_trend_year,NO2_trend,NO2_seasonal=reggresion_analysis(NO2,'NO2','orange') #Regression analysis NO2
+PM25_trend_year,PM25_trend,PM25_seasonal=reggresion_analysis(PM25,'PM25','darkgrey') #Regression analysis PM25
+PM10_trend_year,PM10_trend,PM10_seasonal=reggresion_analysis(PM10,'PM10','plum') ##Regression analysis PM10
+
+NO2_trend_year_raw,NO2_trend_raw,NO2_seasonal_raw=reggresion_analysis(NO2,'NO2','orange',plot=False) #Regression analysis NO2
+PM25_trend_year_raw,PM25_trend_raw,PM25_seasonal_raw=reggresion_analysis(PM25,'PM25','darkgrey',plot=False) #Regression analysis PM25
+PM10_trend_year_raw,PM10_trend_raw,PM10_seasonal_raw=reggresion_analysis(PM10,'PM10','plum',plot=False) ##Regression analysis PM10
 
 
 

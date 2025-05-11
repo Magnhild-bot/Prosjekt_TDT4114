@@ -207,7 +207,8 @@ def reggresion_analysis(df,name,color,plot=True):
     x_years = trend.index.year + (trend.index.dayofyear / 365.25) # Lineær trend på utslippsnivå (slope i "verdi per år")
     a, b = np.polyfit(x_years, trend.values, 1)
 
-    print(f"Linear trend is a change of {a:.4f} [µg/m^3] {name} per year")
+    if plot:
+        print(f"Linear trend is a change of {a:.4f} [µg/m^3] {name} per year")
 
     y_fit = a * x_years + b
 
