@@ -232,5 +232,9 @@ def reggresion_analysis(df,name,color):
     return x_sorted, y_fit_sorted,seasonal
 
 
-
+def calculate_aqi(value, breakpoints): # function to calculate AQI for the different pollutants
+    for low_conc, high_conc, low_aqi, high_aqi in breakpoints:  #cheks each breakpoint tuple
+        if low_conc <= value <= high_conc:
+            aqi = ((value - low_conc) / (high_conc - low_conc)) * (high_aqi - low_aqi) + low_aqi
+            return aqi
 

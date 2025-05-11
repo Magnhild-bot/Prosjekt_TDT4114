@@ -7,29 +7,26 @@ from matplotlib.patches import Patch
 import pandas as pd
 import os
 import plotly.express as px
+import sys
+from pathlib import Path
 
-opg5 = os.path.dirname(__file__)
 
-pkl_path = os.path.abspath(
-    os.path.join(opg5, os.pardir, 'data', 'mean_air_pollutants.pkl') # load mean_air_pollutants pickle file
-)
+#---------------------------- Imports of files and function -----------------#
 
-project_dir = os.path.abspath(
-    os.path.join(opg5, os.pardir)
-)
-images_dir = os.path.join(project_dir, 'resources', 'images')
-out_png = os.path.join(images_dir, 'aqi_levels.png') # path to images, and name of image
-
-aqi_path = os.path.join(project_dir, 'data') # defines path of aqi data in the data folder
-
+project_dir = Path(__file__).resolve().parents[1]   #Finner dir til proj_environment-main
+sys.path.insert(0, str(project_dir))#Dir til notebooks
+data_dir = project_dir / "data" #Dir til excelarkene
+images_dir = os.path.join(project_dir, 'resources', 'images') # path til images
+from src.Functions_Dataanalysis import calculate_aqi
+pkl_path = data_dir/ 'mean_air_pollutants.pkl' # load mean_air_pollutants pickle file
 with open(pkl_path, 'rb') as f:
     data = pickle.load(f) # loading in mean_pollutant dictionary from data folder
 
-breakpoints_path = os.path.join(aqi_path, 'aqi_breakpoints.xlsx') # loads aqi breakpoints
-colors_path = os.path.join(aqi_path, 'aqi_colors.xlsx') # loads aqi colors
+# reading AQI breakpoints, and color ranges
+df_breakpoints = pd.read_excel(os.path.join(data_dir, 'aqi_breakpoints.xlsx') )
+df_colors = pd.read_excel(os.path.join(data_dir, 'aqi_colors.xlsx'))
 
-df_breakpoints = pd.read_excel(breakpoints_path)
-df_colors = pd.read_excel(colors_path)
+
 
 # AQI breakpoints for different pollutants (in µg/m³)
 # Source for AQI breakpoints: https://www.pranaair.com/blog/what-is-air-quality-index-aqi-and-its-calculation/
@@ -51,11 +48,6 @@ aqi_colors = [
 ]
 
 
-def calculate_aqi(value, breakpoints): # function to calculate AQI for the different pollutants
-    for low_conc, high_conc, low_aqi, high_aqi in breakpoints:  #cheks each breakpoint tuple
-        if low_conc <= value <= high_conc:
-            aqi = ((value - low_conc) / (high_conc - low_conc)) * (high_aqi - low_aqi) + low_aqi
-            return aqi
 
 
 ###### Plotting the AQI for each pollutant from 2016-2025
@@ -78,6 +70,8 @@ legend_ax.axis('off')  # no ticks, no frame
 fig.suptitle('AQI Levels Over Time', fontsize=18, y=0.97) # global title for all subplots
 fig.text(0.02, 0.5, 'AQI Value', va='center', rotation='vertical', fontsize=12) # global y-axis
 
+
+out_png = os.path.join(images_dir, 'aqi_levels.png') # path to images
 # Plotting loop
 for ax, (pollutant, df) in zip(axes, data.items()):
     df['AQI'] = df['Value'].apply(lambda v: calculate_aqi(v, aqi_breakpoints[pollutant])) # computes AQI from concentration
@@ -107,12 +101,13 @@ legend_ax.legend(
     handletextpad=0.5
 )
 
+
 fig.savefig(out_png, dpi=300, bbox_inches='tight')
 #plt.show()
 
 ####################################
 
-### Plotting the weekly average mean of pollution for each pollutant in one plot with interactive tool to show AQI value
+### Plotting the weekly average mean of pollution for each pollutant in one figure with interactive tool to show AQI value
 
 
 weekly_series = []
@@ -123,7 +118,7 @@ for pollutant, df in data.items(): #goes through each pollutant and every hour f
     data2 = data2.set_index('Time Interval') #makes the timestamp the index
 
     mean_week_pollution= (
-        data2['Value'].resample('W-MON').mean().rename(pollutant)
+        data2['Value'].resample('W-MON').mean().rename(pollutant) # calculates mean for each week and
     )
 
 
@@ -178,3 +173,5 @@ fig.update_xaxes(hoverformat='Week %W,%Y')
 fig.update_layout(hovermode='x unified')
 fig.show()
 
+###########################
+#from Dataanalyse import NO2_seasonal ,ikkje fiksa
