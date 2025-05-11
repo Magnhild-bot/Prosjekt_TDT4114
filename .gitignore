@@ -6,7 +6,7 @@ venv/
 
 .idea/
 
-proj_environment-main/data/
+#proj_environment-main/data/
 
 proj_environment-main/src/ekvivalenter_data.json
 
