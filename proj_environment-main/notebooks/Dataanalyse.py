@@ -14,7 +14,7 @@ if __name__ == "__main__": #Koden kjøres bare i dette skriptet
     with pkl_dir.open( 'rb') as f:
         data = pickle.load(f)
 
-    #----------------------- RUN STAT ANALYSIS -------------------------#
+    #------------------------ RUN STAT ANALYSIS -------------------------#
 
     NO2,PM25,PM10=cap_outliers(data, 'Value') #Remove outlaiers
 
