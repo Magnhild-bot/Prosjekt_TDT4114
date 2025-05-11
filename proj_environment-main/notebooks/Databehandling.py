@@ -10,7 +10,8 @@ data_dir = project_dir / "data" #Dir til excelarkene
 
 from src.Functions_Dataanalysis import Pollutants_manipulering
 
-#-----------------Loading the Air pollutant files---------------------------#
+
+#-----------------------Loading the Air pollutant files---------------------------#
 print('     ')
 print('-------------------------------------')
 print('Reading air pollutant data...........')
@@ -23,6 +24,9 @@ Pullutant_dict= {
     "PM2.5":PM25_data,
     "PM10": PM10_data
 }
+#-----------------------Fixing data of Pullutant_dict---------------------------#
+
+
 
 mean_results = {}
 for pollutant, sheets in Pullutant_dict.items():
