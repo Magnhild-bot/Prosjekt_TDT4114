@@ -10,3 +10,5 @@ venv/
 
 # Store datafiler – legg til flere etter behov
 proj_environment-main/data/
+
+proj_environment-main/src/ekvivalenter_data.json
