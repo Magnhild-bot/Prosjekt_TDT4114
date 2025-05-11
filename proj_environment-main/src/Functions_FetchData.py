@@ -48,7 +48,6 @@ def EU_AirPollutantsData(
         "5": "PM10",
         "6001": "PM2.5",
         "8": "NO2",
-        "7": "O3",
     }
 
     # API request filteret. Bygd opp slik som nettsiden forklarte (skriv en bedre kommentar her, kanskje vi bør legge inn kilde)
