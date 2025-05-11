@@ -202,14 +202,6 @@ def reggresion_analysis(df,name,color):
     seasonal= res.seasonal     # finner ut om det er et fast mønster i trenden
     resid= res.resid           # uteliggerene som avviker fra snittet ??
 
-    plt.figure()
-    plt.plot(monthly, label="Observation",color=color, alpha=.5)
-    plt.plot(trend,   label="Trend (STL)",linestyle='--',color='deeppink')
-    plt.plot(seasonal, label="Seasonal (STL)")
-    plt.title(f"Monthly STL trends VS observations in {name}")
-    plt.legend()
-    plt.show()
-
                   ## Finner årlig trend ##
 
     x_years = trend.index.year + (trend.index.dayofyear / 365.25) # Lineær trend på utslippsnivå (slope i "verdi per år")
@@ -224,17 +216,21 @@ def reggresion_analysis(df,name,color):
     x_sorted = x_years[order]
     y_fit_sorted = y_fit[order]
 
-    plt.figure(figsize=(8,4))
-    plt.plot(x_years, trend.values,linestyle='--',color='deeppink', label='Trend-data')
-    plt.plot(x_sorted, y_fit_sorted, color=color, linewidth=2,
-             label=f'Fit: y = {a:.3f}·x')
-    plt.xlabel('Year')
-    plt.ylabel('Pollutant measure µg/m^3')
-    plt.title(f'Linear reggression of {name} measure between 2016-2024')
+    fig, (ax1, ax2) = plt.subplots(2, 1)
+    fig.suptitle(f'Monthly {name} trend, and linear reggression between 2016-2024')
+    ax1.plot(monthly, label="Observation", color=color, alpha=.5)
+    ax1.plot(trend, label="Trend (STL)",linestyle='--', color='deeppink')
+    ax1.plot(seasonal, label="Seasonal (STL)")
+
+    ax2.plot(x_years, trend.values,linestyle='--',color='deeppink', label='Trend-data')
+    ax2.plot(x_sorted, y_fit_sorted, color=color, linewidth=2,label=f'Fit: y = {a:.3f}·x')
+    ax2.set_xlabel('Year')
+    ax2.set_ylabel('Pollutant measure µg/m^3')
     plt.legend()
     plt.show()
 
     return x_sorted, y_fit_sorted,seasonal
+
 
 
 

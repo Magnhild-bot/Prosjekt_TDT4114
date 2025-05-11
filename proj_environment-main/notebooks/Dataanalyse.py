@@ -3,9 +3,6 @@
 import pickle
 from pathlib import Path
 import sys
-import pandas as pd
-import os
-import matplotlib.pyplot as plt
 
 project_dir = Path(__file__).resolve().parents[1]   #Dir to proj_environment-main
 sys.path.insert(0, str(project_dir))#Dir to notebooks
