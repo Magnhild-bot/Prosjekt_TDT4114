@@ -13,7 +13,7 @@ pkl_dir=data_dir / "mean_air_pollutants.pkl" #Importing mean air pollutant data 
 with pkl_dir.open( 'rb') as f:
     data = pickle.load(f)
 
-#---------------------- RUN STAT ANALYSIS -------------------------#
+#----------------------- RUN STAT ANALYSIS -------------------------#
 
 NO2,PM25,PM10=cap_outliers(data, 'Value') #Remove outlaiers
 

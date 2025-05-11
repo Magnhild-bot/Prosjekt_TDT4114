@@ -98,7 +98,7 @@ class Tempdata_manipulering:
         print(f"{nan_left} left")
 
 
-#---------------------------Dataanalyse functions------------------------------#
+#---------------------------Dataanalyse functions-------------------------------#
 
 def cap_outliers(data, column):
     """
