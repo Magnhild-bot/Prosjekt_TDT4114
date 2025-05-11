@@ -23,7 +23,7 @@ out_png = os.path.join(images_dir, 'aqi_levels.png') # path to images, and name 
 aqi_path = os.path.join(project_dir, 'data') # defines path of aqi data in the data folder
 
 with open(pkl_path, 'rb') as f:
-    data = pickle.load(f) # loading in mean_pollutant data from data folder
+    data = pickle.load(f) # loading in mean_pollutant dictionary from data folder
 
 breakpoints_path = os.path.join(aqi_path, 'aqi_breakpoints.xlsx') # loads aqi breakpoints
 colors_path = os.path.join(aqi_path, 'aqi_colors.xlsx') # loads aqi colors
@@ -49,7 +49,6 @@ aqi_colors = [
     (row['Category'], row['Color'], row['Low'], row['High'])
     for _, row in df_colors.iterrows()
 ]
-
 
 
 def calculate_aqi(value, breakpoints): # function to calculate AQI for the different pollutants
@@ -113,35 +112,49 @@ fig.savefig(out_png, dpi=300, bbox_inches='tight')
 
 ####################################
 
-### Plotting the daily average mean of pollution for each pollutant in one plot with interactive tool to show AQI
+### Plotting the weekly average mean of pollution for each pollutant in one plot with interactive tool to show AQI value
 
-# 1) Turn each pollutant’s hourly DF into a daily‐mean Series
-daily_series = []
-for pollutant, df in data.items():
-    tmp = df.copy()
-    # a) ensure datetime index
-    tmp['Time Interval'] = pd.to_datetime(tmp['Time Interval'])
-    tmp = tmp.set_index('Time Interval')
-    # b) resample Value to daily mean, name the Series by pollutant
-    s = tmp['Value'].resample('D').mean().rename(pollutant)
-    daily_series.append(s)
 
-# 2) Combine all pollutants into one wide DataFrame
-daily_df = pd.concat(daily_series, axis=1)
-#    index = Date, columns = pollutants
+weekly_series = []
+for pollutant, df in data.items(): #goes through each pollutant and every hour from the dictionary
+    data2 = df.copy() # makes a copy to not overwrite the data dictionary
 
-# 3) Melt into long form for Plotly
-df_long = daily_df.reset_index().melt(
-    id_vars='Time Interval',
-    var_name='Pollutant',
-    value_name='Concentration'
+    data2['Time Interval'] = pd.to_datetime(data2['Time Interval']) # makes sure the time interval is Date time object and not string
+    data2 = data2.set_index('Time Interval') #makes the timestamp the index
+
+    mean_week_pollution= (
+        data2['Value'].resample('W-MON').mean().rename(pollutant)
+    )
+
+
+
+    weekly_series.append(mean_week_pollution) # adds mean value to daily_series list
+
+
+df_wide = pd.concat(weekly_series, axis=1) # combines the series to one df, with the date and pollution concentration for each pollutant
+
+
+
+df_long = df_wide.reset_index().melt( # converst from wide form in df_wide to long form in df_long
+    id_vars='Time Interval', # keep 'Time Interval' fixed
+    var_name='Pollutant',# put pollutant column headers into a new column called 'Pollutant'
+    value_name='Concentration' # takes value of each cell and put it into a new column called 'Concentration'
 )
 
-# 4) Compute AQI for each daily mean
-df_long['AQI'] = df_long.apply(
+
+df_long['AQI'] = df_long.apply( # computes the AQI value for each row / day
     lambda r: calculate_aqi(r['Concentration'], aqi_breakpoints[r['Pollutant']]),
     axis=1
 )
+
+#week number
+iso = df_long['Time Interval'].dt.isocalendar()
+df_long['Week'] = iso.week
+df_long['Year'] = iso.year
+
+df_long['Concentration'] = df_long['Concentration'].round(1)
+df_long['AQI'] = df_long['AQI'].round(0)
+
 
 # 5) Interactive Plotly line plot of daily means
 fig = px.line(
@@ -149,12 +162,19 @@ fig = px.line(
     x='Time Interval',
     y='Concentration',
     color='Pollutant',
-    hover_data=['AQI'],            # show AQI in the tooltip
-    labels={
-      'Time Interval': 'Date',
-      'Concentration': 'µg/m³'
+    hover_data={
+        'AQI': ':.0f', #integer
+        'Concentration': ':.1f',#one decimal
+        'Time Interval': False
+
     },
-    title='Daily Mean Concentration & AQI by Pollutant'
+    labels={
+        #'': '',
+        'Concentration': 'µg/m³'
+    },
+    title='Mean air pollution per week and AQI value'
 )
+fig.update_xaxes(hoverformat='Week %W,%Y')
 fig.update_layout(hovermode='x unified')
 fig.show()
+
