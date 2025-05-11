@@ -154,7 +154,7 @@ def write_to_excel_by_pollutant(AirData, out_dir="airdata_excel"):
         print(f"Lagret {file_path}")
 
 
-def data_reader(filename, nanlimit,skiprows=None,usecols=None,nrows=None):
+def data_reader(filename, nanlimit,skiprows=None,usecols=None,nrows=None,sep=None):
     startTime = time.time()
     """Leser strukturen og informasjonen til en fil.
     Filen kan være av typen csv, xlsx, json, eller html.
@@ -184,7 +184,11 @@ def data_reader(filename, nanlimit,skiprows=None,usecols=None,nrows=None):
     try:
         start_time = time.time()
         if extension.lower() == '.csv':
-            data = pd.read_csv(filename)
+            if sep is not None:
+                data = pd.read_csv(filename, sep=sep)
+            else:
+                data = pd.read_csv(filename)
+
         elif extension.lower() == '.xlsx':
             xls = pd.ExcelFile(filename)
             ark_liste = xls.sheet_names  # Leser hvilke ark excel filen innholder
