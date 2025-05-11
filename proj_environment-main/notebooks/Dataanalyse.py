@@ -1,5 +1,3 @@
-
-
 #------------------------Imports of files and functions--------------------#
 import pickle
 from pathlib import Path
@@ -24,14 +22,16 @@ if __name__ == "__main__":  # Koden kjøres bare i dette skriptet:
     plot_histogram(PM25,'darkgrey','PM2.5')
     plot_histogram(PM10,'plum','PM10')
 
-    stats_NO2=mean_std_meadin_corr(NO2) #Finding mean, meadian, standard deviation and correlation.
+    stats_NO2=mean_std_meadin_corr(NO2,'NO2')
+    stats_PM25 = mean_std_meadin_corr(PM25,'PM2.5')
+    stats_PM10 = mean_std_meadin_corr(PM10,'PM10')
 
     NO2_trend_year,NO2_trend,NO2_seasonal=reggresion_analysis(NO2,'NO2','orange') #Regression analysis NO2
     PM25_trend_year,PM25_trend,PM25_seasonal=reggresion_analysis(PM25,'PM25','darkgrey') #Regression analysis PM25
     PM10_trend_year,PM10_trend,PM10_seasonal=reggresion_analysis(PM10,'PM10','plum') ##Regression analysis PM10
 
 
-#--------Data for later use------------#
+#-----------------------Data for later use---------------------#
 NO2_raw,PM25_raw,PM10_raw=cap_outliers(data, 'Value',plot=False)
 NO2_trend_year_raw,NO2_trend_raw,NO2_seasonal_raw=reggresion_analysis(NO2_raw,'NO2','orange',plot=False) #Regression analysis NO2
 PM25_trend_year_raw,PM25_trend_raw,PM25_seasonal_raw=reggresion_analysis(PM25_raw,'PM25','darkgrey',plot=False) #Regression analysis PM25

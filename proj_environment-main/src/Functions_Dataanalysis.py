@@ -108,7 +108,7 @@ def cap_outliers(data, column,plot=True):
     IQR: Differansen mellom nedre og øvre kvartil. Kalles ofte kvartilbredden.
     [Q1 - 1.5*IQR, Q3 + 1.5*IQR]: teoretiske øvre og nedre grense for whiskers.
     """
-    def quartiles(df):
+    def quartiles(df,name):
         df = df.copy()
         Q1 = df[column].quantile(0.25)
         Q3 = df[column].quantile(0.75)
@@ -116,11 +116,17 @@ def cap_outliers(data, column,plot=True):
         lower_bound = Q1 - 1.5 * IQR
         upper_bound = Q3 + 1.5 * IQR
         df[column]= df[column].clip(lower=lower_bound, upper=upper_bound)
+
+        if plot:
+            print(' ')
+            print(f'    - First quartile of {name} is: {Q1}')
+            print(f'    - Third quartile of {name} is: {Q3}')
         return df
 
-    NO2=quartiles(data['NO2'])
-    PM25=quartiles(data['PM2.5'])
-    PM10=quartiles(data['PM10'])
+    NO2=quartiles(data['NO2'],'NO2')
+    PM25=quartiles(data['PM2.5'],'PM2.5')
+    PM10=quartiles(data['PM10'],'PM10')
+    print(' ')
 
     data_w_outliars = [data['NO2']['Value'].values,
         data['PM2.5']['Value'].values, data['PM10']['Value'].values]
@@ -156,7 +162,7 @@ def plot_histogram(df,color,title):
     plt.grid(axis='y')
     plt.show()
 
-def mean_std_meadin_corr(df):
+def mean_std_meadin_corr(df,name):
     """
     Meadian: Det midterste tallet av en stortert tallrekke. Sir noe om hvilket tall som er vanlig.
     Standrard avvik: Hvor langt unna gjennomsnittet ligger 68% av dataene.
@@ -169,15 +175,14 @@ def mean_std_meadin_corr(df):
     mean_emission = df['Value'].mean() #gjn.snitt
     correlation = df['Time Interval'].corr(df['Value'])  # Korrelasjon mellom år og utslipp
 
-    print(f"Gjennomsnittlig utslippsnivå:, {mean_emission:.3f}")
-    print(f"Median utslippsnivå: {median_emission:.3f}")
-    print(f"Standardavvik utslippsnivå: {std_emission:.3f}")
-    print(f"Korrelasjon mellom år og utslipp for NO2: {correlation:.3f}")
-
-    if correlation < 0.6:
-        print(' ')
-        print(f'Seems like the correlation of your data is close to zero {correlation:.3f} is very low.')
-        print('Your has likely season variations.')
+    print(' ')
+    print(f"    - Mean value of {name}:                   {mean_emission:.3f}")
+    print(f"    - Median of {name}:                       {median_emission:.3f}")
+    print(f"    - Standard deviation of {name}:           {std_emission:.3f}")
+    print(f"    - Correlation of year and {name} measure: {correlation:.3f}")
+    print(' ')
+    if abs(correlation) < 0.6:
+        print(f'Seems like the correlation ({correlation:.3f}) of year and {name} is very low.')
         print(' ')
 
     dict_stats={'Meadian':median_emission,
@@ -195,15 +200,16 @@ def reggresion_analysis(df,name,color,plot=True):
 
     df["Time Interval"] = pd.to_datetime(df["Time Interval"]) #Gjør om til datetime, eks: 2020-01-01 00:00:00
     df = df.set_index("Time Interval").sort_index() #Setter datetime som index, feks istede for index 0 er indexen 2020-01-01 00:00:00
-    monthly = df["Value"].resample("MS").mean().interpolate("time") #finner månterlig gjennomsnitt for de ulike årene, og interpolerer evt nan verdier
+    monthly = df["Value"].resample("MS").median().interpolate("time") #finner månterlig gjennomsnitt for de ulike årene, og interpolerer evt nan verdier
 
-    stl = STL(monthly, period=12, seasonal=25, robust=True)   # 12 måneder per år
-    res = stl.fit()
-    trend= res.trend           # finner sesongbasert trend
-    seasonal= res.seasonal     # finner ut om det er et fast mønster i trenden
-    resid= res.resid           # uteliggerene som avviker fra snittet ??
+    stl = STL(monthly, period=12, seasonal=19, robust=True)   # 12 måneder per år
+    data = stl.fit()
+    trend= data.trend           # finner sesongbasert trend
+    seasonal= data.seasonal     # finner ut om det er et fast mønster i trenden
+    resid= data.resid           # uteliggerene som avviker fra snittet ??
 
-                  ## Finner årlig trend ##
+
+                  ## Finner årlig linær trend ##
 
     x_years = trend.index.year + (trend.index.dayofyear / 365.25) # Lineær trend på utslippsnivå (slope i "verdi per år")
     a, b = np.polyfit(x_years, trend.values, 1)
@@ -224,12 +230,13 @@ def reggresion_analysis(df,name,color,plot=True):
         ax1.plot(monthly, label="Observation", color=color, alpha=.5)
         ax1.plot(trend, label="Trend (STL)",linestyle='--', color='deeppink')
         ax1.plot(seasonal, label="Seasonal (STL)")
+        ax1.legend()
 
-        ax2.plot(x_years, trend.values,linestyle='--',color='deeppink', label='Trend-data')
+        ax2.plot(x_years, trend,linestyle='--',color='deeppink', label='Trend-data')
         ax2.plot(x_sorted, y_fit_sorted, color=color, linewidth=2,label=f'Fit: y = {a:.3f}·x')
         ax2.set_xlabel('Year')
         ax2.set_ylabel('Pollutant measure µg/m^3')
-        plt.legend()
+        ax2.legend()
         plt.show()
 
     return x_sorted, y_fit_sorted,seasonal
