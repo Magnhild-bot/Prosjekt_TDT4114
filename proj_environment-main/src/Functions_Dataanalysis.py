@@ -78,7 +78,7 @@ class Tempdata_manipulering:
 
     def __init__(self, df):
         """
-        Initializes a dict_file instance.
+        Initializes a dict_file instance..
 
         Args:
             df (Dataframe): Dataframe with information of temperature in oslo between 2016-2024
