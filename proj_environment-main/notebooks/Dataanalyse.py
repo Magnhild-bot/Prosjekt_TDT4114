@@ -26,9 +26,9 @@ plot_histogram(PM10,'plum','PM10')
 
 stats_NO2=mean_std_meadin_corr(NO2) #Finding mean, meadian, standard deviation and correlation.
 
-NO2_trend_year,NO2_trend=reggresion_analysis(NO2,'NO2','orange') #Regression analysis NO2
-PM25_trend_year,PM25_trend=reggresion_analysis(PM25,'PM25','darkgrey') #Regression analysis PM25
-PM10_trend_year,PM10_trend=reggresion_analysis(PM10,'PM10','plum') ##Regression analysis PM10
+NO2_trend_year,NO2_trend,NO2_seasonal=reggresion_analysis(NO2,'NO2','orange') #Regression analysis NO2
+PM25_trend_year,PM25_trend,PM25_seasonal=reggresion_analysis(PM25,'PM25','darkgrey') #Regression analysis PM25
+PM10_trend_year,PM10_trend,PM10_seasonal=reggresion_analysis(PM10,'PM10','plum') ##Regression analysis PM10
 
 
 
