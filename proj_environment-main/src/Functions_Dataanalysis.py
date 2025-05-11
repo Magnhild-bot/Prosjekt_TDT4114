@@ -74,6 +74,30 @@ class Pollutants_manipulering:
         return self.mean_value_pollutant()
 
 
+class Tempdata_manipulering:
+
+    def __init__(self, df):
+        """
+        Initializes a dict_file instance.
+
+        Args:
+            df (Dataframe): Dataframe with information of temperature in oslo between 2016-2024
+            """
+        self.df = df
+
+    def interpolate_nan(self):
+        nan_vals = self.df['Middeltemperatur (mnd)'].isna().sum()
+        print(f"Removing {nan_vals} NaN values")
+
+        #Interpolating nan values
+        self.df['Middeltemperatur (mnd)'] = (
+            self.df['Middeltemperatur (mnd)'].interpolate()
+        )
+
+        nan_left = self.df['Middeltemperatur (mnd)'].isna().sum()
+        print(f"{nan_left} left")
+
+
 #---------------------------Dataanalyse functions------------------------------#
 
 def cap_outliers(data, column):
