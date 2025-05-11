@@ -186,7 +186,7 @@ def mean_std_meadin_corr(df):
 
     return dict_stats
 
-def reggresion_analysis(df,name,color):
+def reggresion_analysis(df,name,color,plot=True):
 
     """
         .resample() tar inn MS for første dagen hver måned og finner gjennomsnittet for denne måneden.
@@ -216,18 +216,19 @@ def reggresion_analysis(df,name,color):
     x_sorted = x_years[order]
     y_fit_sorted = y_fit[order]
 
-    fig, (ax1, ax2) = plt.subplots(2, 1)
-    fig.suptitle(f'Monthly {name} trend, and linear reggression between 2016-2024')
-    ax1.plot(monthly, label="Observation", color=color, alpha=.5)
-    ax1.plot(trend, label="Trend (STL)",linestyle='--', color='deeppink')
-    ax1.plot(seasonal, label="Seasonal (STL)")
+    if plot:
+        fig, (ax1, ax2) = plt.subplots(2, 1)
+        fig.suptitle(f'Monthly {name} trend, and linear reggression between 2016-2024')
+        ax1.plot(monthly, label="Observation", color=color, alpha=.5)
+        ax1.plot(trend, label="Trend (STL)",linestyle='--', color='deeppink')
+        ax1.plot(seasonal, label="Seasonal (STL)")
 
-    ax2.plot(x_years, trend.values,linestyle='--',color='deeppink', label='Trend-data')
-    ax2.plot(x_sorted, y_fit_sorted, color=color, linewidth=2,label=f'Fit: y = {a:.3f}·x')
-    ax2.set_xlabel('Year')
-    ax2.set_ylabel('Pollutant measure µg/m^3')
-    plt.legend()
-    plt.show()
+        ax2.plot(x_years, trend.values,linestyle='--',color='deeppink', label='Trend-data')
+        ax2.plot(x_sorted, y_fit_sorted, color=color, linewidth=2,label=f'Fit: y = {a:.3f}·x')
+        ax2.set_xlabel('Year')
+        ax2.set_ylabel('Pollutant measure µg/m^3')
+        plt.legend()
+        plt.show()
 
     return x_sorted, y_fit_sorted,seasonal
 
