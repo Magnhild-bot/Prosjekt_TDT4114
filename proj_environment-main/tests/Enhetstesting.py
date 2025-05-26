@@ -33,7 +33,7 @@ class TestDataReader(unittest.TestCase):
         os.remove(self.filename)
 
     def test_data_reader_valid(self):
-        """Check that a valid CSV is read correct and that the right messages is printed."""
+        """Checks that a CSV-file is read correct and that the right messages is printed."""
         nanlimit = 20  # Allow up to 20% NaN.
 
         with StringIO() as buf, redirect_stdout(buf):
@@ -45,7 +45,7 @@ class TestDataReader(unittest.TestCase):
         self.assertIn('The data reader code took ', output, ' seconds to run')
 
     def test_data_reader_file_not_found(self):
-        """Makes sure the function exits when the file does not exist."""
+        """Makes sure the function exits when the file is not."""
         nanlimit = 10
         fake_filename = "non_existent_file.csv"
 
@@ -62,21 +62,21 @@ class TestPredictFuture(unittest.TestCase):
         self.y = np.array([10, 12, 14, 16, 18])
 
     def test_predict_future_output(self):
-        """Check that prediction returns 24 future points - monthly for 2 years."""
-        future_x, future_y = predict_future(self.x, self.y, years_ahead=2, label='Test', color='blue')
+        """Check that prediction returns 24 future points - which is every month for 2 years."""
+        future_x, future_y = predict_future(self.x, self.y, years=2, label='Test', color='blue')
 
         self.assertEqual(len(future_x), 24)
         self.assertEqual(len(future_y), 24)
         self.assertTrue(np.all(future_x >= self.x[-1]))
 
     def test_predict_future_empty_input(self):
-        """Check that empty input arrays gives a ValueError."""
+        """Checks that empty input arrays gives a ValueError."""
         with self.assertRaises(ValueError):
             predict_future(np.array([]), np.array([]))
 
     def test_predict_future_increasing(self):
-        """Make sure the predicted values increase over time."""
-        future_x, future_y = predict_future(self.x, self.y, years_ahead=5)
+        """Makes sure the predicted values increase over time."""
+        future_x, future_y = predict_future(self.x, self.y, years=5)
 
         self.assertGreater(future_y[-1], future_y[0])
 
