@@ -14,18 +14,18 @@ data_dir = project_dir / "data"
 # Importing the trend data of the air pollutants from Dataanalyse.py
 from Dataanalyse import NO2_trend_year_raw, NO2_trend_raw,PM25_trend_year_raw, PM25_trend_raw, PM10_trend_year_raw, PM10_trend_raw
 
-def predict_future(x_sorted, y_fit_sorted, years_ahead=10, label='NO2', color='orange'):
+def predict_future(x_sorted, y_fit_sorted, years=10, label='NO2', color='orange'):
     # Reshaping for sklearn.
     x_fit_sorted = np.array(x_sorted).reshape(-1, 1)
     y_fit_sorted = np.array(y_fit_sorted)
 
-    # Fitting with the linear regression model.
+    # Fitting with the linear regression model from scikit.
     model = LinearRegression()
     model.fit(x_fit_sorted, y_fit_sorted)
 
     # Predicting future years.
     last_year = x_sorted[-1]
-    future_x_years = np.linspace(last_year, last_year + years_ahead, num=24)
+    future_x_years = np.linspace(last_year, last_year + years, num=24)
     future_years_reshape = future_x_years.reshape(-1, 1)
     future_y = model.predict(future_years_reshape)
 
@@ -34,10 +34,10 @@ def predict_future(x_sorted, y_fit_sorted, years_ahead=10, label='NO2', color='o
 
     plt.figure(figsize=(10, 4))
     plt.plot(x_sorted, y_fit_sorted, label='Historical Trend', color=color)
-    plt.plot(future_x_years, future_y, '--', label=f'{label} Prediction ({years_ahead} years)', color='red')
+    plt.plot(future_x_years, future_y, '--', label=f'{label} Prediction ({years} years)', color='red')
     plt.xlabel("Year")
     plt.ylabel("Pollutant level [µg/m³]")
-    plt.title(f"{label} Trend with {years_ahead}-Year Prediction")
+    plt.title(f"{label} Trend with {years}-Year Prediction")
     plt.legend()
     plt.grid(True)
     plt.show()

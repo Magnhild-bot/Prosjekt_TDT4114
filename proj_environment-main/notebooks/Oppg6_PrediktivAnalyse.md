@@ -31,7 +31,7 @@ Det blir lagt til en minimimumsverdi på 0 for utslippene, da utslipp ikke kan b
 * Inndata:
 * x_sorted: Liste med årstall.
 * y_fit_sorted: Tilsvarende verdier for den lineære trenden.
-* years_ahead: Hvor mange år frem det skal predikeres - vi velger 10 år.
+* years: Hvor mange år frem det skal predikeres - vi velger 10 år.
 * label: Navn på komponenten (f.eks. NO₂).
 * color: Farge brukt i plottet.
 
