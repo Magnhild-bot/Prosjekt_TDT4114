@@ -11,7 +11,7 @@ sys.path.insert(0, str(project_dir / 'src'))
 sys.path.insert(0, str(project_dir / 'notebooks'))
 data_dir = project_dir / "data"
 
-# Importing the trend data of the air pollutants from Dataanalyse.py
+# Importing the trend data of the air pollutants from Dataanalyse.py.
 from Dataanalyse import NO2_trend_year_raw, NO2_trend_raw,PM25_trend_year_raw, \
                         PM25_trend_raw, PM10_trend_year_raw, PM10_trend_raw
 
