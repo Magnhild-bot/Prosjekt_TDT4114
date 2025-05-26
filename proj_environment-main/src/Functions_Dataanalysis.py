@@ -9,12 +9,28 @@ from statsmodels.tsa.seasonal import STL
 
 class Pollutants_manipulering:
 
+    """
+        A class for cleaning and aggregating air quality measurements.
+
+        Given a dictionary of pandas DataFrames—each containing time‐series pollutant
+        readings (e.g., NO₂, PM10, PM2.5) from various monitoring stations—this class:
+
+        1. Replaces invalid values (negative readings and extreme outliers) with NaN.
+        2. Verifies that each station’s dataset has the expected number of observations,
+           and discards any that do not meet the size requirement.
+        3. Computes a unified, hourly mean pollutant concentration across all remaining
+           stations, linearly interpolating any missing values.
+
+        Call `run_all()` to execute the full pipeline in sequence and return
+        a single DataFrame of cleaned, aggregated pollutant levels.
+        """
+
     def __init__(self, dict_file):
         """
         Initializes a dict_file instance.
 
         Args:
-            dict_file (dict): A dictionary containing different Dataframes with information of the pollutants NO2, PM10 and PM2.5.
+            dict_file (dict): A dictionary containing df of the pollutants NO2, PM10 and PM2.5.
         """
         self.dict_file = dict_file
 
@@ -85,17 +101,34 @@ class Tempdata_manipulering:
             """
         self.df = df
 
-    def interpolate_nan(self):
+    def interpolate_nan(self) -> pd.DataFrame:
+
+        # Replacing comma with dot for descimals.
+        self.df['Middeltemperatur (mnd)'] = (
+            self.df['Middeltemperatur (mnd)']
+            .astype(str)
+            .str.replace(',', '.', regex=False)
+            .str.extract(r'([-+]?\d*\.?\d+)', expand=False)
+        )
+
+        # Finding number of nan.
         nan_vals = self.df['Middeltemperatur (mnd)'].isna().sum()
         print(f"Removing {nan_vals} NaN values")
 
-        #Interpolating nan values
+        # Converting elements from object to float.
+        self.df['Middeltemperatur (mnd)'] = (
+            pd.to_numeric(self.df['Middeltemperatur (mnd)'], errors='coerce')
+        )
+
+        # Interpolating nan values.
         self.df['Middeltemperatur (mnd)'] = (
             self.df['Middeltemperatur (mnd)'].interpolate()
         )
 
         nan_left = self.df['Middeltemperatur (mnd)'].isna().sum()
         print(f"{nan_left} left")
+
+        return self.df
 
 
 #---------------------------Dataanalyse functions-------------------------------#
@@ -204,9 +237,9 @@ def reggresion_analysis(df,name,color,plot=True):
 
     stl = STL(monthly, period=12, seasonal=19, robust=True)   # 12 måneder per år
     data = stl.fit()
-    trend= data.trend           # finner sesongbasert trend
-    seasonal= data.seasonal     # finner ut om det er et fast mønster i trenden
-    resid= data.resid           # uteliggerene som avviker fra snittet ??
+    trend= data.trend           # Finner sesongbasert trend
+    seasonal= data.seasonal     # Finner ut om det er et fast mønster i trenden
+    resid= data.resid           # Uteliggerene som avviker fra standard mønsteret.
 
 
                   ## Finner årlig linær trend ##
