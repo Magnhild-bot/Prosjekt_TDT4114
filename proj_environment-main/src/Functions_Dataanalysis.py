@@ -5,7 +5,7 @@ import seaborn as sns
 from statsmodels.tsa.seasonal import STL
 
 
-#------------------------------Databehandling functions---------------------------#
+
 
 class Pollutants_manipulering:
 
@@ -95,9 +95,17 @@ class Pollutants_manipulering:
 
 class Tempdata_manipulering:
 
+    """
+    Doing relevant data manipulation for temperature data.
+
+    - Replacing nan values with interpolated value.
+    - Replacing comma with dot for descimal delimiters.
+
+    """
+
     def __init__(self, df):
         """
-        Initializes a dict_file instance..
+        Initializes a dict_file instance.
 
         Args:
             df (Dataframe): Dataframe with information of temperature in oslo between 2016-2024
@@ -134,16 +142,17 @@ class Tempdata_manipulering:
         return self.df
 
 
-#---------------------------Dataanalyse functions-------------------------------#
+
 
 def cap_outliers(data, column,plot=True):
 
     """
-    Identifiserer tydlige uteliggere, og bytter dem ut med øvre eller nedre kvartil.
-    Q1: snittet av de nederste 25% målingene (25% precentile).
-    Q3: snittet av de øvre 25% målingene (75% precentile).
-    IQR: Differansen mellom nedre og øvre kvartil. Kalles ofte kvartilbredden.
-    [Q1 - 1.5*IQR, Q3 + 1.5*IQR]: teoretiske øvre og nedre grense for whiskers.
+    Identify obvious outliers and replace them with the nearest quartile bound.
+
+    Q1: the 25th percentile (mean of the lowest 25% of measurements).
+    Q3: the 75th percentile (mean of the highest 25% of measurements).
+    IQR: interquartile range, the difference between Q3 and Q1.
+    Whisker bounds: [Q1 - 1.5 * IQR, Q3 + 1.5 * IQR], the theoretical lower and upper limits.
     """
 
     # Function for finding quartiles and the IQR.
@@ -210,11 +219,13 @@ def plot_histogram(df,color,title,bins):
 def mean_std_meadin_corr(df,name):
 
     """
-    Meadian: Det midterste tallet av en stortert tallrekke. Sir noe om hvilket tall som er vanlig.
-    Standrard avvik: Hvor langt unna gjennomsnittet ligger 68% av dataene.
-    Mean : Gjennomsnittet
-    Correlation: Parson korrelasjon leter etter en linær trend på hvordan veskten fra dag til dag ser ut.
-                Noen kilder skriver at en bør ha minst en COrrelasjon på +- 0.6 for å kalle det en god korrelasjon.
+    Statistical summary metrics used in the analysis.
+
+    - median (float): The middle value of an ordered data set.
+    - std_dev (float): Standard deviation; ~68% of data lies within ±1σ of the mean.
+    - mean (float): The arithmetic average.
+    - correlation (float): Pearson correlation coefficient, indicating linear trend.
+      Values ≥|0.6| are often considered strong.
     """
 
     median_emission = df['Value'].median() # Meadian.
@@ -244,7 +255,14 @@ def mean_std_meadin_corr(df,name):
 def reggresion_analysis(df,name,color,plot=True):
 
     """
-        .resample() tar inn MS for første dagen hver måned og finner gjennomsnittet for denne måneden.
+        Perform STL decomposition on monthly pollutant measurements and fit a
+        linear trend across years.
+
+        This function takes a time‐indexed DataFrame of raw pollutant readings,
+        resamples it to monthly medians, fills gaps by time‐based interpolation,
+        then applies a Seasonal-Trend decomposition (STL). It computes a yearly
+        linear regression on the STL trend component and optionally displays a
+        two‐panel plot of the decomposition and fitted line.
     """
 
     # Formating data.
@@ -258,8 +276,6 @@ def reggresion_analysis(df,name,color,plot=True):
     trend= data.trend           # Year based trends.
     seasonal= data.seasonal     # Season based trends for all years.
     resid= data.resid           # Outliars from the trend stats.
-
-
 
     # Finding linear based reggression trend between years.
     x_years = trend.index.year + (trend.index.dayofyear / 365.25)
@@ -294,9 +310,11 @@ def reggresion_analysis(df,name,color,plot=True):
 
 
 def calculate_aqi(value, breakpoints):
+
     """
     Function to calculate AQI value for the different pollutants.
     """
+
     for low_conc, high_conc, low_aqi, high_aqi in breakpoints:  #cheks each breakpoint tuple
         if low_conc <= value <= high_conc:
             aqi = ((value - low_conc) / (high_conc - low_conc)) * (high_aqi - low_aqi) + low_aqi
