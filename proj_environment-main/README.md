@@ -1,16 +1,38 @@
-# Project
-
-Denne ReadMe filen kommer til å innholde den overordnet ferdige strukturen for hele prosjektet.
-Relevante mapper for prosjektet foreløpig er mappen "data" og "Mappe_del1" og "Mappe_del2" (Vi har ikke fått helt til å bruke gitignore enda. Dette skal fikses snarest).
-
-# data - mappen
-data mappen er laget for å sortere alt som har med datainnsamling å gjøre på et sted. I denne mappen kommer det meste av del 1 i prosjektet til å bli besvart.
-Det mangle å opprette noen unitester for funksjonene som har blitt laget her, samt noe opprydding i kode og kommentarer.
-Kode skal også gås mer gjennom og forbedres.
-
-# Mappe_del2
-Mappen skal til slutt innholde det meste av besvarelsene for del 2 av prosjektet. Foreløpig er bare oppgave 4 i del 2 påbegynt her.
-Datasettet som brukes kommer sannsynligvis til å byttes med det som nå er blitt hentet inn i data mappen.
+# Prosjekt TDT4114
+Et Python-prosjekt utviklet i forbindelse med emnet TDT4114. Denne README-filen gir et raskt overblikk over prosjektets struktur, slik at nye bidragsytere lett finner fram.
 
 
-Alle andre mapper samt venv skal legges inn i gitignore når vi får det til. Hatt noen mislykkede forsøk på gitignore foreløpig.
+## Prosjektstruktur
+
+```text
+Prosjekt_TDT4114/
+|-- .venv/ #virtuelt miljø
+|-- proj_environment-main/
+|   |-- data/
+|   |-- docs/
+|   |-- notebooks/ 
+|   |-- resources/
+|   |-- src/
+|   |-- tests/
+|   |-- .cache.sqlite
+|   `-- README.md
+|-- subprojects/
+|   |-- .cache.sqlite
+|   |-- .gitignore
+|   |-- ki-deklarasjon_mappe1.pdf
+|   `-- requirements.txt
+`-- requirements.txt
+```
+## Installering
+I requirements.txt ligger alle nødvendige for sriptene i projsektet.
+
+## Bruker instruksjon
+1. For å hente inn nødvendig data må bruker begynne med å kjøre
+Datainnsamling.py.
+2. Kjør Databehandling.py som renserer og formaterer innsamlet data, og lagrer det
+for videre oppgaver.
+3. Kjør Dataanalyse.py for statistiske analyser.
+4. Kjør Visualisering.py for visualisering av behandet data.
+5. Kjør Prediktivanalyse for 
+
+

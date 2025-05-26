@@ -9,6 +9,8 @@ aqi_breakpoints.xlsx og aqi_colors. Dictionaryen aqi_breakpoints{} konverterer d
 og value som er en tuple med høy/lav konsentrajon og tilsvarende høy/lav aqi. aqi_colors lager tuples med (kategori, farge, lav aqi verdi, høy aqi verdi).
 Siden kommer selve plottingen av AQI veridene. 
 
+aqi_colors med å bruke list comprhensions gjort om til lister for å gjøre iterasjonen i plottet mer effektivt.
+
 # Resonnement 
 
 For det første plottet ble maplotlib klassen gridspec brukt. Grunnen til dette var at for å inkludere legenden som viser AQI-fargene pg betydningen kom
