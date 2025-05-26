@@ -9,7 +9,7 @@ data_dir = project_dir / "data" #Dir til excelarkene
 
 from src.Functions_Dataanalysis import Pollutants_manipulering
 from src.Functions_Dataanalysis import Tempdata_manipulering
-"""
+
 # 1. Loading the Air pollutant files.
 print('     ')
 print('-------------------------------------')
@@ -37,7 +37,7 @@ print(f'Storing the data of {mean_results.keys()} in pickle file mean_air_pollut
 out_path = os.path.join(data_dir, "mean_air_pollutants.pkl")
 with open(out_path, "wb") as f:
     pickle.dump(mean_results, f)
-"""
+
 
 # 2. Loading the temperature data.
 print(' ')
