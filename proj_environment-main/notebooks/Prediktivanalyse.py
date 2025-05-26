@@ -34,11 +34,11 @@ def predict_future(x_sorted, y_fit_sorted, years=10, label='NO2', color='orange'
     future_y = np.clip(future_y, a_min=0, a_max=None)
 
     plt.figure(figsize=(10, 4))
-    plt.plot(x_sorted, y_fit_sorted, label='Historical Trend', color=color)
+    plt.plot(x_sorted, y_fit_sorted, label='Historical trend', color=color)
     plt.plot(future_x_years, future_y, '--', label=f'{label} Prediction ({years} years)', color='red')
     plt.xlabel("Year")
     plt.ylabel("Pollutant level [µg/m³]")
-    plt.title(f"{label} Trend with {years}-Year Prediction")
+    plt.title(f"{label}-Trend with {years} year prediction")
     plt.legend()
     plt.grid(True)
     plt.show()
