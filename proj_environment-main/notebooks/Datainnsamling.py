@@ -8,7 +8,7 @@ sys.path.insert(0, str(project_dir)) # Dir to notebooks.
 data_dir = project_dir / "data" # Dir to the datafiles.
 
 from src.Functions_FetchData import eu_air_pollutants_data, write_to_excel_by_pollutant, download_temp_file, data_reader
-
+"""
 # 1: Requesting air pollutant data from EEU database, and checking the data information.
 
 AirData = eu_air_pollutants_data(
@@ -34,7 +34,7 @@ csv_url = "https://sdi.eea.europa.eu/webdav/datastore/public/eea_t_national-emis
 CO2_data = download_temp_file(csv_url)
 data_reader(CO2_data, 20)
 
-
+"""
 # 3: Temperature data information.
 Temprature_Oslo=(os.path.join(data_dir, 'Temp_oslo_2016_2024.csv'))
 data_reader(Temprature_Oslo, 20,sep=';')
