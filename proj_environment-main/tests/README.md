@@ -60,7 +60,7 @@ Tester hvordan funksjonen håndterer tom input (`np.array([])`). Det forventes a
 #### c. `test_predict_future_increasing`
 
 **Positiv test**  
-Verifiserer at predikerte verdier endres over tid når dataen viser en tydelig lineær vekst. Dette bekrefter da at funksjonen lager en fornuftig trendlinje.
+Verifiserer at predikerte verdier endres over tid når dataen viser en tydelig lineær vekst. Dette bekrefter da at funksjonen lager en trendlinje som gir mening.
 
 
 ## Resultat
