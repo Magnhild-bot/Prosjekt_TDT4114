@@ -21,6 +21,10 @@ In winter months when average temperatures drop below freezing, drivers fit stud
 which substantially increase non-exhaust emissions through accelerated road wear and tire abrasion.
 
 ### AQI data
+For the visualisation of air pollutants, the Air Quality Index (AQI) has been used. The aqi_breakpoints.xlsx,
+contains the relation between amount of each pollutant, and which AQI value this corresponds to. The aqi_colors.xlsx,
+contains the AQI value, and which color this corresponds to. The values were found on https://www.pranaair.com/blog/what-is-air-quality-index-aqi-and-its-calculation/.
+
 
 
 
