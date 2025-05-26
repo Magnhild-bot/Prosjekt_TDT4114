@@ -12,7 +12,8 @@ sys.path.insert(0, str(project_dir / 'notebooks'))
 data_dir = project_dir / "data"
 
 # Importing the trend data of the air pollutants from Dataanalyse.py
-from Dataanalyse import NO2_trend_year_raw, NO2_trend_raw,PM25_trend_year_raw, PM25_trend_raw, PM10_trend_year_raw, PM10_trend_raw
+from Dataanalyse import NO2_trend_year_raw, NO2_trend_raw,PM25_trend_year_raw, \
+                        PM25_trend_raw, PM10_trend_year_raw, PM10_trend_raw
 
 def predict_future(x_sorted, y_fit_sorted, years=10, label='NO2', color='orange'):
     # Reshaping for sklearn.
@@ -47,13 +48,13 @@ def predict_future(x_sorted, y_fit_sorted, years=10, label='NO2', color='orange'
 # The pollutants we want to find the future predictions: NO2, PM25, PM10.
 # Can choose the years ahead that is wanted, we chose a 10-year prediction.
 future_x_NO2, future_y_NO2 = predict_future(
-    NO2_trend_year_raw, NO2_trend_raw, years_ahead=10, label='NO2', color='orange'
+    NO2_trend_year_raw, NO2_trend_raw, years=10, label='NO2', color='orange'
     )
 future_x_PM25, future_y_PM25 = predict_future(
-    PM25_trend_year_raw, PM25_trend_raw, years_ahead=10, label='PM2', color='darkgrey'
+    PM25_trend_year_raw, PM25_trend_raw, years=10, label='PM2', color='darkgrey'
     )
 future_x_PM10, future_y_PM10 = predict_future(
-    PM10_trend_year_raw, PM10_trend_raw, years_ahead=10, label='PM10', color='plum'
+    PM10_trend_year_raw, PM10_trend_raw, years=10, label='PM10', color='plum'
     )
 
 future_predictions = {
