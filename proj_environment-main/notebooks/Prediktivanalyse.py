@@ -9,32 +9,10 @@ from sklearn.linear_model import LinearRegression
 project_dir = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_dir / 'src'))
 sys.path.insert(0, str(project_dir / 'notebooks'))
+data_dir = project_dir / "data"
 
-from Functions_Dataanalysis import reggresion_analysis, cap_outliers, plot_histogram, mean_std_meadin_corr
-from Dataanalyse import data, data_dir
-
-
-# To use the values found and analysed in "Dataanalyse"
-def raw_analysis():
-    NO2_raw, PM25_raw, PM10_raw = cap_outliers(data, 'Value', plot=False)
-
-    NO2_trend_year_raw, NO2_trend_raw, NO2_seasonal_raw = reggresion_analysis(NO2_raw, 'NO2', 'orange', plot=False)
-    PM25_trend_year_raw, PM25_trend_raw, PM25_seasonal_raw = reggresion_analysis(PM25_raw, 'PM25', 'darkgrey', plot=False)
-    PM10_trend_year_raw, PM10_trend_raw, PM10_seasonal_raw = reggresion_analysis(PM10_raw, 'PM10', 'plum', plot=False)
-
-    return {
-        'NO2': (NO2_raw, NO2_trend_year_raw, NO2_trend_raw, NO2_seasonal_raw),
-        'PM25': (PM25_raw, PM25_trend_year_raw, PM25_trend_raw, PM25_seasonal_raw),
-        'PM10': (PM10_raw, PM10_trend_year_raw, PM10_trend_raw, PM10_seasonal_raw)
-    }
-
-
-results = raw_analysis()
-
-NO2_raw, NO2_trend_year_raw, NO2_trend_raw, _ = results['NO2']
-PM25_raw, PM25_trend_year_raw, PM25_trend_raw, _ = results['PM25']
-PM10_raw, PM10_trend_year_raw, PM10_trend_raw, _ = results['PM10']
-
+# Importing the trend data of the air pollutants from Dataanalyse.py
+from Dataanalyse import NO2_trend_year_raw, NO2_trend_raw,PM25_trend_year_raw, PM25_trend_raw, PM10_trend_year_raw, PM10_trend_raw
 
 def predict_future(x_sorted, y_fit_sorted, years_ahead=10, label='NO2', color='orange'):
     # Reshaping for sklearn.
@@ -69,13 +47,13 @@ def predict_future(x_sorted, y_fit_sorted, years_ahead=10, label='NO2', color='o
 # The pollutants we want to find the future predictions: NO2, PM25, PM10.
 # Can choose the years ahead that is wanted, we chose a 10-year prediction.
 future_x_NO2, future_y_NO2 = predict_future(
-    NO2_trend_year_raw, NO2_trend_raw, years_ahead=10, label='NO₂', color='orange'
+    NO2_trend_year_raw, NO2_trend_raw, years_ahead=10, label='NO2', color='orange'
     )
 future_x_PM25, future_y_PM25 = predict_future(
-    PM25_trend_year_raw, PM25_trend_raw, years_ahead=10, label='PM₂.₅', color='darkgrey'
+    PM25_trend_year_raw, PM25_trend_raw, years_ahead=10, label='PM2', color='darkgrey'
     )
 future_x_PM10, future_y_PM10 = predict_future(
-    PM10_trend_year_raw, PM10_trend_raw, years_ahead=10, label='PM₁₀', color='plum'
+    PM10_trend_year_raw, PM10_trend_raw, years_ahead=10, label='PM10', color='plum'
     )
 
 future_predictions = {
