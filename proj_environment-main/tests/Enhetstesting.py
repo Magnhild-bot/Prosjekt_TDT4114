@@ -28,12 +28,12 @@ class TestDataReader(unittest.TestCase):
         self.test_csv.close()
         self.filename = self.test_csv.name
 
-    def tearDown(self):
+    def delete_file(self):
         """Deletes the temporary file after every test"""
         os.remove(self.filename)
 
-    def test_data_reader_valid_csv(self):
-        """Check that a valid CSV is read correctly and that the expected messages is printed."""
+    def test_data_reader_valid(self):
+        """Check that a valid CSV is read correct and that the right messages is printed."""
         nanlimit = 20  # Allow up to 20% NaN.
 
         with StringIO() as buf, redirect_stdout(buf):
@@ -45,7 +45,7 @@ class TestDataReader(unittest.TestCase):
         self.assertIn('The data reader code took ', output, ' seconds to run')
 
     def test_data_reader_file_not_found(self):
-        """Ensure the function exits when the file does not exist."""
+        """Makes sure the function exits when the file does not exist."""
         nanlimit = 10
         fake_filename = "non_existent_file.csv"
 
@@ -57,11 +57,11 @@ class TestDataReader(unittest.TestCase):
 class TestPredictFuture(unittest.TestCase):
 
     def setUp(self):
-        """Simulated input data: linear trend from year 2000 to 2004"""
+        """Simulated input data - linear trend from year 2000 to 2004"""
         self.x = np.array([2000, 2001, 2002, 2003, 2004])
         self.y = np.array([10, 12, 14, 16, 18])
 
-    def test_predict_future_output_shape(self):
+    def test_predict_future_output(self):
         """Check that prediction returns 24 future points - monthly for 2 years."""
         future_x, future_y = predict_future(self.x, self.y, years_ahead=2, label='Test', color='blue')
 
@@ -69,12 +69,12 @@ class TestPredictFuture(unittest.TestCase):
         self.assertEqual(len(future_y), 24)
         self.assertTrue(np.all(future_x >= self.x[-1]))
 
-    def test_predict_future_negative_empty_input(self):
+    def test_predict_future_empty_input(self):
         """Check that empty input arrays gives a ValueError."""
         with self.assertRaises(ValueError):
             predict_future(np.array([]), np.array([]))
 
-    def test_predict_future_values_increasing(self):
+    def test_predict_future_increasing(self):
         """Make sure the predicted values increase over time."""
         future_x, future_y = predict_future(self.x, self.y, years_ahead=5)
 
