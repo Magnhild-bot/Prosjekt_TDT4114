@@ -296,7 +296,7 @@ def data_reader(filename, nanlimit,
                 data[col] = data[col].astype(np.float32)
                 print(f"Column {col} converted to float32 to save memory")
                 print('DataFrame size is now: ', round(data.memory_usage(deep=True).sum() * 10 ** (-3), 2), 'kB')
-                print(' ')
+        print(' ')
 
         # Tries to convert data elements of a column of mixed types to same type.
         for col in data.columns:
@@ -316,7 +316,7 @@ def data_reader(filename, nanlimit,
                     print(f"Could not convert '{col}' elements to numeric : {e}")
                     data[col] = data[col].astype(str)
                     print(f"All elements in '{col}' converted to string")
-            print('   ')
+        print(' ')
 
         print('First 10 rows of the DataFrame:')
         print('-------------------------------')
