@@ -7,8 +7,8 @@ Testene er implementert i scriptet `tests.py`, og bruker `unittest`-rammeverket 
 
 De funksjonene som testes er hentet fra:
 
-- `Functions_FetchData.py`, der funksjonen `data_reader` blir testet.
-- `Prediktivanalyse.py`, der funksjonen `predict_future` blir testet.
+* `Functions_FetchData.py`, der funksjonen `data_reader` blir testet.
+* `Prediktivanalyse.py`, der funksjonen `predict_future` blir testet.
 
 For å kunne importere funksjonene riktig, legges `src`-og `notebooks`-mappene til `sys.path` i starten av testscriptet. 
 Dette gjør at testene kan kjøres uavhengig av hvilken mappe de kjøres fra.
@@ -31,7 +31,7 @@ Sjekker at en gyldig CSV-fil blir riktig lastet inn. CSV-filen inneholder både 
 
 - At `data_reader` returnerer et `pandas.DataFrame`
 - At datasettet har riktig form (4 rader, 3 kolonner)
-- At funksjonen printer en melding som inkluderer teksten (`"The dataset took",` output, `"seconds to run"`).
+- At funksjonen printer en melding som inkluderer teksten (`'The data reader code took '`, output, `' seconds to run'`)
 
 #### b. `test_data_reader_file_not_found`
 
@@ -49,8 +49,8 @@ Denne klassen tester funksjonen `predict_future`, som brukes til å gjøre framt
 **Positiv test**  
 Sjekker at funksjonen returnerer 24 fremtidige verdier når det ønskes 2 år med månedlige prediksjoner. Testen verifiserer at:
 
-- Antall prediksjoner = 24
-- Alle fremtidige årstall er større eller lik siste årstall i input
+* Antall prediksjoner er 24
+* Alle fremtidige årstall er større eller lik siste årstall i input
 
 #### b. `test_predict_future_negative_empty_input`
 
@@ -63,9 +63,16 @@ Tester hvordan funksjonen håndterer tom input (`np.array([])`). Det forventes a
 Verifiserer at predikerte verdier endres over tid når dataen viser en tydelig lineær vekst. Dette bekrefter da at funksjonen lager en fornuftig trendlinje.
 
 
-## Kjøring av tester
+## Resultat
+Alle testene passerte på rundt 1.50 sekunder totalt.
+Dette betyr at begge funksjonene oppfører seg slik det forventes, og den håndterer vanlige og uvanlige inputs på en korrekt måte.
+Dette tyder på robuste funksjoner, noe som er ønskelig da målet er at de skal fungere for mange forskjellige inputs.
+
+
+## Kjøring av testene
 
 Testene kan kjøres direkte fra terminalen ved å bruke:
+
 
 ```bash
 python test_main.py

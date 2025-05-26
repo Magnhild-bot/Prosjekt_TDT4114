@@ -1,14 +1,13 @@
+import os
 import sys
 from pathlib import Path
-import os
 
 # Relevant map paths.
-project_dir = Path(__file__).resolve().parents[1]   #Dir to proj_environment-main.
-sys.path.insert(0, str(project_dir))#Dir to notebooks.
-data_dir = project_dir / "data" #Dir to the datafiles.
+project_dir = Path(__file__).resolve().parents[1]   # Dir to proj_environment-main.
+sys.path.insert(0, str(project_dir)) # Dir to notebooks.
+data_dir = project_dir / "data" # Dir to the datafiles.
 
 from src.Functions_FetchData import eu_air_pollutants_data, write_to_excel_by_pollutant, download_temp_file, data_reader
-
 
 # 1: Requesting air pollutant data from EEU database, and checking the data information.
 
