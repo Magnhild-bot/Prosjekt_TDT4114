@@ -1,25 +1,47 @@
-# Oppgave 5 - Visualisering 
+# Oppgave 5 - Visualisering
+===================================================
 
-## Kode funksjon
-Denne oppgaven er løst i i scriptet Visualisering.py. Dataen som er visualisert er den manipulerte Air Pollutants 
-dataen lagret i mean_air_pollutants.pkl fra oppgave 3 (Databehandling.py). Nødvendige funksjoner er importert fra src/Functions_Dataanalysis.py. 
-Første del av koden definerer Air Quality Index (AQI) verider for de ulike forurensningsstoffene NO2, PM2.5 og PM10. Utslippsmengden i ug/m^3, og 
-tilsvarende AQI indeks er tatt fra https://www.pranaair.com/blog/what-is-air-quality-index-aqi-and-its-calculation/. I data mappen ligger excelfilene
-aqi_breakpoints.xlsx og aqi_colors. Dictionaryen aqi_breakpoints{} konverterer df_breakpoint til en dictionary med hver key tilsvarende en pollutant 
-og value som er en tuple med høy/lav konsentrajon og tilsvarende høy/lav aqi. aqi_colors lager tuples med (kategori, farge, lav aqi verdi, høy aqi verdi).
-Siden kommer selve plottingen av AQI veridene. 
+Kodefunksjon  
+------------  
+Denne oppgaven er løst i skriptet **Visualisering.py**. Det bygger på data som tidligere er hentet og bearbeidet; **mean_air_pollutants.pkl**
 
-aqi_colors med å bruke list comprhensions gjort om til lister for å gjøre iterasjonen i plottet mer effektivt.
+Formålet er å beregne Air Quality Index (AQI) for tre sentrale forurensningskomponenter (NO2, PM2.5 og PM10) og presentere resultatene i to figurer:
 
-# Resonnement 
+* en statisk Matplotlib-figur som viser AQI-nivåer over tid (2016 – 2025)  
+* en interaktiv Plotly-figur som viser ukentlig gjennomsnittlig konsentrasjon sammen med tilhørende AQI-verdi  
 
-For det første plottet ble maplotlib klassen gridspec brukt. Grunnen til dette var at for å inkludere legenden som viser AQI-fargene pg betydningen kom
-i veien for plottene. Ved å bruke gridspec og sette inn antall rader og kolonner og spesifisere størrelsene på dem, ble det enklere å 'rydde opp' i visualiseringen. 
+Funksjonsbeskrivelse  
+--------------------  
+### 1. **calculate_aqi()**
 
-I plot nummer to var intensjonen å legge til en interaktiv visualisering. I dette plottet blir de tre forskjellige utslippsstoffene samlet i et plot. Siden de ikke
-har samme AQI verdi for samme mengde utslipp, ble isteden verktøyet hover label lagt til. 
+Denne funksjonen beregner AQI for en enkelt måleverdi av et forurensingsstoff (NO2, PM2.5, PM10).
+
+Den tar inn `value` med selve konsentrasjonen av forureningsstoffet og `breakpoints` en liste med AQI-terksel-tupler.
+
+Den går gjennom breakpoints-listen med en for-løkke. For hvert intervall sjekker den
+om `if low_conc <= value <= high_conc:`, når riktig intervall er funnet bruker den lineær interpolasjon
+for å plassere verdien på AQI-skalaen. `aqi = ((value - low_conc) / (high_conc - low_conc)) * (high_aqi - low_aqi) + low_aqi`.
 
 
+
+
+Tolkning av resultater  
+----------------------  
+
+* **Fargebåndene** gir et raskt visuelt inntrykk av hvor ofte konsentrasjonene havner i de ulike AQI-kategoriene.  
+* **Trender**: NO2 viser ofte fallende AQI-topp-verdier, mens PM-komponentene har mindre tydelige endringer.  
+* **Interaktiv graf** gjør det mulig å ha mer data i samme plot. Med både konsentrasjon, AQI-verdi og tid.
+
+Konklusjon  
+----------  
+Skriptet kombinerer statisk og interaktiv visualisering for å gjøre luftkvalitetsdata både tilgjengelige og intuitive. Ved å legge AQI-fargebånd bak tidsseriene får brukeren direkte sammenheng mellom råmålinger og helseeffektskalaen.
+
+
+Mulige fremtidige gjøremål  
+--------------------------  
+
+* Kople vær- og trafikkdata inn i samme visualisering for å finne årsakssammenhenger.  
+* Legge inn en alarm som markerer perioder der AQI overstiger “usunn” i mer enn n døgn, for å gjøre koden mer
 
 
 
