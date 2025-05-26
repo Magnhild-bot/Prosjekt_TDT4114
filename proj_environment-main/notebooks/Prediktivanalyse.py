@@ -51,6 +51,9 @@ def predict_future(x_sorted, y_fit_sorted, years_ahead=10, label='NO2', color='o
     future_years_reshape = future_x_years.reshape(-1, 1)
     future_y = model.predict(future_years_reshape)
 
+    # Makes sure predicted values are not below 0
+    future_y = np.clip(future_y, a_min=0, a_max=None)
+
     plt.figure(figsize=(10, 4))
     plt.plot(x_sorted, y_fit_sorted, label='Historical Trend', color=color)
     plt.plot(future_x_years, future_y, '--', label=f'{label} Prediction ({years_ahead} years)', color='red')

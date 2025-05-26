@@ -17,18 +17,19 @@ sys.path.insert(0, str(project_dir / 'notebooks'))
 from Prediktivanalyse import predict_future
 from Functions_FetchData import data_reader
 
-
 # Unittest for the DataReader-function
 class TestDataReader(unittest.TestCase):
-    """Creates a temporary CSV file with the test data"""
+
     def setUp(self):
+        """Creates a temporary CSV file with the test data"""
         self.test_csv = tempfile.NamedTemporaryFile(mode='w+', delete=False, suffix='.csv')
         self.test_csv.write("A,B,C\n1,2,3\n4,,6\n7,8,9\n-1,2,-3\n")
         self.test_csv.seek(0)
         self.test_csv.close()
         self.filename = self.test_csv.name
-    # Deletes the temporary file after every test
+
     def tearDown(self):
+        """Deletes the temporary file after every test"""
         os.remove(self.filename)
 
     def test_data_reader_valid_csv(self):
