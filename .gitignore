@@ -10,7 +10,13 @@ venv/
 
 proj_environment-main/src/ekvivalenter_data.json
 
+proj_environment-main/data/Biler_oslo_2016_24.json
+
 proj_environment-main/subprojects/
+
+proj_environment-main/docs/tasks
+
+
 
 
 
