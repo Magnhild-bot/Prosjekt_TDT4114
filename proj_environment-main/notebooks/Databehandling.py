@@ -24,25 +24,29 @@ Pullutant_dict= {
     "PM10": PM10_data
 }
 
-# Fixing data of Pullutant_dict. 
+# Fixing data of Pullutant_dict. Storing to pkl for later use.
 mean_results = {}
 for pollutant, sheets in Pullutant_dict.items():
+    print(' ')
+    print('-'*75)
     print(f'Working on {pollutant.upper()} …')
     manipulator = Pollutants_manipulering(sheets)
     mean_results[pollutant] = manipulator.run_all()
 
 print(f'Storing the data of {mean_results.keys()} in pickle file mean_air_pollutants.pkl')
-
 out_path = os.path.join(data_dir, "mean_air_pollutants.pkl")
 with open(out_path, "wb") as f:
     pickle.dump(mean_results, f)
 
 
 # 2. Loading the temperature data.
+print(' ')
+print('Working on Temp_Oslo_2016_2024.csv')
 temp_data_raw=pd.read_csv(os.path.join(data_dir, "Temp_Oslo_2016_2024.csv"),sep=';')
 temp_data_manipulated=Tempdata_manipulering(temp_data_raw).interpolate_nan()  # Filtering for nan values.
 
 # Storing as a pickle file for later use.
+print(f'Storing the data of {temp_data_manipulated} in pickle file temperatur_oslo.pkl')
 temp_data_manipulated.to_pickle("temperatur_oslo.pkl")
 temp_path = os.path.join(data_dir, "temperatur_oslo.pkl")
 
