@@ -36,7 +36,7 @@ if __name__ == "__main__":  # Koden kjøres bare i dette skriptet:
     PM10_trend_year,PM10_trend,PM10_seasonal=reggresion_analysis(PM10,'PM10','plum') ##Regression analysis PM10
 
 
-#-----------------------Data for later use---------------------#
+#-----------------------Data for later use (Oppgave 5 and 6)---------------------#
 NO2_raw,PM25_raw,PM10_raw=cap_outliers(data, 'Value',plot=False)
 NO2_trend_year_raw,NO2_trend_raw,NO2_seasonal_raw=reggresion_analysis(NO2_raw,'NO2','orange',plot=False) #Regression analysis NO2
 PM25_trend_year_raw,PM25_trend_raw,PM25_seasonal_raw=reggresion_analysis(PM25_raw,'PM25','darkgrey',plot=False) #Regression analysis PM25
