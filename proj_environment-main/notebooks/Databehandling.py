@@ -9,7 +9,7 @@ data_dir = project_dir / "data" #Dir til excelarkene
 
 from src.Functions_Dataanalysis import Pollutants_manipulering
 from src.Functions_Dataanalysis import Tempdata_manipulering
-
+"""
 # 1. Loading the Air pollutant files.
 print('     ')
 print('-------------------------------------')
@@ -37,12 +37,14 @@ print(f'Storing the data of {mean_results.keys()} in pickle file mean_air_pollut
 out_path = os.path.join(data_dir, "mean_air_pollutants.pkl")
 with open(out_path, "wb") as f:
     pickle.dump(mean_results, f)
-
+"""
 
 # 2. Loading the temperature data.
 print(' ')
 print('Working on Temp_Oslo_2016_2024.csv')
-temp_data_raw=pd.read_csv(os.path.join(data_dir, "Temp_Oslo_2016_2024.csv"),sep=';')
+temp_data_raw=pd.read_csv(os.path.join(data_dir, "Temp_Oslo_2016_2024.csv"),
+                          sep=';',dtype={'Tid(norsk normaltid)': str},
+                          parse_dates=False)
 temp_data_manipulated=Tempdata_manipulering(temp_data_raw).interpolate_nan()  # Filtering for nan values.
 
 # Storing as a pickle file for later use.
