@@ -25,6 +25,8 @@ Returverdien er analyserte verdier for hver komponent.
 
 ### 2. predict_future()
 Denne funksjonen bruker lineær regresjon fra scikit-learn for å lage fremtidige prediksjoner av forurensningsnivåene.
+Det blir lagt til en minimimumsverdi på 0 for utslippene, da utslipp ikke kan bli lavere enn 0.
+
 
 * Inndata:
 * x_sorted: Liste med årstall.
