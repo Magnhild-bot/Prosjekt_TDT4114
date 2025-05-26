@@ -1,12 +1,20 @@
 # Kompilerte pythonfiler
 *.pyc
 __pycache__/
+*.sqlite
+*.sqlite3
+*.db
+*.cache
+
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+*.log
+
+.env
 
 venv/
-
 .idea/
-
-#proj_environment-main/data/
 
 proj_environment-main/src/ekvivalenter_data.json
 
