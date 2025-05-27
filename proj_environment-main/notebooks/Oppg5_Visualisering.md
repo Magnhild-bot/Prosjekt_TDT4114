@@ -1,14 +1,14 @@
 # Oppgave 5 - Visualisering
-===================================================
 
 Kodefunksjon   
 ------------  
 Denne oppgaven er løst i skriptet **Visualisering.py**. Det bygger på data som tidligere er hentet og bearbeidet; **mean_air_pollutants.pkl, temperatur_oslo.pkl**
 
-Formålet er å beregne Air Quality Index (AQI) for tre sentrale forurensningskomponenter (NO2, PM2.5 og PM10) og presentere resultatene i to figurer:
+Formålet er å beregne Air Quality Index (AQI) for tre sentrale forurensningskomponenter (NO2, PM2.5 og PM10) og se utvikling 
 
-* en statisk Matplotlib-figur som viser AQI-nivåer over tid (2016 – 2025)  
-* en interaktiv Plotly-figur som viser ukentlig gjennomsnittlig konsentrasjon sammen med tilhørende AQI-verdi  
+* en statisk Matplotlib-figur som viser AQI-nivåer over tid (2016 – 2025).  
+* en interaktiv Plotly-figur som viser ukentlig gjennomsnittlig konsentrasjon sammen med tilhørende AQI-verdi.  
+* en statisk Matplotlib-figur som viser forurensningskomponenetene sammen med månedlig middeltemperatur.
 
 Funksjonsbeskrivelse  
 --------------------  
@@ -78,14 +78,30 @@ ved å holde musepekeren langs grafene får man oppgitt uke nummer og AQI-verdi 
 Tolkning av resultater  
 ----------------------  
 
-* **Fargebåndene** gir et raskt visuelt inntrykk av hvor ofte konsentrasjonene havner i de ulike AQI-kategoriene.  
-* **Trender**: NO2 viser ofte fallende AQI-topp-verdier, mens PM-komponentene har mindre tydelige endringer.  
-* **Interaktiv graf** gjør det mulig å ha mer data i samme plot. Med både konsentrasjon, AQI-verdi og tid.
-* ****
+* **Figur 1**
+  * **Fargebåndene** gir et raskt visuelt inntrykk av hvor ofte konsentrasjonene havner i de ulike AQI-kategoriene.
+  * Fra dette plottet ser man at det blir uoversiktelig og lite informativt med så store mengder data
+    i en figur, det er vanskelig å se trender. Derfor er utslippsdataen i figur nr 2 samlet i ukentlig data istedet, for
+    gjøre visualiseringen enklere å tolke og trendene mer synlige. 
+* **Figur 2**: 
+  * **Interaktiv graf** gjør det mulig å ha mer data i samme plot, og visualiseringen mer engasjerende.
+  * NO2 viser fallende AQI-topp-verdier over tid, mens PM-komponentene har mindre tydelige endringer.
+* **Figur 3**
+  * Det er tydelig at lufttempertur og utslipp har en sammenheng. Fra figur 3 er det synlig lavere luftforurensing
+  ved høyere temperaturer og omvendt. Dette kan ha sammenheng med
+  økt vedforbrenning for oppvarming av hus og bruk av piggdekk, på vinterhavlåret
+  som begge bidrar til luftforurensing. I Norge er veitrafikk og vedfyring de viktigste
+  kildene til luftforurensning. 
+    * https://luftkvalitet.miljodirektoratet.no/artikkel/artikler/kilder-til-luftforurensning/
+
+  
+  
 
 Konklusjon  
 ----------  
-Skriptet kombinerer statisk og interaktiv visualisering for å gjøre luftkvalitetsdata både tilgjengelige og intuitive. Ved å legge AQI-fargebånd bak tidsseriene får brukeren direkte sammenheng mellom råmålinger og helseeffektskalaen.
+Skriptet kombinerer statisk og interaktiv visualisering for å gjøre luftkvalitetsdata både tilgjengelige og intuitive.
+Ved å legge AQI-fargebånd bak tidsseriene får brukeren direkte sammenheng med helseeffektskalaen. Med temperaturdata
+og luftforurensning i samme figur er det lett å se sammenhengen mellom dem. 
 
 
 Mulige fremtidige gjøremål  
