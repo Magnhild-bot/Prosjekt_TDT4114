@@ -1,6 +1,7 @@
 import os
 import sys
 from pathlib import Path
+import matplotlib.pyplot as plt
 
 # Relevant map paths.
 project_dir = Path(__file__).resolve().parents[1]   # Dir to proj_environment-main.
@@ -37,7 +38,11 @@ data_reader(CO2_data, 20)
 
 # 3: Temperature data information.
 Temprature_Oslo=(os.path.join(data_dir, 'Temp_oslo_2016_2024.csv'))
-data_reader(Temprature_Oslo, 20,sep=';')
+data_reader(Temprature_Oslo, 20,sep=';',dtype={'Tid(norsk normaltid)': str},
+                          parse_dates=False,decimal=',')
+
+
+
 
 
 
