@@ -9,9 +9,10 @@ import matplotlib.pyplot as plt
 project_dir = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_dir))
 data_dir = project_dir / "data"
-images_dir = os.path.join(project_dir, 'resources', 'images')
+images_dir = Path(project_dir) /'resources'/ 'images'
+file_path = images_dir/'aqi_levels.png'
 
-from src.Functions_Dataanalysis import calculate_aqi,plot_AQI_leves,plot_pollutantlevels
+from src.Functions_Dataanalysis import plot_AQI_levels,plot_pollutantlevels
 from Dataanalyse import NO2_seasonal_raw, PM25_seasonal_raw, PM10_seasonal_raw
 
 # Loading relevant data
@@ -48,7 +49,7 @@ aqi_colors = [
 ]
 
 # 1. Plotting the AQI data vs the standard AQI categories.
-plot_AQI_leves(data,aqi_breakpoints,aqi_colors,images_dir)
+plot_AQI_levels(data,aqi_breakpoints,aqi_colors,file_path)
 
 # 2. Making an interactive plot of the weekly average mean of pollution for each pollutant in one figure.
 plot_pollutantlevels(data,aqi_breakpoints)

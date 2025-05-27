@@ -311,7 +311,7 @@ def reggresion_analysis(df,name,color,plot=True):
     return x_sorted, y_fit_sorted,seasonal
 
 
-def plot_AQI_leves(data,aqi_breakpoints,aqi_colors,images_dir):
+def plot_AQI_levels(data,aqi_breakpoints,aqi_colors,file_path):
     # Plotting the AQI for each pollutant from 2016-2025
     fig = plt.figure(figsize=(14, 12))
     gs  = gridspec.GridSpec(
@@ -354,7 +354,7 @@ def plot_AQI_leves(data,aqi_breakpoints,aqi_colors,images_dir):
     legend_ax.legend(
         patches, [p.get_label() for p in patches], title="AQI Categories", loc='center')
 
-    fig.savefig(images_dir, dpi=300, bbox_inches='tight')
+    fig.savefig(file_path, dpi=300, bbox_inches='tight')
     plt.show()
 
 
