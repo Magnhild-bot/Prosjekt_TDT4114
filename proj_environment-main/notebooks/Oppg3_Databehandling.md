@@ -40,7 +40,7 @@ Etter dette er gjort ersatttes alle nan verdier med en interpolert verdi ved å 
 ## Tolking av resultater
 
 Etter å ha kjørt og renset luftkvalitetsdataen innholdt alle filene noen ark med ugylig datalengde, og ble forkastet. Det gyldige dataarkene ble vellykket rensket for det mest ekstreme ekstremverdiene samt negative verdier, og gjennomsnittsmåling for de ulike stasjonene ble funnet.
-Oppgave 3 (Dataanalyse.py) vil jobbe videre med å vusualisere eventuelle andre uteliggere/ekstremverdier og rense datasettet for disse.
+Oppgave 3 (Dataanalyse.py) vil jobbe videre med å viusualisere eventuelle andre uteliggere/ekstremverdier og rense datasettet for disse.
 Tempraturdataen ble sikret for å ikke innholde nan verdier, og komma ble vellykket endret til punktum for desimalskille, som en ser i utskriften fra .head().
 ## Forbedringsmuligheter
 

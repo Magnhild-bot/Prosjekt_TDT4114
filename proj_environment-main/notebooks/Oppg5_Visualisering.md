@@ -4,7 +4,8 @@ Kodefunksjon
 ------------  
 Denne oppgaven er løst i skriptet **Visualisering.py**. Det bygger på data som tidligere er hentet og bearbeidet; **mean_air_pollutants.pkl, temperatur_oslo.pkl**
 
-Formålet er å beregne Air Quality Index (AQI) for tre sentrale forurensningskomponenter (NO2, PM2.5 og PM10) og se utvikling 
+Formålet er å beregne Air Quality Index (AQI) for tre sentrale forurensningskomponenter (NO2, PM2.5 og PM10) og se utviklingen
+over tid, samt korrelasjon med lufttemperatur.
 
 * en statisk Matplotlib-figur som viser AQI-nivåer over tid (2016 – 2025).  
 * en interaktiv Plotly-figur som viser ukentlig gjennomsnittlig konsentrasjon sammen med tilhørende AQI-verdi.  
@@ -97,23 +98,22 @@ Tolkning av resultater
   
   
 
-Konklusjon  
-----------  
+## Konklusjon  
+
 Skriptet kombinerer statisk og interaktiv visualisering for å gjøre luftkvalitetsdata både tilgjengelige og intuitive.
 Ved å legge AQI-fargebånd bak tidsseriene får brukeren direkte sammenheng med helseeffektskalaen. Med temperaturdata
 og luftforurensning i samme figur er det lett å se sammenhengen mellom dem. 
 
 
-Mulige fremtidige gjøremål  
---------------------------  
+## Forbedringsmuligheter
 
 * Kople vær- og trafikkdata inn i samme visualisering for å finne årsakssammenhenger.  
 * Legge inn en alarm som markerer perioder der AQI overstiger “usunn” i mer enn n døgn, for å gi koden 
 en mer synlig intensjon.
 
-
-
-
-
+## Kjøreveildening
+```bash
+# Kjør Visualisering.py
+python Visualisering.py
 
 

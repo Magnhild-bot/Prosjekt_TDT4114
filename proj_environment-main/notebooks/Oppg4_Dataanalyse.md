@@ -1,4 +1,4 @@
-# Oppgave 4 -Dataanalyse
+# Oppgave 4 - Dataanalyse
 
 ## Kode funksjon
 
@@ -12,7 +12,7 @@ Følgende relevante funksjoner for er hentet ut:
 4. reggresion_analysis
 
 ### 1. cap_outliars
-I oppgave 3 ble dataen for NO2, PM25 og PM10 hentet inn og filtrert for blandt annet nan verdier og negative verdier. I denne oppgaven blir også "uteliggere" identifisert.
+I oppgave 3 ble dataen for NO2, PM2.5 og PM10 hentet inn og filtrert for blandt annet nan verdier og negative verdier. I denne oppgaven blir også "uteliggere" identifisert.
 For å undersøke spredningen i de tre datasettene ble det i første omgang plottet et boxplot (med seaborn miljøet) for å få oversikt over hvilke verdier som var "typiske"
 for datasettet. Det ble oppdaget at alle tre datasettene hadde ett sett med uteliggere. Uteliggere er i seaborn.boxplot definert som data som ligger utenfor "Whiskers", der Whiskers er
 (om ikke annet spesifisert i funksjonskallet) første og tredje kvartil +- 1.5*IQR. Avstanden mellom Whiskers linjene rommer med andre ord 75% av daten.
