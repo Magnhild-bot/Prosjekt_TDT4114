@@ -44,7 +44,7 @@ Sjekker at funksjonen håndterer filnavn som ikke eksisterer. Funksjonen skal av
 
 Denne klassen tester funksjonen `predict_future`, som brukes til å gjøre framtidsprognoser basert på tidligere data.
 
-#### a. `test_predict_future_output_shape`
+#### a. `test_predict_future_output`
 
 **Positiv test**  
 Sjekker at funksjonen returnerer 24 fremtidige verdier når det ønskes 2 år med månedlige prediksjoner. Testen verifiserer at:
@@ -52,15 +52,15 @@ Sjekker at funksjonen returnerer 24 fremtidige verdier når det ønskes 2 år me
 * Antall prediksjoner er 24
 * Alle fremtidige årstall er større eller lik siste årstall i input
 
-#### b. `test_predict_future_negative_empty_input`
+#### b. `test_predict_future_empty_input`
 
 **Negativ test**  
 Tester hvordan funksjonen håndterer tom input (`np.array([])`). Det forventes at funksjonen gir en `ValueError`.
 
-#### c. `test_predict_future_values_increasing`
+#### c. `test_predict_future_increasing`
 
 **Positiv test**  
-Verifiserer at predikerte verdier endres over tid når dataen viser en tydelig lineær vekst. Dette bekrefter da at funksjonen lager en fornuftig trendlinje.
+Verifiserer at predikerte verdier endres over tid når dataen viser en tydelig lineær vekst. Dette bekrefter da at funksjonen lager en trendlinje som gir mening.
 
 
 ## Resultat

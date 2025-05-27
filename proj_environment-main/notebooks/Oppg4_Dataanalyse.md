@@ -107,5 +107,9 @@ Denne sammenhengen vil derfor bli videre undersøkt i oppgave 5.
 Også er trenden for PM2.5 synkende over tid, men i lavere grad enn NO2. PM10 derimot har en svak vekst i utslipp, men da denne trenden har en linær økning på omtrent 1.45% per år er dette såpass lavt at gruppen konkluderer med at datasettet burde inkludert flere år for å kunne si noe sikkert om trenden faktisk er voksende.
 En linær trend fra år til år for verken PM2.5 eller PM10 kan ikke konkluderes med utifra denne analysen, da trend-dataen fra STL analysen er også ganske flukterende sammenlignet med NO2.
 
+## Kjøreveiledning
+```bash
 
+# Kjør dataanalyse
+python Dataanalyse.py
 

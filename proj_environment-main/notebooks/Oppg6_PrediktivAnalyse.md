@@ -11,27 +11,15 @@ Scikit-learn benyttes fordi det er enda mer robust enn numpy.polyfit, som også 
 
 ## Funksjonsbeskrivelse
 
-### 1. raw_analysis()
-Henter og bearbeider rådata for forurensningskomponentene:
-
-Fjerner uteliggere med `cap_outliers()`.
-Bruker `reggresion_analysis()` for å hente ut:
-1. Lineær trend over år
-2. Generell trend
-3. Sesongkomponent
-
-Returverdien er analyserte verdier for hver komponent.
-
-
-### 2. predict_future()
+### predict_future()
 Denne funksjonen bruker lineær regresjon fra scikit-learn for å lage fremtidige prediksjoner av forurensningsnivåene.
-Det blir lagt til en minimimumsverdi på 0 for utslippene, da utslipp ikke kan bli lavere enn 0.
+Det blir lagt til en minimimumsverdi på 0 for utslippene, da utslipp ikke kan bli lavere enn 0 µg/m³.
 
 
 * Inndata:
-* x_sorted: Liste med årstall.
-* y_fit_sorted: Tilsvarende verdier for den lineære trenden.
-* years_ahead: Hvor mange år frem det skal predikeres - vi velger 10 år.
+* x_fit_sorted: Liste med årstall.
+* y_fit_sorted: Tilsvarende verdier for lineære verdiene
+* years: Hvor mange år frem det skal predikeres - vi velger 10 år.
 * label: Navn på komponenten (f.eks. NO₂).
 * color: Farge brukt i plottet.
 
@@ -56,10 +44,10 @@ Denne filen lagres i `data_dir`, og inneholder strukturen:
 ## Tolkning av resultater
 
 ### NO₂
-NO₂ viser en tydelig nedadgående trend. Prediksjonen tyder på at nivåene vil fortsette å synke. Dette kan indikere redusert biltrafikk og/eller strengere utslippskrav.
+NO₂ viser en tydelig nedadgående trend. Prediksjonen tyder på at nivåene vil fortsette å synke. Dette kan for eksempel indikere redusert biltrafikk og/eller strengere utslippskrav.
 
 ### PM₂.₅
-PM₂.₅ har en svakere nedgang. Prediksjonen tyder på et forsiktig fall, men med høyere usikkerhet da fallet er mindre enn for eksempel NO₂.
+PM₂.₅ har en svakere nedgang. Prediksjonen tyder på et forsiktig fall, men med høyere usikkerhet da fallet er mindre enn for eksempel for NO₂.
 
 ### PM₁₀
 PM₁₀-trenden viser en svak økning. Dette kan skyldes andre kilder til svevestøv, som vedfyring eller byggevirksomhet. Endringen er derimot liten, og er ikke nødvendigvis signifikant.
@@ -70,13 +58,13 @@ PM₁₀-trenden viser en svak økning. Dette kan skyldes andre kilder til sveve
 Lineær regresjon brukes til å estimere utviklingen frem i tid, og i dette tilfellet er det luftkvalitet frem i tid.
 NO₂ er den komponenten med tydeligst nedgang.
 PM-komponentene viser svakere trender og mer usikkerhet, der PM₁₀ viser en svak økning.
-Resultatene gir et bilde av en mulig fremtidig utvikling, men  dette bør tolkes med forbehold, da de baseres på lineær ekstrapolering uten kontroll på andre eksterne faktorer som kan ha betydning.
+Resultatene gir et bilde av en mulig fremtidig utvikling, men  dette bør tolkes med forbehold, da de baseres på lineær ekstrapolering der andre faktorer som ikke er tatt med i beregningen kan ha betydning.
 
 Mulige videre forbedringer:
-* Bruk av mer avanserte modeller (f.eks. med sesongjustering). 
+* Bruk av mer avanserte modeller (for eksempel med sesongjustering). 
 * Inkludering av variabler som meteorologi og trafikkdata.
 
 Mulige fremtidige gjøremål:
 * Analysere årsakene til at utslippene øker/minker.
 * Hvilke tiltak som kan gjøres for å minke utslippene i enda større grad.
-* Analysere flere utlippskomponenter, og deres fremtidige utslipp basert på prediktiv analyse.
+* Bruke all kode til å analysere flere utslippskomponenter, og deres fremtidige utslipp basert på prediktiv analyse.

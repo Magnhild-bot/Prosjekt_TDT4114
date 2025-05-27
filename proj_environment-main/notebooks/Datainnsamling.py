@@ -1,9 +1,6 @@
 import os
 import sys
 from pathlib import Path
-import sqlite3
-import pandas as pd
-from collections import defaultdict
 
 # Relevant map paths.
 project_dir = Path(__file__).resolve().parents[1]   # Dir to proj_environment-main.
@@ -30,7 +27,6 @@ data_reader(PM25_data,20) # PM2.5 data information.
 
 NO2_data=(os.path.join(data_dir, 'NO2.xlsx'))
 data_reader(NO2_data,20) # NO2 data information.
-
 
 
 # 2: CO2 data information.

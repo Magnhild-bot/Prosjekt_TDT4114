@@ -1,39 +1,48 @@
-###########Til "Test_files"###########
-This script is used to inspect and preview environmental emissions data from various sources. It leverages the 
-`data_reader` and `download_temp_file` functions (imported from Functions_FetchData) to load, display, 
-explore and the amount of missing values in the contents of three different datasets.
+# src– Funksjoner for Datainnhenting og Dataanalyser
 
-1. **Air Pollutant Data (PM10.xlsx)**: 
-   - A local Excel file containing particulate matter (PM10) pollution data.
-   - Loaded from the project’s `/data/` directory.
-   - {'Value': 3559} unknown values
+Denne oppgaven er løst gjennom to sentrale scripts: `Functions_FetchData.py` og `Functions_Dataanalysis.py`. 
+Scriptet `Functions_FetchData.py` inneholder funksjoner som laster ned luftkvalitetsdata fra EEA, mens `Functions_Dataanalysis.py` inneholder funksjoner for aggregering og analyse av data over tid.
 
-2. **CO2 Emissions Data (UNFCCC_v27.csv)**:
-   - A CSV file downloaded from the European Environment Agency's public data repository.
-   - Temporarily downloaded and passed to `data_reader` for preview.
-   - {'emissions': 16031} unknown values
-3. **Climate Gas Equivalents (JSON format)**:
-   - Structured JSON dataset simulating emissions data by source, component, and year.
-   - Written to a local file (`ekvivalenter_data.json`) and then read using `data_reader`.
-   - {'dataset': 0} unknown values.
-   - 
-This script helps verify that the files contain expected structures and values by displaying the top few rows
-for quick visual inspection (with the number of rows defined per file). It is primarily used for debugging, data
-exploration, or validation purposes in the context of environmental data analysis projects.
-
-Uses SQLite-style SQL to query the df DataFrame.
-
-We choose to continue with the first one since air quality is interesting.
-
-Dependencies:
-- pandas
-- os
-- json
-- Functions_FetchData module with `data_reader` and `download_temp_file` functions
-
-(Author: [Your Name]
-Last Modified: [Date]
-""")
+Alle funksjoner er lagt i mappen src/ for å gjøre det enkelt å gjenbruke funksjonene og strukturere koden. 
 
 
-##############Til Function_FetchData########
+## `Functions_FetchData.py`
+
+Under er de ulike definerte funksjonene i scriptet forklart nøyere
+
+### 1. eu_air_pollutants_data(startdate, enddate, pollutants)
+Denne funksjonen henter ned timedata for luftkvalitetsmålinger (PM10, NO2, etc.) fra European Environment Agency (EEA) via deres API. Henter både verifiserte og ikke-verifiserte data.
+
+* Data hentes spesifikt for Oslo.
+* Funksjonen returnerer en dictionary med DataFrames for hver stasjon og hver komponent.
+* Bruker start- og sluttdato i "YYYY-MM-DDTHH:MM:SSZ"-format og en liste med ønskede komponentkoder.
+
+### 2. write_to_excel_by_pollutant(AirData, out_dir="data")
+Denne funksjonen tar dictionaryen med DataFrames og skriver dem til separate Excel-filer per luftkomponent (f.eks. PM10.xlsx, NO2.xlsx).
+Hvert regneark vil representere en målestasjon.
+
+* Mappen "data" blir laget automatisk dersom den ikke eksisterer.
+* Excel-filene navngis etter komponent.
+
+
+### 3. download_temp_file(url)
+Funksjonen brukes til å laste ned en fil fra en nettadresse og lagre den midlertidig på lokal maskin. Filen returneres som en sti og kan brukes videre i prosjektet.
+
+* Brukes primært for datasett med stor filstørrelse.
+* Bruker chunked streaming for robusthet.
+
+
+### 4.data_reader(filename, nanlimit, skiprows=None, usecols=None, nrows=None, sep=None)
+Denne funksjonen brukes til å lese inn datasett (CSV, Excel, JSON, HTML) og samtidig kontrollere datakvalitet.
+
+* Konverterer `float64 ` til  `float32` for å spare på minnet.
+
+* Gir oss detaljer om:
+* Prosentandel NaN-verdier, og den gir advarsel hvis det overstiger nanlimit)
+* Negative verdier i float-kolonner
+* Mixed-type kolonner
+* Gir visuell oversikt over de første 10 radene og statistikk over numeriske verdier
+
+
+## Functions_Dataanalysis.py
+
