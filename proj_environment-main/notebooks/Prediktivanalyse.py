@@ -51,7 +51,7 @@ future_x_NO2, future_y_NO2 = predict_future(
     NO2_trend_year_raw, NO2_trend_raw, years=10, label='NO2', color='orange'
     )
 future_x_PM25, future_y_PM25 = predict_future(
-    PM25_trend_year_raw, PM25_trend_raw, years=10, label='PM2', color='darkgrey'
+    PM25_trend_year_raw, PM25_trend_raw, years=10, label='PM2.5', color='darkgrey'
     )
 future_x_PM10, future_y_PM10 = predict_future(
     PM10_trend_year_raw, PM10_trend_raw, years=10, label='PM10', color='plum'
