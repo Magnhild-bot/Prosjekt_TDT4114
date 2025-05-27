@@ -84,6 +84,8 @@ Tolkning av resultater
   * Fra dette plottet ser man at det blir uoversiktelig og lite informativt med så store mengder data
     i en figur, det er vanskelig å se trender. Derfor er utslippsdataen i figur nr 2 samlet i ukentlig data istedet, for
     gjøre visualiseringen enklere å tolke og trendene mer synlige. 
+  * Her ble GridSpec brukt, da det legend kom i veien for plottene, på denne måten
+  kan kolonner og rader i figuren spesifiseres for å ha mer kontroll på layout til figuren.
 * **Figur 2**: 
   * **Interaktiv graf** gjør det mulig å ha mer data i samme plot, og visualiseringen mer engasjerende.
   * NO2 viser fallende AQI-topp-verdier over tid, mens PM-komponentene har mindre tydelige endringer.

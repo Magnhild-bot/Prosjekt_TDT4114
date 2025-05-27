@@ -58,6 +58,7 @@ NO2 er den komponenten med tydeligst nedgang.
 PM-komponentene viser svakere trender og mer usikkerhet, der PM10 viser en svak økning.
 Resultatene gir et bilde av en mulig fremtidig utvikling, men  dette bør tolkes med forbehold, da de baseres på lineær interpolering der andre faktorer som ikke er tatt med i beregningen kan ha betydning.
 
+## Forbedringsmuligheter
 Mulige videre forbedringer:
 * Bruk av mer avanserte modeller. Vi kunne for eksempel bruk sesongmodeller, da dataen fra oppgave 4 viste en sterk sesongbasert korrelasjon.
 * Det er mulig å inkludere flere variabler, som biltrafikk.
@@ -66,3 +67,9 @@ Mulige fremtidige gjøremål:
 * Analysere årsakene til at utslippene øker/minker.
 * Hvilke tiltak som kan gjøres for å minke utslippene i enda større grad.
 * Bruke all kode til å analysere flere utslippskomponenter, og deres fremtidige utslipp basert på prediktiv analyse.
+
+## Kjøreveiledning
+```bash
+
+# Kjør Prediktivanalyse.py
+python Prediktivanalyse.py
