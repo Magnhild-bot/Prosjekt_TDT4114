@@ -101,8 +101,8 @@ Utifra sen sesongbaserte trenden (den blå grafen) vurderte gruppen at det kan v
 ![Visualisering av dataspredning](../resources/images/STL_NO2.png)
 
 NO2 viste seg å ha en mer synkende trend fra år til år enn de to andre (PM10 og PM2.5). 
-I følge FHI er den største årsaken til foreomsten av NO2 vegtrafikk med disel og bensin biler(https://www.fhi.no/kl/luftforurensninger/luftkvalitet/temakapitler/nitrogendioksid2/?term=#kilder-og-luftforurensningsniver-av-nitrogendioksid).
-Denne sammenhengen vil derfor bli videre undersøkt i oppgave 5.
+I følge FHI er den største årsaken til foreomsten av NO2 vegtrafikk (https://www.fhi.no/kl/luftforurensninger/luftkvalitet/temakapitler/nitrogendioksid2/?term=#kilder-og-luftforurensningsniver-av-nitrogendioksid).
+Støv fra vegtrafikk kan i større grad oppstå i vintersesonger da biler bruker pigdekk og vinterdekk som gir mer slitasje. Temperatur/sesongdata vil bli undersøkt videre i oppgave 5 sammen med luftkvalitet.
 
 Også er trenden for PM2.5 synkende over tid, men i lavere grad enn NO2. PM10 derimot har en svak vekst i utslipp, men da denne trenden har en linær økning på omtrent 1.45% per år er dette såpass lavt at gruppen konkluderer med at datasettet burde inkludert flere år for å kunne si noe sikkert om trenden faktisk er voksende.
 En linær trend fra år til år for verken PM2.5 eller PM10 kan ikke konkluderes med utifra denne analysen, da trend-dataen fra STL analysen er også ganske flukterende sammenlignet med NO2.

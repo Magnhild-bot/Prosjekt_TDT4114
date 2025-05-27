@@ -46,6 +46,24 @@ class Pollutants_manipulering:
             df.loc[df["Value"] < 0, "Value"] = np.nan
             df.loc[df["Value"] > 430, "Value"] = np.nan  # Highest extreme AQI scale value of PM10, PM25 and NO2 is 430 of PM10.
 
+    def drop_time_duplicates(self, time_col='Start'):
+        print('\nDropping duplicate time‐stamps (keeping first occurrence)')
+
+        # Iterate through the "Start" column in each sheet
+        # and removes any duplicate row
+        for sheet, df in self.dict_file.items():
+            if time_col in df.columns:
+                before = len(df)
+                df_clean = df.drop_duplicates(subset=[time_col], keep='first') #Keeps the first row of the duplicates
+                dropped = before - len(df_clean)
+                if dropped:
+                    print(f"{sheet}: removed {dropped} duplicates in '{time_col}'")
+                else:
+                    print(f"{sheet}: had no {dropped} duplicates")
+                self.dict_file[sheet] = df_clean
+            else:
+                print(f"{sheet}: column '{time_col}' doesnt exist, no duplicates checked.")
+
     def lenght_test(self):
         print(' ')
         print('Checking the size of each data sheet')
@@ -92,6 +110,7 @@ class Pollutants_manipulering:
         Run all processing steps in the correct order and return the final dataset.
         """
         self.negative_to_nan()
+        self.drop_time_duplicates()
         self.lenght_test()
         return self.mean_value_pollutant()
 

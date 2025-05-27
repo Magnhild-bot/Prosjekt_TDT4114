@@ -37,6 +37,15 @@ Før dette blir gjort blir temperatur verdiene endre desimal separator fra komme
 Dataen blir også sikret å bli lest som tall verdier ved å bruke pd.to_numeric().
 Etter dette er gjort ersatttes alle nan verdier med en interpolert verdi ved å bruke pandas sin DataFrame.interpolate().
 
+## Tolking av resultater
+
+Etter å ha kjørt og renset luftkvalitetsdataen innholdt alle filene noen ark med ugylig datalengde, og ble forkastet. Det gyldige dataarkene ble vellykket rensket for det mest ekstreme ekstremverdiene samt negative verdier, og gjennomsnittsmåling for de ulike stasjonene ble funnet.
+Oppgave 3 (Dataanalyse.py) vil jobbe videre med å vusualisere eventuelle andre uteliggere/ekstremverdier og rense datasettet for disse.
+Tempraturdataen ble sikret for å ikke innholde nan verdier, og komma ble vellykket endret til punktum for desimalskille, som en ser i utskriften fra .head().
+## Forbedringsmuligheter
+
+Igjen tar koden veldig lang tid å kjøre på grunn av de store excelfilene for luftkavlitet. Slik som nevnt i Oppg2_Datainnsamling.md kan en i fremditig arbeid se på muligheten for å istede bruke effektive metoder for å skrive til en csv fil.
+
 ## Kjøreveiledning
 ```bash
 
