@@ -24,7 +24,8 @@ I requirements.txt ligger alle nødvendige pakker for scriptene i prosjektet.
 ## Oppbygning
 Alle funksjoner brukt i de ulike scriptene er samlet under src mappen. Der ligger
 Functions_Datanalysis.py som inneholder funksjoner knyttet til dataanalyse, og Functions_FetchData.py
-som inneholder funksjoner knyttet til inhenting av data. 
+som inneholder funksjoner knyttet til inhenting av data. Dette er gjort
+for at scriptene skal være oversiktlige og kortfattet.
 
 
 ## Bruker instruksjon

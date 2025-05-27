@@ -6,7 +6,7 @@ prosjektet er å lage et program som beregner og viser prognoser for luftkvalite
 ### Luftforurensningsdata
 
 For å analysere luftkvaliteten må data om forurensningskomponentene NO2, PM10 og PM2,5 lastes opp. Ifølge FHI er dette tre av forurensningsstoffene som
-forårsaker mest sykdom og død: https://www.fhi.no/he/folkehelserapporten/miljo/luftforureining--i-noreg/?term=#om-luftforurensning European Environment Agency (EEA) er valgt som kilde, 
+forårsaker mest sykdom og død: https://www.fhi.no/he/folkehelserapporten/miljo/luftforureining--i-noreg/?term=#om-luftforurensning. European Environment Agency (EEA) er valgt som kilde, 
 og EEA-dokumentasjonen for nedlasting ligger i proj_environment-main\docs\data_documentation. Luftforurensningsdataene lastes ned via API-kall og 
 er derfor ikke synlige i denne mappen før du kjører Datainnsamling.py under proj_environment-main\notebooks. 
 

@@ -42,7 +42,7 @@ Funksjonen oppretter en matplotlib-figur på 14*12 tommer og deler den opp med G
 Den setter en hovedtittel, samt en felles vertikal y-akseetikett med teksten AQI Value. For hvert forurensningsstoff i data blir konsentrasjonsverdien omgjort til AQI ved hjelp av calculate_aqi. Resultatet lagres i en ny DataFrame-kolonne kalt AQI, og plottes som en svart linje mot tid.
 Samtidig tegnes bakgrunnsrektangler (axhspan) som dekker hele plottområdet i de fargene som beskrives av aqi_colors, slik blir det lett å se hvilke deler av kurven som havner i de ulike helsekateogoriene. 
 Kun nederste subplot får x-akseetiketten Years. De andre skjuler x-etikettene for et ryddigere utseende. Alle tre akser får rutenett og y-akse-grense 0–500.
-I den høyre kolonnen bygges en egen legende av små fargede rektangler (Patch). Det gjør at figuren får en samlet forklaring uten å stjele plass fra tidsseriene.
+I den høyre kolonnen bygges en egen legend av små fargede rektangler (Patch). Det gjør at figuren får en samlet forklaring uten å stjele plass fra tidsseriene.
 Til slutt lagres bildet som PNG ved å kalle fig.savefig(images_dir, dpi=300, bbox_inches='tight'), og plt.show() åpner vinduet (eller viser inline hvis du kjører i Jupyter).
 
 

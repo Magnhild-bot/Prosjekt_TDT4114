@@ -4,16 +4,16 @@
 
 I dette prosjektet blir det samlet inn miljødata fra ulike åpne kilder:
 - **Luftforurensningsdata** PM10, PM2.5, NO2 fra EEA sitt Parquet-API.  
-- **CO₂-utslippsdata** fra UNFCCC-rapporten (CSV).  
-- **Månedlig gjennomsnittstemperatur** for Oslo (2016–2024) fra Norsk Klimaservicesenter (Temp_oslo_2016_2024.csv).
+- **CO2-utslippsdata** fra UNFCCC-rapporten (CSV).  
+- **Månedlig gjennomsnittstemperatur** for Oslo i perioden 2016–2024 fra Norsk Klimaservicesenter (Temp_oslo_2016_2024.csv).
 
 Alle dataene skal være åpne og tilgjenglige, og kvaliteten av de blir undersøkt for å vurdere hvilke kilder som skal brukes videre i prosjektet.
 
-| Kilde | Beskrivelse | Autoritet                                                                              |
-|---|---|----------------------------------------------------------------------------------------|
-| EEA Parquet-API | Timeverdier for PM10, PM2.5, NO₂ i Oslo | EU-byrå; verifiserte (E2a) + uverifiserte (E1a); gratis og tilgjengelig via HTTP-POST. |
-| UNFCCC_v27.csv | Nasjonale CO₂-utslipp (reporterte data) | UNFCCC offisiell rapport; stor CSV; kan inneholde NULL-verdier som må håndteres.       |
-| Temp_oslo_2016_2024.csv | Månedlig middeltemperatur | Norsk Klimaservicesenter; semikolon-separert csv fil, enkelte manglende verdier.       |
+| Kilde | Beskrivelse                             | Autoritet                                                                              |
+|---|-----------------------------------------|----------------------------------------------------------------------------------------|
+| EEA Parquet-API | Timeverdier for PM10, PM2.5, NO2 i Oslo | EU-byrå; verifiserte (E2a) + uverifiserte (E1a); gratis og tilgjengelig via HTTP-POST. |
+| UNFCCC_v27.csv | Nasjonale CO2-utslipp (reporterte data) | UNFCCC offisiell rapport; stor CSV; kan inneholde NULL-verdier som må håndteres.       |
+| Temp_oslo_2016_2024.csv | Månedlig middeltemperatur               | Norsk Klimaservicesenter; semikolon-separert csv fil, enkelte manglende verdier.       |
 
 
 ## 2. Kodefunksjoner
@@ -53,11 +53,11 @@ Koordinerer arbeidsflyten:
 Etter at data_reader() ble kjørt for alle datasettene fikk gruppen oversikt over hvilken type data vi har med å gjøre, og hvilke kolonner i datasettet som er relevante for videre analyse.
 
 ### EEA Pollutant data
-Dataen ble lastet ned ved API request, og skrevet videre til excelfiler. Fra brukermanualen til EEA såg gruppen at en kan bpde laste ned data fra alle stasjonene som er registrert i Oslo, eller velge ut en spesifikk stasjon. Da noen stasjoner hadde hull i datasettene, og det ville vært tidkrevende å manuelt finne hvilke stasjoner som faktisk hadde data fra 2016-2024 for de tre ulike luftkvalitetsmålingene, bestemte gruppen seg for å heller laste ned dataen til alle stasjonene, og forkaste de datasettene som manglet for mye data.
+Dataen ble lastet ned ved API request, og skrevet videre til excelfiler. Fra brukermanualen til EEA såg gruppen at en kan både laste ned data fra alle stasjonene som er registrert i Oslo, eller velge ut en spesifikk stasjon. Da noen stasjoner hadde hull i datasettene, og det ville vært tidkrevende å manuelt finne hvilke stasjoner som faktisk hadde data fra 2016-2024 for de tre ulike luftkvalitetsmålingene, bestemte gruppen seg for å heller laste ned dataen til alle stasjonene, og forkaste de datasettene som manglet for mye data.
 Gruppen ønsker å jobbe med å manipulere manglende data, men for store mangler (hele år) vil være uhensiktsmessig da de historiske dataene skal brukes for å undersøke trender og predikere framtidsscenario.
 Excel filene for de tre luftkvalitetsmålingene NO2, MP10 og PM2.5, innholder et ark per stasjon i Oslo, og første arket for alle tre blir lest i data_reader() for å få en rask oversikt over datainnholdet. I oppgave 3 (Databehandling.py) blir hvert av arkene undersøkt nøyere.
 Fra første øyekast på informasjonen om 'Column' og 'Non-Null Count' ser det ut til at ingen av datasettetene ikke har manglende verdier. Derimot når man ser på utskriften fra .describe() at blandt annet gjennomsnittet ligger langt over medianen og kvartilene, noe som tyder på store ekstrem verdier.
-Det er også veldig stor differanse mellom min og max verdi. Ekstemverdier i datasettet kan bekreftes fra rådata plottene og histogrammene som kommer ut, samt negative målinger. Gruppen konkluderer med at dette datasettet er vedlig relevant for oppgaven, og kan gi flere muligheter for å lære om datamanipulering. Gruppen går derfor videre med å bruke EEA sine data på luftkvalitet i Oslo.
+Det er også veldig stor differanse mellom min og max verdi. Ekstemverdier i datasettet kan bekreftes fra rådata plottene og histogrammene som kommer ut, samt negative målinger. Gruppen konkluderer med at dette datasettet er relevant for oppgaven, og kan gi flere muligheter for å lære om datamanipulering. Gruppen går derfor videre med å bruke EEA sine data på luftkvalitet i Oslo.
 Relevante kolonner fra datasettet er kolonnene 'Start' som innholder tid data, og kolonnen 'Value' som innholder selve luftkvalitetsmålingen.
 
 ### UNFCC utslippsdata
