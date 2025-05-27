@@ -17,7 +17,7 @@ Temperaturdata for Oslo mellom 2016–2024, er lastet ned som CSV fra Norsk Klim
 Filen Temp_oslo_2016_2024.csv i denne mappen inneholder månedlig middeltemperatur. Ifølge Miljødirektoratet er de viktigste utslippskildene eksos fra biler samt støv fra veislitasje,
 bremser og bildekk: https://luftkvalitet.miljodirektoratet.no/artikkel/artikler/kilder-til-luftforurensning/.
  
-
+ 
 
 ### AQI data
 For visualisering av luftforurensning er Air Quality Index (AQI) brukt. aqi_breakpoints.xlsx viser sammenhengen mellom konsentrasjon av hvert stoff og tilhørende AQI-verdi. 
