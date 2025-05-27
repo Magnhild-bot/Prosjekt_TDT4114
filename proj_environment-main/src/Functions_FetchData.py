@@ -9,6 +9,7 @@ from collections import defaultdict
 from datetime import datetime
 import numpy as np
 import sys
+import matplotlib.pyplot as plt
 
 
 def download_temp_file(url):
@@ -189,7 +190,8 @@ def write_to_excel_by_pollutant(AirData, out_dir="data"):
 
 def data_reader(filename, nanlimit,
                 skiprows=None, usecols=None,
-                nrows=None, sep=None):
+                nrows=None, sep=None,
+                parse_dates=None,dtype=None,decimal=None):
 
     """Read the structure and information of a file.
 
@@ -224,7 +226,7 @@ def data_reader(filename, nanlimit,
     try:
         if extension.lower() == '.csv':
             if sep is not None:
-                data = pd.read_csv(filename, sep=sep)
+                data = pd.read_csv(filename, sep=sep,dtype=dtype,parse_dates=parse_dates,decimal=decimal)
             else:
                 data = pd.read_csv(filename)
 
@@ -328,6 +330,20 @@ def data_reader(filename, nanlimit,
         print(data.select_dtypes(include='float').describe()) # Finding stats only for columns of dtype float.
         print(' ')
 
+        # Tries to plot the columns of the dataset with float values.
+        floats_df = data.select_dtypes(include=['float'])
+        if not floats_df.empty:
+            floats_df.plot()
+            plt.title(f"Raw data of {os.path.basename(filename)}")
+            plt.show()
+
+            fig, ax = plt.subplots(figsize=(10, 6))
+            floats_df.plot(kind='hist', ax=ax,bins=100)
+            ax.set_title(f"Descriptive Statistics for {os.path.basename(filename)}")
+            plt.xticks(rotation=45)
+            plt.show()
+        else:
+            print('No numeric values to plot.')
 
     except Exception as e:
         raise Exception(f"An error occurred while processing the data: {e}")

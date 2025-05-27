@@ -6,7 +6,6 @@ Et Python-prosjekt utviklet i forbindelse med emnet TDT4114. Denne README-filen 
 
 ```text
 Prosjekt_TDT4114/
-|-- .venv/ #virtuelt miljø
 |-- proj_environment-main/
 |   |-- data/
 |   |-- docs/
@@ -14,14 +13,10 @@ Prosjekt_TDT4114/
 |   |-- resources/
 |   |-- src/
 |   |-- tests/
-|   |-- .cache.sqlite
 |   `-- README.md
-|-- subprojects/
-|   |-- .cache.sqlite
-|   |-- .gitignore
-|   |-- ki-deklarasjon_mappe1.pdf
-|   `-- requirements.txt
-`-- requirements.txt
+|-- .gitignore
+|-- requirements.txt
+
 ```
 ## Installering
 I requirements.txt ligger alle nødvendige pakker for scriptene i prosjektet.
