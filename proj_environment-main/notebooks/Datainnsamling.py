@@ -1,7 +1,7 @@
 import os
 import sys
 from pathlib import Path
-import matplotlib.pyplot as plt
+
 
 # Relevant map paths.
 project_dir = Path(__file__).resolve().parents[1]   # Dir to proj_environment-main.
