@@ -1,7 +1,7 @@
 # Oppgave 5 - Visualisering
 ===================================================
 
-Kodefunksjon  
+Kodefunksjon   
 ------------  
 Denne oppgaven er løst i skriptet **Visualisering.py**. Det bygger på data som tidligere er hentet og bearbeidet; **mean_air_pollutants.pkl, temperatur_oslo.pkl**
 
