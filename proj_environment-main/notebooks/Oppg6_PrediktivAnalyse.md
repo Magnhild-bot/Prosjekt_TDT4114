@@ -19,9 +19,9 @@ Det blir lagt til en minimimumsverdi på 0 for utslippene, da utslipp ikke kan b
 * Inndata:
 * x_fit_sorted: Liste med årstall.
 * y_fit_sorted: Tilsvarende verdier for lineære verdiene
-* years: Hvor mange år frem det skal predikeres - vi velger 10 år.
-* label: Navn på komponenten (f.eks. NO₂).
-* color: Farge brukt i plottet.
+* years: Hvor mange år frem det skal predikeres, der vi velger 10 år.
+* label: Navn på komponenten, for eksempel NO2
+* color: Farge som er brukt i plottet.
 
 
 * Utdata:
@@ -32,7 +32,7 @@ Det blir lagt til en minimimumsverdi på 0 for utslippene, da utslipp ikke kan b
 
 
 ### 3. Lagring av resultater
-Prediksjonene for NO₂, PM₂.₅ og PM₁₀ lagres i en pickle-fil, `future_pollutant_predictions.pkl`.
+Prediksjonene for NO2, PM2.5 og PM10 lagres i en pickle-fil, `future_pollutant_predictions.pkl`.
 
 Denne filen lagres i `data_dir`, og inneholder strukturen:
 {
@@ -43,26 +43,26 @@ Denne filen lagres i `data_dir`, og inneholder strukturen:
 
 ## Tolkning av resultater
 
-### NO₂
-NO₂ viser en tydelig nedadgående trend. Prediksjonen tyder på at nivåene vil fortsette å synke. Dette kan for eksempel indikere redusert biltrafikk og/eller strengere utslippskrav.
+### NO2
+NO2 viser en tydelig nedadgående trend. Prediksjonen tyder på at nivåene vil fortsette å synke. Dette kan for eksempel indikere redusert biltrafikk og/eller strengere utslippskrav.
 
-### PM₂.₅
-PM₂.₅ har en svakere nedgang. Prediksjonen tyder på et forsiktig fall, men med høyere usikkerhet da fallet er mindre enn for eksempel for NO₂.
+### PM2.5
+PM2.5 har en svakere nedgang. Prediksjonen tyder på et forsiktig fall, men med høyere usikkerhet da fallet er mindre enn for eksempel for NO₂.
 
-### PM₁₀
-PM₁₀-trenden viser en svak økning. Dette kan skyldes andre kilder til svevestøv, som vedfyring eller byggevirksomhet. Endringen er derimot liten, og er ikke nødvendigvis signifikant.
+### PM10
+PM10-trenden viser en svak økning. Dette kan skyldes andre kilder til svevestøv, som vedfyring eller byggevirksomhet. Endringen er derimot liten, og er ikke nødvendigvis signifikant.
 
 
 ## Konklusjon
 
 Lineær regresjon brukes til å estimere utviklingen frem i tid, og i dette tilfellet er det luftkvalitet frem i tid.
-NO₂ er den komponenten med tydeligst nedgang.
-PM-komponentene viser svakere trender og mer usikkerhet, der PM₁₀ viser en svak økning.
+NO2 er den komponenten med tydeligst nedgang.
+PM-komponentene viser svakere trender og mer usikkerhet, der PM10 viser en svak økning.
 Resultatene gir et bilde av en mulig fremtidig utvikling, men  dette bør tolkes med forbehold, da de baseres på lineær ekstrapolering der andre faktorer som ikke er tatt med i beregningen kan ha betydning.
 
 Mulige videre forbedringer:
-* Bruk av mer avanserte modeller (for eksempel med sesongjustering). 
-* Inkludering av variabler som meteorologi og trafikkdata.
+* Bruk av mer avanserte modeller. Vi kunne for eksempel bruk sesongmodeller.
+* Det er mulig å inkludere variabler som meteorologi og trafikkdata.
 
 Mulige fremtidige gjøremål:
 * Analysere årsakene til at utslippene øker/minker.
