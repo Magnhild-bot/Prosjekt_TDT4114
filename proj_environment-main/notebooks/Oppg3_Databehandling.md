@@ -17,14 +17,14 @@ Outputtet fra Tempdata_manipulering er picklet til temperatur_oslo.pkl. Begge Pi
 
 ### 1. Pollutants_manipulering
 
-Pollutants_manipulering er en klasse som er laget for å "rense" luftkvaitetsdataen som ble lastet ned med en API request og skjekke at filene er av samme lengde slik at de er sammenlignbare og kan slås sammen til snittverdier over de ulike stasjonene for hver av luftkvalitetsmålingene.
+Pollutants_manipulering er en klasse som er laget for å "rense" luftkvaitetsdataen som ble lastet ned med en API request og sjekke at filene er av samme lengde slik at de er sammenlignbare og kan slås sammen til snittverdier over de ulike stasjonene for hver av luftkvalitetsmålingene.
 Fra kjøringen av data_reader() i oppgave 2 ble det oppdaget at datasettet innholdt et par ekstremverdier og negative verdier. Da målinger av luftkvalitet ikke kan være negative, blir disse antatt som feilmålinger.
 Et par ekstremverdier som lå opp i *10^3 for noen av datafilene som ble lastet ned er også urealistiske, og må dermed filtreres vekk.
 
 Klassen innholder funksjonene:
 
 1. negative_to_nan(): Funksjonen henter inn dataframen som skal filtreres, og "markerer" negative verdier og ekstremverdier ved å sette disse til nan.
-2. lenght_test(): Skjekker lengden til datasettene. Dersom ingenting mangler skal kolonnene innholde 78887 elementer. Data med feil lengde blir forkastet.
+2. lenght_test(): Sjekker lengden til datasettene. Dersom ingenting mangler skal kolonnene innholde 78887 elementer. Data med feil lengde blir forkastet.
 3. mean_value_pollutant(): Funksjonen samler alle luftkvalitetsmålingene fra de ulike stasjonene, slår dem sammen kolonnevis og beregner radvis gjennomsnitt for hvert tidsstempel. 
 Deretter brukes tid kolonnen for første stasjon som tidsakse. Eventuelle manglende verdier fylles ved lineær interpolasjon.
 Til slutt returneres et DataFrame med tidsintervaller og de interpolerte gjennomsnittsverdiene.

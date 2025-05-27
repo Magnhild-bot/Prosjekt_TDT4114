@@ -67,7 +67,7 @@ Gruppen går derfor ikke videre med dette datasettet.
 
 ### Temperaturdata Norsk Klimaservicesenter
 Da gruppen valgte å gå videre med luftkvalitetsdata, ble det drøftet om muligheten for å se på sammenhengen mellom temperatur og luftkvalitet.
-Datasettet ser ikke ut til å ha noen manglende verdier eller ekstremverdier, men da EEA dataen skal bli brukt for å jobbe med datamanipulering, konkluderer gruppen med å likevel gå videre med datasettet for å kunne analysere sesongbaserte korrelasjner mellom temperatur og luftkvalitet.
+Datasettet ser ikke ut til å ha noen manglende verdier eller ekstremverdier, men da EEA dataen skal bli brukt for å jobbe med datamanipulering, konkluderer gruppen med å likevel gå videre med datasettet for å kunne analysere sesongbaserte korrelasjoner mellom temperatur og luftkvalitet.
 Relevante kolonner fra dette datasettet er 'Tid(norsk normaltid)' og 'Middeltemperatur(mnd)'
 
 ## 5. Forbedringsmuligheter
