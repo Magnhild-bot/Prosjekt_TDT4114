@@ -18,7 +18,7 @@ Filen Temp_oslo_2016_2024.csv i denne mappen inneholder månedlig middeltemperat
 bremser og bildekk: https://luftkvalitet.miljodirektoratet.no/artikkel/artikler/kilder-til-luftforurensning/.
  
  
-
+ 
 ### AQI data
 For visualisering av luftforurensning er Air Quality Index (AQI) brukt. aqi_breakpoints.xlsx viser sammenhengen mellom konsentrasjon av hvert stoff og tilhørende AQI-verdi. 
 aqi_colors.xlsx knytter AQI-verdier til farger. Verdiene er hentet fra https://www.pranaair.com/blog/what-is-air-quality-index-aqi-and-its-calculation/.

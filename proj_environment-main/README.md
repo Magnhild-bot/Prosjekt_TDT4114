@@ -27,7 +27,7 @@ Functions_Datanalysis.py som inneholder funksjoner knyttet til dataanalyse, og F
 som inneholder funksjoner knyttet til inhenting av data. Dette er gjort
 for at scriptene skal være oversiktlige og kortfattet.
 
-
+ 
 ## Bruker instruksjon
 1. For å hente inn nødvendig data må bruker begynne med å kjøre
 Datainnsamling.py.

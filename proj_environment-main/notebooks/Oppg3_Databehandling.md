@@ -10,7 +10,7 @@ For å holde Databehandling.py mest mulig kortfattet er klassene brukt for å ma
 Følgende klasser for denne oppgaven er brukt:
 
 1. Pollutants_manipulering
-2. Tempdata_manipulering
+2. Tempdata_manipulering 
 
 Outputtet fra begge klassene er filtrerte dataframes. Outputtet for de ulike luftforrurensningspartikklene fra Pollutants_manipulering er samlet til en dictionary og picklet til mean_air_pollutants.pkl.
 Outputtet fra Tempdata_manipulering er picklet til temperatur_oslo.pkl. Begge Pickle filene legges i mappen \data og er klar til å brukes videre for analyser i prosjektet.

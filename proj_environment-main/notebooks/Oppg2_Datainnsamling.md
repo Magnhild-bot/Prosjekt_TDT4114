@@ -59,7 +59,7 @@ Excel filene for de tre luftkvalitetsmålingene NO2, MP10 og PM2.5, innholder et
 Fra første øyekast på informasjonen om 'Column' og 'Non-Null Count' ser det ut til at ingen av datasettetene ikke har manglende verdier. Derimot når man ser på utskriften fra .describe() at blandt annet gjennomsnittet ligger langt over medianen og kvartilene, noe som tyder på store ekstrem verdier.
 Det er også veldig stor differanse mellom min og max verdi. Ekstemverdier i datasettet kan bekreftes fra rådata plottene og histogrammene som kommer ut, samt negative målinger. Gruppen konkluderer med at dette datasettet er relevant for oppgaven, og kan gi flere muligheter for å lære om datamanipulering. Gruppen går derfor videre med å bruke EEA sine data på luftkvalitet i Oslo.
 Relevante kolonner fra datasettet er kolonnene 'Start' som innholder tid data, og kolonnen 'Value' som innholder selve luftkvalitetsmålingen.
-
+ 
 ### UNFCC utslippsdata
 Slik som for luftkvalitet dataen, ser en også på resultatene fra data_reader() at utslippsdataen fra UNFCC innholder ekstremverdier.
 Utskriften viser også at datasettet har flere nan verdier for 'emission' kolonnen. Likevel velger gruppen å ikke gå videre med dette datasettet da det er såpass stor (opp i 400 000 elementer) at det vil ta alt for lang tid å laste ned hele datasettet. For denne oppgaven er datasettet her bare lastet ned som en midlertidig fil for å kunne lese den.
