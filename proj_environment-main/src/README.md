@@ -3,7 +3,7 @@
 Denne mappen inneholder to script: `Functions_FetchData.py` og `Functions_Dataanalysis.py`. 
 Scriptet `Functions_FetchData.py` inneholder funksjoner som behandler og sorterer data, og `Functions_Dataanalysis.py` inneholder klasser og funksjoner for behandling og videre analyse av data.
 
-Alle funksjoner er lagt i mappen src/ for å gjøre det enkelt å gjenbruke funksjonene og å holde en oversiktlig struktur ved bruk av funksjonene og klassene i oppgavene. 
+Alle funksjoner er lagt i mappen `src` for å gjøre det enkelt å gjenbruke funksjonene og klassene, og å holde en oversiktlig struktur ved bruk av funksjonene og klassene i oppgavene. 
 
 
 ## Functions_FetchData.py
@@ -11,7 +11,7 @@ Består av funksjonene `download_temp_file`, `eu_air_pollutants_data`, `write_to
 Under er de ulike definerte funksjonene i scriptet forklart. De er også forklart i funksjonen i selve scriptet.
 
 ### def download_temp_file(url)
-* Funksjonen brukes til å laste ned en fil fra en nettadresse og lagre den midlertidig på lokal maskin. Filen kan brukes videre i prosjektet.
+* Funksjonen brukes til å laste ned en fil fra en nettadresse og lagre den midlertidig på den lokale maskinen. Filen kan brukes videre i prosjektet.
 * Brukes særlig for datasett med stor filstørrelse.
 * Printer ut beskjed om hvor lang tid det tok å kjøre den nedlastede filen.
 
@@ -23,9 +23,9 @@ Under er de ulike definerte funksjonene i scriptet forklart. De er også forklar
 
 ### def write_to_excel_by_pollutant(AirData, out_dir="data")
 * Tar dictionaryen med DataFrames og skriver dem til egne Excel-filer for hver luftkomponent
-* Excel-arkene blir lagret i mappen "data"
-* Mappen "data" blir laget automatisk dersom den ikke eksisterer.
-* Excel-filene navngis etter utslippskomponent.
+* Excel-arkene blir lagret i mappen `data`
+* Mappen `data` blir laget automatisk dersom den ikke eksisterer på forhånd.
+* Excel-filene navngis etter den gjeldende utslippskomponenten.
 
 
 ### def data_reader(filename, nanlimit, skiprows=None, usecols=None, nrows=None, sep=None)
@@ -33,9 +33,8 @@ Under er de ulike definerte funksjonene i scriptet forklart. De er også forklar
 * Den kontrollerer også datakvaliteten
 * Konverterer `float64 ` til  `float32` for å spare på minnet
 
-* Funksjonen gir detaljer om:
-* Prosentandel NaN-verdier, og den gir advarsel dersom det overstiger Nanlimit
-* Negative verdier i float-kolonner
+* Funksjonen identifiserer prosentandel NaN-verdier, og den gir advarsel dersom det overstiger Nanlimit
+* Identifiserer negative verdier i float-kolonner
 * Gir visuell oversikt over de første 10 radene og statistikk over numeriske verdier
 * Den forsøker å gjøre kolonner som inneholder mixed type til å inneholde samme type
 * Den oppgir hvor lang tid funksjonen bruker på å kjøre filen som blir analysert
@@ -44,7 +43,7 @@ Under er de ulike definerte funksjonene i scriptet forklart. De er også forklar
 
 
 ## Functions_Dataanalysis.py
-Består av klassene `Pollutants_manipulering` og `Tempdata_manipulering`.
+Dette scriptet består av klassene `Pollutants_manipulering` og `Tempdata_manipulering`.
 Består av funksjonene `cap_outliers`, `plot_histogram`, `mean_std_meadin_corr`,  `reggresion_analysis`, `plot_AQI_leves`, `calculate_aqi` og `plot_pollutantlevels`.
 Under er klassene og funksjonene forklart. De er også forklart i selve scriptet.
 
@@ -56,7 +55,7 @@ Gjennomfører analyse av luftkvalitet.
 #### lenght_test(self)
 * Sjekker størrelsen på hvert datasett
 * Datasett blir fjernet dersom det er kortere enn 78000 rader
-* Derfor blir datasett ansett som riktige, beholdt for videre analyse
+* Derfor blir datasett som er ansett som riktige, beholdt for videre analyse
 #### mean_value_pollutant(self)
 * Finner gjennomsnittsverdi fra målinger fra ulike stasjoner i Oslo
 * `pollutant_concat` viser alle målingene fra de ulike stasjonene side om side
@@ -75,7 +74,7 @@ Gjør analyse av temperaturdata.
 * `nan_vals` finner antall Nan-verdier
 * Sjekker at ale verdier er numeriske
 * Verdier blir interpolert til å fylle inn i Nan-verdier
-* `nan_left` sjekker hvor mange Nan-verdier som er igjen, og ideeelt er det 0
+* `nan_left` sjekker hvor mange Nan-verdier som er igjen, og ideelt er det 0
 * Returnerer `self.df`, som er interpolert og fikset dataframe
 
 
@@ -90,8 +89,8 @@ Gjør analyse av temperaturdata.
 
 ### def mean_std_meadin_corr(df,name)
 * Funksjonen finner viktige statistiske sammenhenger i datasettet; gjennomsnitt, standardavvik, median og korrelasjon
-* Hvis korrelasjonen er mindre enn 0.6 anses den som veldig lav, og dette blir printet ut
-* Dette blir lagret i `dict_stats` dersom det er behov for denne dataen senere
+* Hvis korrelasjonen er mindre enn 0.6 anses den som veldig lav, og dette blir printet ut som beskjed
+* Den statistiske dataen blir lagret i `dict_stats` for å være tilgjengelig ved senere bruk
 
 
 ### def reggresion_analysis(df,name,color,plot=True)

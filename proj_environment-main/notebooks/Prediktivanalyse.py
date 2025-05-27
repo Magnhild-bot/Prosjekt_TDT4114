@@ -63,5 +63,6 @@ future_predictions = {
     'PM10': (future_x_PM10, future_y_PM10)
 }
 
+# Save the file as a pickle-file
 with open(data_dir / "future_pollutant_predictions.pkl", 'wb') as f:
     pickle.dump(future_predictions, f)
