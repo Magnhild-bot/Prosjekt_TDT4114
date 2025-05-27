@@ -13,7 +13,7 @@ pkl_dir=data_dir / "mean_air_pollutants.pkl" #Importing mean air pollutant data 
 with pkl_dir.open( 'rb') as f:
     data = pickle.load(f)
 
-if __name__ == "__main__":  # Koden kjøres bare i dette skriptet:
+if __name__ == "__main__":  # The code only runs in this script
 
     #------------------------ RUN STAT ANALYSIS -------------------------#
 
